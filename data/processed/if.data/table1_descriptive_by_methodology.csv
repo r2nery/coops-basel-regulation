@@ -1,0 +1,4 @@
+,ativo_total,ativo_total,ativo_total,ativo_total,credit_ratio,credit_ratio,credit_ratio,credit_ratio,basileia,basileia,basileia,basileia,roa,roa,roa,roa,leverage,leverage,leverage,leverage
+,count,mean,median,std,count,mean,median,std,count,mean,median,std,count,mean,median,std,count,mean,median,std
+Simplified (S5),20694,299289.9857,91952.0,624653.5287,20689,0.5998,0.6062,0.621,20653,53.6529,29.47,70.9946,20691,inf,0.0093,,20693,inf,0.7907,
+Full methodology,3712,3123266.7907,1567322.5,9904629.9255,3712,0.4278,0.543,0.2646,3704,23.3032,19.835,12.9542,3712,0.0077,0.0069,0.008,3712,0.8626,0.8709,0.0699

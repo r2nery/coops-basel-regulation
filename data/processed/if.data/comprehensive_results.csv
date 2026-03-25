@@ -1,0 +1,70 @@
+layer,outcome,label,coef,ci_lo,ci_hi,pval,sig,N
+L1_within_coop,credit_ratio,Credit portfolio / Assets,0.032062101248615964,0.007824801755582433,0.05629940074164949,0.009523427319569455,***,36914
+L1_within_coop,npl_ratio,NPL ratio (Provision / Gross loans),-0.018736886352594687,-0.02950376643857777,-0.007970006266611606,0.0006481861672680278,***,36154
+L1_within_coop,cet1_ratio,CET1 ratio (%),22.310422960725084,22.31042296072508,22.310422960725088,0.0,***,331
+L1_within_coop,tier1_ratio,Tier 1 ratio (%),22.310422960725084,22.31042296072508,22.310422960725088,0.0,***,331
+L1_within_coop,basileia_cap,"Basel ratio (capital file, %)",7.166503195785631,2.189701920709042,12.143304470862219,0.004776833110555545,***,5564
+L1_within_coop,leverage_ratio,Leverage ratio,12.05537764350453,12.05537764350453,12.05537764350453,0.0,***,331
+L1_within_coop,rwa_density,RWA density (RWA / Assets),-0.06876596623924436,-0.11007576615455197,-0.027456166323936743,0.001108294584680758,***,5564
+L1_within_coop,rwa_cred_share,Credit risk share of RWA,,,,,,0
+L1_within_coop,rwa_op_share,Operational risk share of RWA,-0.026841226361925093,-0.05458663950469457,0.0009041867808443835,0.057944773288343354,*,5563
+L1_within_coop,capital_buffer,Additional capital buffer,26104.147540983617,26104.147540983613,26104.14754098362,0.0,***,366
+L1_within_coop,roa,ROA,0.009704357631989308,0.002140380887409139,0.017268334376569477,0.011919041903664995,**,36914
+L1_within_coop,nim,Net interest margin,0.0031050892974120673,-0.004126014753754921,0.010336193348579055,0.3999887605311385,,36914
+L1_within_coop,efficiency,Cost-to-income ratio,0.11944661963556018,-0.5410183142773968,0.779911553548517,0.7229842747533457,,36900
+L1_within_coop,provision_rate,Provisioning intensity,-0.026644367371200017,-0.07954289529632386,0.026254160553923822,0.3235296309602853,,36900
+L1_within_coop,fee_share,Fee income share,-0.0003163292597463111,-0.011652041926642777,0.011019383407150153,0.9563811915612188,,36900
+L1_within_coop,coop_jcp_ratio,JCP / Assets (coop-specific),-0.0012289062610023713,-0.00163666916031235,-0.0008211433616923926,3.5410068210950385e-09,***,18675
+L1_within_coop,deposit_ratio,Deposits / Assets,-0.018085332149280462,-0.04253304134863822,0.006362377050077302,0.14708304145018003,,36914
+L1_within_coop,savings_share,Savings / Total deposits,-0.004774759693205424,-0.006815200456893611,-0.002734318929517236,4.5240064565632565e-06,***,28652
+L1_within_coop,term_dep_share,Term deposits / Total deposits,-0.04484529038805904,-0.07893917564625441,-0.01075140512986366,0.009938324175108093,***,28652
+L1_within_coop,wholesale_ratio,Wholesale funding share,-0.00487058199241622,-0.027582476004971462,0.01784131202013902,0.6742448458945414,,28952
+L1_within_coop,securities_ratio,Securities / Assets,0.1530158240091448,0.10961027837365785,0.19642136964463175,4.942046771816422e-12,***,36207
+L1_within_coop,liquidity_ratio,Liquid assets / Assets,0.02095283952476235,0.003880280190941634,0.03802539885858307,0.01615497716456593,**,36914
+L1_within_coop,geo_hhi,Geographic HHI (concentration),,,,,,0
+L2_coop_vs_noncoop,credit_ratio,Credit portfolio / Assets,,,,,,0
+L2_coop_vs_noncoop,npl_ratio,NPL ratio (Provision / Gross loans),,,,,,0
+L2_coop_vs_noncoop,cet1_ratio,CET1 ratio (%),,,,,,0
+L2_coop_vs_noncoop,tier1_ratio,Tier 1 ratio (%),,,,,,0
+L2_coop_vs_noncoop,basileia_cap,"Basel ratio (capital file, %)",,,,,,0
+L2_coop_vs_noncoop,leverage_ratio,Leverage ratio,,,,,,0
+L2_coop_vs_noncoop,rwa_density,RWA density (RWA / Assets),,,,,,0
+L2_coop_vs_noncoop,rwa_cred_share,Credit risk share of RWA,,,,,,0
+L2_coop_vs_noncoop,rwa_op_share,Operational risk share of RWA,,,,,,0
+L2_coop_vs_noncoop,capital_buffer,Additional capital buffer,,,,,,0
+L2_coop_vs_noncoop,roa,ROA,,,,,,0
+L2_coop_vs_noncoop,nim,Net interest margin,,,,,,0
+L2_coop_vs_noncoop,efficiency,Cost-to-income ratio,,,,,,0
+L2_coop_vs_noncoop,provision_rate,Provisioning intensity,,,,,,0
+L2_coop_vs_noncoop,fee_share,Fee income share,,,,,,0
+L2_coop_vs_noncoop,coop_jcp_ratio,JCP / Assets (coop-specific),,,,,,0
+L2_coop_vs_noncoop,deposit_ratio,Deposits / Assets,,,,,,0
+L2_coop_vs_noncoop,savings_share,Savings / Total deposits,,,,,,0
+L2_coop_vs_noncoop,term_dep_share,Term deposits / Total deposits,,,,,,0
+L2_coop_vs_noncoop,wholesale_ratio,Wholesale funding share,,,,,,0
+L2_coop_vs_noncoop,securities_ratio,Securities / Assets,,,,,,0
+L2_coop_vs_noncoop,liquidity_ratio,Liquid assets / Assets,,,,,,0
+L2_coop_vs_noncoop,geo_hhi,Geographic HHI (concentration),,,,,,0
+L3_triple_diff,credit_ratio,Credit portfolio / Assets,-0.004753661163599397,-0.06617174759500533,0.05666442526780653,0.8794220526493048,,38775
+L3_triple_diff,npl_ratio,NPL ratio (Provision / Gross loans),0.006807275828207758,-0.0907654987963723,0.10438005045278781,0.891234149080308,,37241
+L3_triple_diff,cet1_ratio,CET1 ratio (%),,,,,,0
+L3_triple_diff,tier1_ratio,Tier 1 ratio (%),,,,,,0
+L3_triple_diff,basileia_cap,"Basel ratio (capital file, %)",-447.0359034243527,-1293.897642059359,399.82583521065374,0.3007898227762822,,6466
+L3_triple_diff,leverage_ratio,Leverage ratio,,,,,,0
+L3_triple_diff,rwa_density,RWA density (RWA / Assets),0.05391980723020892,-0.31153929259641333,0.4193789070568311,0.7724119134986962,,6466
+L3_triple_diff,rwa_cred_share,Credit risk share of RWA,-0.0007433748239983778,-0.0020547504499590363,0.000568000801962281,0.2664874692579753,,5668
+L3_triple_diff,rwa_op_share,Operational risk share of RWA,-0.05092893456508886,-0.17715054485701204,0.07529267572683433,0.42898134784629294,,6464
+L3_triple_diff,capital_buffer,Additional capital buffer,,,,,,0
+L3_triple_diff,roa,ROA,-0.0015004379245763567,-0.03533881780568693,0.03233794195653421,0.9307433901877555,,38775
+L3_triple_diff,nim,Net interest margin,0.01423721187281929,-0.05819180792898397,0.08666623167462255,0.7000335174833121,,38775
+L3_triple_diff,efficiency,Cost-to-income ratio,0.2991103238294203,-9.506323224711425,10.104543872370266,0.9523234127200451,,38674
+L3_triple_diff,provision_rate,Provisioning intensity,-0.01784905055182252,-0.4799187184628933,0.4442206173592483,0.9396479347827298,,38674
+L3_triple_diff,fee_share,Fee income share,-3.44098768436724,-10.46174495355935,3.57976958482487,0.3367387474853616,,38674
+L3_triple_diff,coop_jcp_ratio,JCP / Assets (coop-specific),0.0012180872882044005,0.0003676461222886058,0.0020685284541201955,0.004998800621199617,***,20371
+L3_triple_diff,deposit_ratio,Deposits / Assets,-0.12322440937349756,-0.32715375268424507,0.08070493393724994,0.2362830871584649,,38775
+L3_triple_diff,savings_share,Savings / Total deposits,0.0010261668204802497,-0.0008781545405365811,0.0029304881814970806,0.2908878881375918,,29316
+L3_triple_diff,term_dep_share,Term deposits / Total deposits,-0.056757950625962894,-0.10040181331653286,-0.013114087935392933,0.010808386528840419,**,29316
+L3_triple_diff,wholesale_ratio,Wholesale funding share,0.11854390248064714,-0.11440134705799049,0.35148915201928477,0.3185538877032885,,29740
+L3_triple_diff,securities_ratio,Securities / Assets,0.2746333051333513,0.16639425740923697,0.3828723528574657,6.616925121161188e-07,***,37953
+L3_triple_diff,liquidity_ratio,Liquid assets / Assets,-0.054046712977512526,-0.21927161616614926,0.1111781902111242,0.5214327936681165,,38775
+L3_triple_diff,geo_hhi,Geographic HHI (concentration),,,,,,0
