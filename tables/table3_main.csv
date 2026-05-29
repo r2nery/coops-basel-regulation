@@ -1,9 +1,0 @@
-Outcome,coef,ci_lo,ci_hi,pval,N
-Basel Capital Ratio (%),-7.15943,-7.89405,-6.42481,0.0,13249
-Leverage (Passivo / Assets),0.14894,0.14369,0.15419,0.0,13686
-Return on Assets,0.00281,0.0021,0.00353,0.0,13686
-Net Interest Margin,-0.03479,-0.03667,-0.03292,0.0,13686
-Cost-to-Income Ratio,-1.50645,-1.6269,-1.386,0.0,13561
-Credit Portfolio / Assets,0.04899,0.03762,0.06036,0.0,13686
-NPL Ratio (Provisions / Gross Credit),-0.04081,-0.04373,-0.03789,0.0,8896
-Deposit Ratio (Captações / Assets),0.06479,0.05327,0.07632,0.0,13686

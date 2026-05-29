@@ -1,0 +1,79 @@
+# CHANGES LOG  (deviations from paper1_v5.ipynb)
+
+1. Cooperative classification
+   change: tcb-based, institution-stable (modal tcb per codigo). Primary group = b3S singular cooperatives; non-coops = non-b3; b3C centrals excluded from the comparison.
+   reason: Original used (tcb startswith b3) OR (name contains 'COOPERAT'), per-row. The OR-name clause pulled Banco Cooperativo Sicredi (tcb=b1, a bank) into coops in later quarters only, double-counting one institution and breaking the time-invariance the design assumes (it appears as both coop and non-coop). tcb is the regulator's own consolidation type and is stable. This reconciles 1198+762->1959 and 168+483->650.
+
+2. Singular vs central
+   change: Centrals (b3C) dropped from the main comparison; only retail singular cooperatives (b3S) enter the coop group.
+   reason: The original main sample pooled singulars with ~37 wholesale centrals (high-capital infrastructure entities) and called them all cooperatives, while the heterogeneity section silently excluded the centrals via a 38-row hardcoded list. tcb makes the split principled and the hardcoded EXCLUDE list unnecessary. Expect the headline Basel gap to move toward the singular (Sicredi-dominated) value.
+
+3. Standard errors
+   change: Clustered by institution (codigo), reported alongside HC3.
+   reason: 650 institutions observed up to ~32 quarters each are serially correlated within unit, and the treatment is assigned at the institution level; HC3 treats all ~15,000 rows as independent and understates SEs. Consensus is to cluster at the most aggregate feasible level (Cameron & Miller 2015; Abadie et al. 2017).
+
+4. Cost-to-income denominator
+   change: Operating income (net interest income + fee income) instead of gross intermediation revenue; both reported (cti vs cti_gross).
+   reason: The original denominator (gross intermediation revenue, line a) produces a 2.97 ratio for non-coops, which is not a meaningful cost-to-income figure; some institutions have small or negative gross revenue. Net operating income is the standard banking denominator and is far more stable.
+
+5. Winsorization scope
+   change: Winsorize within the analysis sample, not the full panel.
+   reason: The original set 1/99 bounds on the full panel, which is dominated by simplified-method institutions that never enter the analysis; the bounds should come from the analysed population. Where you winsorize materially moves estimates.
+
+6. Duplicate (codigo,date) rows
+   change: Deduplicate every source: drop exact duplicates, then collapse remaining key-dups keeping the most-populated row.
+   reason: The assets module carried ~1,354 duplicate (codigo,date) rows (vs 3 elsewhere) that the original silently dropped via keep-first; an arbitrary pick can bias credit/provisioning outcomes. See [DEDUPE] in diagnostics for exact and conflicting counts.
+
+7. CEM coarsening size
+   change: Size quintile from each institution's median log-assets over the period, not the entry-quarter snapshot.
+   reason: drop_duplicates('codigo') kept the first (earliest) quarter's size bin; typical size is more representative for matching.
+
+8. Standardized differences
+   change: Denominator sqrt((var_t+var_c)/2) (Austin 2009; Stuart 2010).
+   reason: Original used an n-weighted pooled SD; the matching literature uses the simple average of group variances so the metric does not depend on group sizes.
+
+9. Per-outcome N
+   change: Reported for every coefficient.
+   reason: Provisioning runs on ~66% coverage (provisions/gross credit missing for a third of rows); this should be visible, not implied by 'roughly 15,004'.
+
+
+[PRIMARY_vs_LEGACY main coefficients]
+outcome	spec	legacy_coef	primary_coef	delta
+Basel Capital Ratio (%)	raw	-11.047786	-12.003509	-0.955723
+Basel Capital Ratio (%)	ctrl	-6.889575	-8.271798	-1.382223
+Basel Capital Ratio (%)	cem	-7.548139	-8.771740	-1.223601
+Basel Capital Ratio (%)	trim	-8.074602	-9.473189	-1.398587
+Leverage (liabilities/assets)	raw	0.247949	0.222006	-0.025942
+Leverage (liabilities/assets)	ctrl	0.147131	0.128004	-0.019127
+Leverage (liabilities/assets)	cem	0.149628	0.131978	-0.017650
+Leverage (liabilities/assets)	trim	0.109912	0.085644	-0.024268
+Return on Assets	raw	0.005530	0.008584	+0.003054
+Return on Assets	ctrl	0.003404	0.006301	+0.002897
+Return on Assets	cem	0.003532	0.007527	+0.003995
+Return on Assets	trim	0.001253	0.003379	+0.002126
+Net Interest Margin	raw	-0.066464	-0.065422	+0.001042
+Net Interest Margin	ctrl	-0.034548	-0.032378	+0.002171
+Net Interest Margin	cem	-0.034263	-0.027144	+0.007119
+Net Interest Margin	trim	-0.015813	-0.010594	+0.005219
+Cost-to-Income Ratio	raw	-2.440602	-3.054424	-0.613822
+Cost-to-Income Ratio	ctrl	-1.482191	-2.089869	-0.607677
+Cost-to-Income Ratio	cem	-1.562040	-2.318851	-0.756811
+Cost-to-Income Ratio	trim	-0.884070	-1.238848	-0.354779
+Credit Portfolio / Assets	raw	0.107908	0.253206	+0.145298
+Credit Portfolio / Assets	ctrl	0.055359	0.203006	+0.147646
+Credit Portfolio / Assets	cem	0.059326	0.202129	+0.142803
+Credit Portfolio / Assets	trim	-0.014895	0.126693	+0.141587
+Provisioning (provisions/gross credit)	raw	-0.040904	-0.033374	+0.007530
+Provisioning (provisions/gross credit)	ctrl	-0.039353	-0.032991	+0.006362
+Provisioning (provisions/gross credit)	cem	-0.038848	-0.033818	+0.005030
+Provisioning (provisions/gross credit)	trim	-0.040466	-0.034387	+0.006078
+Deposit Ratio (funding/assets)	raw	0.152045	0.280296	+0.128251
+Deposit Ratio (funding/assets)	ctrl	0.044118	0.176778	+0.132660
+Deposit Ratio (funding/assets)	cem	0.072442	0.194999	+0.122557
+Deposit Ratio (funding/assets)	trim	-0.044649	0.080561	+0.125209
+
+[SAMPLE_SIZES]	legacy	primary
+institutions	650	613
+coops	168	130
+noncoops	483	483
+obs	15004	13912

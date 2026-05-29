@@ -1,0 +1,69 @@
+# DIAGNOSTICS
+
+[DEDUPE]  source	rows_kept	dropped	conflicting_keydups
+summary	61377	3	3
+seg	42559	3	3
+assets	60025	1354	1351
+income	61377	3	3
+
+[TCB_VALUE_COUNTS]
+b3S	40352
+n2	6382
+n1	6175
+b1	4273
+b3C	1567
+b2	1553
+n4	899
+b4	176
+
+[COOP_CLASS_INSTITUTIONS]
+singular	1157
+noncoop	762
+central	40
+
+tcb_varied_within_codigo	41
+varied_codigos	1000080453,1000080460,1000080518,1000080525,1000080721,1000080783,1000080800,1000080893,1000081012,1000081335,1000082028,1000082475,1000082712,1000083539,1000083632,1000083670,1000083694,1000084057,1000084088,1000084480,1000084538,1000084545,1000084600,1000084631,1000084686,1000084693,1000084741,1000084813,1000084820,1000084923,1000084978,1000085173,1000085702,1000085771,1000086275,1000086361,1000086457,1000086488,1000086677,1000086945,1000087793
+
+[FULL_PANEL_COUNTS]
+obs	61377
+institutions	1959
+coop_any_institutions	1197
+noncoop_institutions	762
+date_range	2014-03-01..2024-12-01
+
+[SEGMENT_x_FULL_METHOD]  segment	full0	full1
+S1	0	192
+S2	0	206
+S3	0	1503
+S4	5	12151
+S5	27049	914
+
+[CODIGO_LEN_x_ISCOOP analysis]  len	coop	noncoop
+6	32	0
+7	493	0
+8	2525	0
+10	0	10862
+
+[CTI_PROPER_vs_GROSS analysis means]  group	cti_proper	cti_gross
+coop	0.714377	0.388166
+noncoop	3.768801	5.868914
+
+[SECTOR_CONTEXT full panel, all cooperatives]
+final_quarter	2024Q4
+coop_asset_share_pct	5.913
+coop_any_full_method_pct	18.46
+noncoop_full_method_pct	54.21
+ever_full_method_coops	167
+all_coops_ever	1197
+singular_full_method	130
+
+[BALANCE_SMD primary]  variable	full	cem	trim
+Basel Capital Ratio (%)	-0.4328	-0.4093	-0.4287
+Leverage (liabilities/assets)	1.0023	0.8978	0.6390
+Return on Assets	0.1871	0.2292	0.1449
+Net Interest Margin	-0.5440	-0.4482	-0.3112
+Cost-to-Income Ratio	-0.4346	-0.4376	-0.3583
+Credit Portfolio / Assets	0.9764	0.9136	0.5799
+Provisioning (provisions/gross credit)	-0.4163	-0.3862	-0.4324
+Deposit Ratio (funding/assets)	1.1059	1.0475	0.4538
+log_assets	0.6151	0.4251	0.4174
