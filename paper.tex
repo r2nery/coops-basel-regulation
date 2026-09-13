@@ -9,6 +9,7 @@
 %  TODO BEFORE SUBMISSION
 %   [ ] award category below the title
 %   [ ] author block (currently anonymised)
+%   [ ] references_REVISADO.bib must be in the repo (29 cite keys; export from Overleaf)
 % =============================================================================
 \documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
@@ -95,8 +96,8 @@ therefore computes capital under the same definition, the same minimum ratios, t
 standardised risk weights and the same provisioning rules as a commercial bank. A few
 requirements vary by segment rather than by institution type: the systemic capital
 buffer, the liquidity ratios and eligibility for internal models apply to the largest
-segments, which contain banks only. No cooperative in the sample falls in those segments. Excluding the twelve
-banks whose modal segment is S1 or S2 removes 528 of 7{,}234 observations and changes
+segments, which contain banks only. No cooperative in the sample falls in those segments. Excluding the eleven
+banks whose modal segment is S1 or S2 removes 352 of 7{,}234 observations and changes
 every coefficient by two percent or less. Every quantity we compare is computed under identical norms, so differences
 that remain cannot be attributed to differences in the rules that produce them.
 
@@ -124,6 +125,7 @@ Membership of such a network changes the constraints an individual cooperative f
 and we test for it below.
 
 \subsection{Theoretical framework}
+\label{sec:theory}
 
 Prudential capital regulation is not an end in itself. It exists to internalise the
 externalities that a financial institution's failure imposes on depositors, on the
@@ -431,6 +433,7 @@ mediator of cooperative form rather than a confounder of it, and conditioning on
 removes part of the effect. We report region-exact estimates as a within-market bound.
 
 \subsection{Inference}
+\label{sec:inference}
 
 Standard errors are clustered by institution. Institutions are observed for up to
 thirty-two quarters, their observations are serially correlated, and cooperative status
@@ -438,15 +441,19 @@ is assigned at the institution level \citep{cameron2015, abadie2017}. We also co
 heteroskedasticity-robust errors \citep{mackinnon1985}, which are uniformly tighter, so
 the clustered errors are the conservative choice.
 
-We compute a restricted wild cluster bootstrap with Rademacher weights for every
-coefficient \citep{cameron2008}. Cluster-robust inference is unreliable when the number
+We compute a restricted wild cluster bootstrap with Rademacher weights and 1{,}999
+replications for every coefficient \citep{cameron2008}. Cluster-robust inference is unreliable when the number
 of treated clusters is small \citep{mackinnon2017}, which is the case in the
-system-by-system estimates. In simulations on our design, six treated clusters and a
-true effect give an asymptotic $p$-value of 0.008 and a bootstrap $p$-value of 0.070.
-Under a true null the asymptotic test over-rejects and the bootstrap is correctly sized.
-With more than a hundred treated clusters the two agree. We report treated cluster counts
-beside every system-level estimate. With five treated clusters there are $2^5$ sign
-patterns and the smallest attainable $p$-value is about 0.03.
+system-by-system estimates. In simulations on our design, with six treated clusters drawn
+at random and two hundred draws, the cluster-robust test rejects a true null 16 percent
+of the time at a nominal 5 percent level and 10 percent of the time at a nominal 1 percent
+level. The wild bootstrap rejects 10 and 0.5 percent respectively: it is correctly sized at
+the 1 percent level and closer to size at 5 percent. With a true effect the median
+bootstrap $p$-value is 0.03. With more than a hundred treated clusters the two tests
+agree. We report treated cluster counts beside every system-level estimate. With five
+treated clusters there are $2^5$ treated sign patterns, so the smallest attainable
+bootstrap $p$-value is of the order of 0.03; the figure is approximate rather than a
+bound, since the control clusters' signs also move the statistic.
 
 \subsection{Means and medians}
 
@@ -554,7 +561,8 @@ of cooperatives hold a Basel ratio above 20 percent against 44 percent of banks,
 banks exceed 50 percent against 1 percent of cooperatives.
 
 The mean gap is a statement about the bank upper tail, not about a shift of the cooperative
-distribution. What separates the two groups at equal size is dispersion. The standard
+distribution. What separates the two groups at equal size is dispersion
+(Table~\ref{tab:disp}). The standard
 deviation of the capital ratio, residualised on size and quarter, is 9.2 for cooperatives and
 29.7 for banks; the interquartile range is 8.4 against 18.3.
 
@@ -585,6 +593,15 @@ both change sign inside the distribution: banks are leaner than cooperatives at 
 end and much less lean at the inefficient end. Cooperatives are the more homogeneous group on
 every outcome at equal size, with residual standard deviations between a tenth and a half of
 the bank figure.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Dispersion at equal size: residual standard deviation and interquartile range}
+\label{tab:disp}
+\input{tables/t8_dispersion.tex}
+\end{threeparttable}
+\end{table}
 
 Leverage moves with capital, as expected. Cooperatives are more leveraged at comparable
 size by 12 percentage points, with the same caveat: banks are slightly more leveraged at
@@ -617,7 +634,8 @@ Two results reported against the broad group do not survive.
 
 Against all non-cooperatives, cooperatives appear to provision 3.3 percentage points
 less, significant at one percent in all four specifications with no attenuation. Against
-banks the coefficient is $-0.001$ with a $p$-value of 0.87. Mean provisioning is 0.055
+banks the coefficient is $-0.001$ with a $p$-value of 0.86 (0.87 under the bootstrap).
+Mean provisioning is 0.055
 for cooperatives and 0.053 for banks. The gap in the broad comparison comes from the
 non-banking institutions, among which nearly two hundred report no credit and fewer than
 five percent report provisions. The result does not simply fail to replicate. At the
@@ -625,7 +643,7 @@ conditional median the sign reverses, cooperatives provision 2.4 percentage poin
 and under tight winsorisation the mean coefficient is positive and significant at one
 percent. We conclude that cooperatives do not provision less than comparable banks. The quantile
 estimates support the stronger statement that through most of the distribution they provision
-more: the coefficient runs between $+0.024$ and $+0.031$ from the tenth to the sixtieth
+more: the coefficient runs between $+0.024$ and $+0.031$ from the tenth to the fiftieth
 percentile and turns negative only in the upper tail, so the zero mean is itself a tail
 artefact. Since minimum provisions under Resolution 2.682/1999 are a step function of the
 AA--H rating of each operation, this is a statement about how the two groups classify their
@@ -633,10 +651,11 @@ credit books.
 
 The intermediation margin behaves the same way. Against the broad group the differential
 is $-0.091$ and highly significant. Against banks it is $-0.019$ with a $p$-value of
-0.15, and its sign is not stable across tail treatments. Part of the broad-group result
+0.15 (0.16 under the bootstrap), and its sign is not stable across tail treatments. Part of the broad-group result
 was the provisioning channel entering through line $(b5)$.
 
-The funding ratio is significant in two of the four specifications, reverses sign at the
+The funding ratio is significant at five percent in one of the four specifications and
+marginal in two others, reverses sign at the
 conditional median, and falls to insignificance on the common-coverage sample. We do not
 report it as a finding. Commercial banks are more deposit-funded than cooperatives at the
 unconditional median, 0.675 against 0.611.
@@ -670,9 +689,14 @@ Table~\ref{tab:systems} splits the cooperative side by integrated system.
 
 The capital pattern belongs to the integrated networks. Sicredi's 106 cooperatives hold
 17.3 percentage points less regulatory capital than comparable banks and Sicoob's
-seventeen hold 11.0 points less. Both survive the bootstrap. The six independent
-cooperatives carry a positive point estimate, more capital rather than less, but with five
-treated clusters this cannot be separated from noise. We present it as descriptive.
+seventeen hold 11.0 points less. Both survive the bootstrap, with $p$-values below 0.001
+and of 0.019. Six cooperatives are assigned to the independent group, but one contributes no
+usable observation, so the independent estimates rest on five treated clusters, three of
+which supply nearly all the quarters. They carry a positive point estimate on capital,
+more rather than less, that cannot be separated from noise, and we present it as
+descriptive. Their return on assets shows why the bootstrap matters here: the clustered
+$p$-value is below $10^{-8}$ and the bootstrap $p$-value is 0.033, close to the floor
+that five treated clusters allow (Section~\ref{sec:inference}).
 
 One hypothesis the split suggests, and cannot test, is a network backstop: cooperatives
 with access to centralised liquidity and consolidated risk management may operate on a
@@ -691,20 +715,27 @@ The full-methodology restriction equalises the regulatory environment and it als
 the sample. The cooperatives we observe are the largest in the country, about a tenth of all
 cooperatives ever recorded in the panel. The population we describe throughout is
 Brazilian credit cooperatives subject to the full prudential methodology, not the
-cooperative sector as a whole. Fifty-six singular cooperatives move from the
-simplified to the full methodology during the window, so their behaviour is observed under
-the simplified regime before they enter.
+cooperative sector as a whole. Fifty-one singular cooperatives are observed under the
+simplified methodology before they move to the full methodology during the window, so
+their behaviour before adoption is observed under the simplified
+regime.\footnote{A further five cooperatives in the analysis sample carry
+simplified-methodology quarters only after their first full-methodology quarter. They are
+the reverters discussed in Section~\ref{sec:robustness} and are excluded from the
+pre-adoption comparison; including them and their post-reversion quarters leaves every
+sign below unchanged.}
 
 We compare those future adopters with cooperatives that never adopt, while both are under
-simplified rules, conditioning on size and quarter. There is no detectable difference in
-leverage ($p=0.87$) or cost-to-income ($p=0.75$). Return on assets differs marginally
-($p=0.07$) and credit intensity significantly ($-0.066$, $p=0.003$). Both detectable
-differences run against our findings. Future adopters were less profitable and less
-credit-intensive than the rest of the sector before adopting, while we report that
-cooperatives out-earn and out-lend banks. Selection into the sample biases these estimates
-toward zero.
+simplified rules and using only quarters before adoption, conditioning on size and
+quarter. There is no detectable difference in leverage ($p=0.29$). Future adopters were
+less credit-intensive ($-0.068$, $p=0.003$) and marginally less profitable ($p=0.10$),
+and both differences run against our findings: we report that cooperatives out-lend and
+out-earn banks. They were also somewhat leaner, by 0.03 on cost-to-income at $p=0.08$,
+which runs with the cost-to-income finding. Selection into the sample therefore biases
+the credit and profitability estimates toward zero and, if anything, the efficiency
+estimate marginally away from it.
 
 \subsection{Robustness}
+\label{sec:robustness}
 
 Table~\ref{tab:meanmed} reports the conditional mean and conditional median for every
 outcome. The three surviving results with agreeing signs and comparable magnitudes are
@@ -729,19 +760,22 @@ median is far smaller than the mean, we report the range rather than the mean al
 \end{threeparttable}
 \end{table}
 
-Table~\ref{tab:segment} repeats the controlled specification without the twelve
+Table~\ref{tab:segment} repeats the controlled specification without the eleven
 banks whose modal segment is S1 or S2, the segments carrying the systemic buffer, the
 liquidity ratios and eligibility for internal models. Every coefficient moves by two
 percent or less, and the capital differential becomes marginally larger.
 
 Four further checks are reported in full in the replication materials. Winsorising at the
 pooled first and ninety-ninth percentiles, at the fifth and ninety-fifth, group by group,
-and not at all leaves every surviving sign unchanged. Re-estimating all outcomes on the
-rows where provisioning is observed leaves every sign unchanged and shrinks most
-magnitudes by twenty to thirty percent. Six cooperatives revert from full to simplified
+and not at all leaves every surviving sign unchanged; the intermediation margin, a null
+throughout, changes sign under the tightest rule. Re-estimating all outcomes on the
+rows where provisioning is observed, 89 percent of the sample, leaves the sign and
+significance of every surviving result unchanged; magnitudes move by twenty to forty-five
+percent, downward for capital, leverage, cost-to-income and credit intensity and upward
+for return on assets. Six cooperatives revert from full to simplified
 methodology during the window; they account for 1.1 percent of cooperative
-full-methodology observations, and dropping them moves every coefficient by one percent or
-less. The weighted and unweighted matched-sample estimates differ by less than the
+full-methodology observations, and dropping them moves every coefficient by less than
+two percent. The weighted and unweighted matched-sample estimates differ by less than the
 sampling error for every outcome except the capital ratio, where the weighted estimand is
 2.0 percentage points larger.
 
@@ -807,7 +841,8 @@ Four limitations bound the claims. Cooperative status is time-invariant, so the 
 are conditional correlations and may reflect unobserved institutional characteristics
 correlated with cooperative form. The full-methodology restriction selects the largest
 cooperatives; Section~\ref{sec:selection} measures the resulting bias and finds it runs
-toward zero, but the results generalise to that subpopulation. The provisioning ratio is an
+toward zero for credit intensity and profitability and at most marginally away from zero
+for efficiency, but the results generalise to that subpopulation. The provisioning ratio is an
 accounting variable, not a measure of delinquency, so we report a null on provisioning
 rather than a claim about credit risk. Most systems are too thinly represented for separate
 inference, and the independent segment cannot be assessed at all.
@@ -857,7 +892,7 @@ Cooperatives cluster in a narrow band of capitalisation, hold more capital than 
 thin end of the distribution, and provision at least as much. These are questions the evidence raises rather than conclusions it settles. We observe
 differences under a common methodology, and many institutional features other than
 regulation differ between the two groups. The appropriate response is not necessarily
-a lighter requirement. Section~2 indicates which way the finding cuts: the representation
+a lighter requirement. Section~\ref{sec:theory} indicates which way the finding cuts: the representation
 rationale for the capital requirement as a stand-in for depositors too small and dispersed
 to discipline the institution themselves weakens for a member-owned, network-monitored
 cooperative, but the systemic-externality and public-guarantee rationales do not. Thinner
@@ -888,9 +923,13 @@ All results come from one script run against the public IF.data bulk files. The 
 specification is singular cooperatives (\texttt{b3S}) against banks (\texttt{b1},
 \texttt{b2}) under full methodology, size-quintile coarsening, winsorisation within the
 analysis sample, standard errors clustered by institution with wild cluster bootstrap
-$p$-values. The broad and commercial comparison groups, the region-exact coarsening, the
+$p$-values from 1{,}999 replications. The broad and commercial comparison groups, the region-exact coarsening, the
 unweighted matched regression, the winsorisation variants and the conditional-median
-estimates are all parameters of the same function. Tables are generated from the results
-files rather than transcribed.
+estimates are all parameters of the same function. The same script writes the bootstrap
+$p$-values for every cell of the main table and the system split, the winsorisation
+variants, the pre-adoption comparison of Section~\ref{sec:selection}, the reverter and
+provisioning-coverage checks, and the small-cluster simulation of
+Section~\ref{sec:inference} to a single robustness file. Tables are generated from the
+results files rather than transcribed.
 
 \end{document}
