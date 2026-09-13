@@ -1,3 +1,11 @@
+> **SUPERSEDED.** This extended abstract describes an earlier version of the project
+> ("One-Size-Fits-All?", cooperatives vs all non-cooperatives, eight-outcome robustness
+> framing). The current paper is `paper.tex` ("Institutional Profiles Under a Common
+> Prudential Framework"), which compares cooperatives with banks, reports two nulls that
+> the broad comparison masked, and reframes the capital result as one of dispersion. The
+> numbers below no longer match the current results files. Kept for history only; see
+> `README.md` and `paper.tex` for the current work.
+
 # One-Size-Fits-All? Credit Cooperatives Under Full Basel Regulation in Brazil
 
 **Keywords:** credit cooperatives, prudential regulation, Basel, cooperative banking, Brazil, proportionality

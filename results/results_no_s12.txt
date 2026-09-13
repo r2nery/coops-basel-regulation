@@ -1,0 +1,162 @@
+# RESULTS (SEGMENT-RESTRICTED / banks, excluding modal S1 and S2)
+# config: coop_def=singular winsor=analysis se=cluster cti=cti_new roa=roa_ann nim=nim_ann peers=banks excl_segments=['S1', 'S2']
+
+[SAMPLE]
+analysis_institutions	263
+analysis_coops	130
+analysis_noncoops	133
+coop_plus_nc	263
+analysis_obs	6882
+date_range	2017-03-01..2024-12-01
+
+[DESCRIPTIVE_MEANS]  outcome	coop_mean	nc_mean	coop_med	nc_med	coop_n	nc_n
+Basel Capital Ratio (%)	22.770749	32.393533	20.460000	19.250000	3048	3818
+Leverage (liabilities/assets)	0.833733	0.765285	0.849271	0.853858	3048	3832
+Return on Assets	0.028819	0.010452	0.028368	0.011199	3048	3829
+Net Interest Margin	0.083932	0.088582	0.080871	0.054231	3048	3829
+Cost-to-Income Ratio	0.553639	1.204840	0.551620	0.656744	3048	3511
+Credit Portfolio / Assets	0.567323	0.404438	0.589942	0.393777	3048	3832
+Provisioning (provisions/gross credit)	0.054649	0.052220	0.050336	0.028070	2945	3179
+Funding Ratio (captacoes/assets)	0.615556	0.559572	0.611448	0.664137	3048	3832
+
+[MAIN_COEFFICIENTS]  outcome	spec	coef	cl_lo	cl_hi	cl_p	hc_lo	hc_hi	hc_p	N	n_clusters	p_boot	G_treated
+# p_boot: restricted wild cluster bootstrap (Rademacher), na where not run; G_treated: treated clusters
+Basel Capital Ratio (%)	raw	-9.622784	-14.853195	-4.392374	3.111e-04	-10.758801	-8.486768	6.725e-62	6866	261	na	na
+Basel Capital Ratio (%)	ctrl	-16.018827	-22.246311	-9.791342	4.617e-07	-17.440193	-14.597460	4.047e-108	6866	261	na	na
+Basel Capital Ratio (%)	cem	-16.743049	-25.332843	-8.153256	1.333e-04	-18.471591	-15.014508	2.284e-80	6866	261	na	na
+Basel Capital Ratio (%)	trim	-14.287226	-22.231203	-6.343248	4.235e-04	-15.982644	-12.591807	2.789e-61	4763	213	na	na
+Leverage (liabilities/assets)	raw	0.068447	0.031313	0.105581	3.030e-04	0.060820	0.076075	3.019e-69	6880	261	na	na
+Leverage (liabilities/assets)	ctrl	0.123004	0.083624	0.162385	9.246e-10	0.114811	0.131198	2.712e-190	6880	261	na	na
+Leverage (liabilities/assets)	cem	0.097366	0.058818	0.135913	7.400e-07	0.089252	0.105479	2.537e-122	6880	261	na	na
+Leverage (liabilities/assets)	trim	0.081324	0.041547	0.121100	6.144e-05	0.072672	0.089975	8.661e-76	4766	213	na	na
+Return on Assets	raw	0.018367	0.013105	0.023630	7.891e-12	0.016808	0.019927	7.027e-118	6877	260	na	na
+Return on Assets	ctrl	0.021631	0.014452	0.028810	3.516e-09	0.019449	0.023812	3.919e-84	6877	260	na	na
+Return on Assets	cem	0.017862	0.011739	0.023985	1.083e-08	0.015919	0.019805	1.514e-72	6877	260	na	na
+Return on Assets	trim	0.015868	0.008929	0.022807	7.388e-06	0.013656	0.018081	7.105e-45	4765	213	na	na
+Net Interest Margin	raw	-0.004650	-0.025032	0.015731	6.547e-01	-0.008784	-0.000516	2.746e-02	6877	260	na	na
+Net Interest Margin	ctrl	-0.019674	-0.046193	0.006845	1.459e-01	-0.025036	-0.014312	6.401e-13	6877	260	na	na
+Net Interest Margin	cem	-0.012939	-0.035597	0.009720	2.631e-01	-0.017636	-0.008242	6.700e-08	6877	260	na	na
+Net Interest Margin	trim	-0.017494	-0.046208	0.011220	2.324e-01	-0.023654	-0.011334	2.609e-08	4765	213	na	na
+Cost-to-Income Ratio	raw	-0.651201	-0.853759	-0.448644	2.956e-10	-0.704121	-0.598281	1.615e-128	6559	258	na	na
+Cost-to-Income Ratio	ctrl	-0.798839	-1.057135	-0.540544	1.347e-09	-0.864225	-0.733454	1.024e-126	6559	258	na	na
+Cost-to-Income Ratio	cem	-0.798561	-1.149050	-0.448073	7.983e-06	-0.878334	-0.718789	1.039e-85	6559	258	na	na
+Cost-to-Income Ratio	trim	-0.758695	-1.054189	-0.463202	4.846e-07	-0.836656	-0.680734	4.160e-81	4601	211	na	na
+Credit Portfolio / Assets	raw	0.162885	0.105733	0.220036	2.324e-08	0.151830	0.173940	2.249e-183	6880	261	na	na
+Credit Portfolio / Assets	ctrl	0.187346	0.127966	0.246726	6.259e-10	0.175624	0.199069	2.271e-215	6880	261	na	na
+Credit Portfolio / Assets	cem	0.157187	0.080937	0.233436	5.336e-05	0.142247	0.172126	1.744e-94	6880	261	na	na
+Credit Portfolio / Assets	trim	0.177945	0.107103	0.248787	8.516e-07	0.163413	0.192477	2.781e-127	4766	213	na	na
+Provisioning (provisions/gross credit)	raw	0.002428	-0.009287	0.014144	6.846e-01	-0.000358	0.005215	8.758e-02	6124	247	na	na
+Provisioning (provisions/gross credit)	ctrl	-0.002513	-0.016745	0.011719	7.293e-01	-0.006241	0.001214	1.863e-01	6124	247	na	na
+Provisioning (provisions/gross credit)	cem	-0.003488	-0.019733	0.012756	6.738e-01	-0.007704	0.000727	1.048e-01	6124	247	na	na
+Provisioning (provisions/gross credit)	trim	0.000478	-0.015016	0.015972	9.518e-01	-0.003598	0.004554	8.181e-01	4219	199	na	na
+Funding Ratio (captacoes/assets)	raw	0.055984	0.005243	0.106725	3.058e-02	0.046074	0.065894	1.708e-28	6880	261	na	na
+Funding Ratio (captacoes/assets)	ctrl	0.087670	0.033451	0.141890	1.529e-03	0.076856	0.098485	7.492e-57	6880	261	na	na
+Funding Ratio (captacoes/assets)	cem	0.038862	-0.020756	0.098479	2.014e-01	0.026892	0.050832	1.976e-10	6880	261	na	na
+Funding Ratio (captacoes/assets)	trim	0.032932	-0.028157	0.094021	2.907e-01	0.020402	0.045462	2.587e-07	4766	213	na	na
+
+[STABILITY]  outcome	raw	trim	rho_trim_over_raw	attenuation	tier	specs_sig	amplifies	coef_min	coef_max
+# rho = |b_trim|/|b_raw|, reported only when all four specs are significant;
+# tier: robust rho>=0.40 | attenuated rho<0.40 | sign_unstable | null (a spec is n.s.)
+Basel Capital Ratio (%)	-9.622784	-14.287226	1.4847	-0.4847	robust	4/4	True	-16.743049	-9.622784
+Leverage (liabilities/assets)	0.068447	0.081324	1.1881	-0.1881	robust	4/4	True	0.068447	0.123004
+Return on Assets	0.018367	0.015868	0.8640	0.1360	robust	4/4	False	0.015868	0.021631
+Net Interest Margin	-0.004650	-0.017494	na	na	null	0/4	False	-0.019674	-0.004650
+Cost-to-Income Ratio	-0.651201	-0.758695	1.1651	-0.1651	robust	4/4	True	-0.798839	-0.651201
+Credit Portfolio / Assets	0.162885	0.177945	1.0925	-0.0925	robust	4/4	False	0.157187	0.187346
+Provisioning (provisions/gross credit)	0.002428	0.000478	na	na	null	0/4	False	-0.003488	0.002428
+Funding Ratio (captacoes/assets)	0.055984	0.032932	na	na	null	2/4	False	0.032932	0.087670
+
+[CONDITIONAL_MEDIAN]  outcome	spec	ols_coef	median_coef	ratio	skew
+# where |median| is far below |ols|, the mean gap is produced by the tail
+Basel Capital Ratio (%)	raw	-9.622784	1.210000	-0.126	4.00
+Basel Capital Ratio (%)	ctrl	-16.018827	-3.046831	0.190	4.00
+Basel Capital Ratio (%)	cem	-16.743049	-3.046831	0.182	4.00
+Basel Capital Ratio (%)	trim	-14.287226	-1.607333	0.113	4.07
+Leverage (liabilities/assets)	raw	0.068447	-0.004573	-0.067	-2.64
+Leverage (liabilities/assets)	ctrl	0.123004	0.038318	0.312	-2.64
+Leverage (liabilities/assets)	cem	0.097366	0.038318	0.394	-2.64
+Leverage (liabilities/assets)	trim	0.081324	0.017251	0.212	-2.87
+Return on Assets	raw	0.018367	0.017178	0.935	-1.69
+Return on Assets	ctrl	0.021631	0.017354	0.802	-1.69
+Return on Assets	cem	0.017862	0.017354	0.972	-1.69
+Return on Assets	trim	0.015868	0.015270	0.962	-1.45
+Net Interest Margin	raw	-0.004650	0.026645	-5.730	3.84
+Net Interest Margin	ctrl	-0.019674	0.019741	-1.003	3.84
+Net Interest Margin	cem	-0.012939	0.019741	-1.526	3.84
+Net Interest Margin	trim	-0.017494	0.021146	-1.209	3.96
+Cost-to-Income Ratio	raw	-0.651201	-0.105056	0.161	4.44
+Cost-to-Income Ratio	ctrl	-0.798839	-0.182128	0.228	4.44
+Cost-to-Income Ratio	cem	-0.798561	-0.182128	0.228	4.44
+Cost-to-Income Ratio	trim	-0.758695	-0.133608	0.176	4.77
+Credit Portfolio / Assets	raw	0.162885	0.195098	1.198	-0.38
+Credit Portfolio / Assets	ctrl	0.187346	0.232473	1.241	-0.38
+Credit Portfolio / Assets	cem	0.157187	0.232473	1.479	-0.38
+Credit Portfolio / Assets	trim	0.177945	0.218192	1.226	-0.70
+Provisioning (provisions/gross credit)	raw	0.002428	0.022237	9.157	3.43
+Provisioning (provisions/gross credit)	ctrl	-0.002513	0.022668	-9.019	3.43
+Provisioning (provisions/gross credit)	cem	-0.003488	0.022668	-6.498	3.43
+Provisioning (provisions/gross credit)	trim	0.000478	0.023373	48.881	3.62
+Funding Ratio (captacoes/assets)	raw	0.055984	-0.052545	-0.939	-1.04
+Funding Ratio (captacoes/assets)	ctrl	0.087670	-0.021801	-0.249	-1.04
+Funding Ratio (captacoes/assets)	cem	0.038862	-0.021801	-0.561	-1.04
+Funding Ratio (captacoes/assets)	trim	0.032932	-0.066712	-2.026	-1.21
+
+[CEM_WEIGHTING]  matched-sample OLS vs the weighted CEM estimand
+control_weight_min	0.04618055555555556
+control_weight_max	2.8774038461538463
+effective_n_controls	70.71118714213277
+outcome	cem_weighted	cem_unweighted	difference
+Basel Capital Ratio (%)	-16.743049	-16.018827	-0.724223
+Leverage (liabilities/assets)	0.097366	0.123004	-0.025639
+Return on Assets	0.017862	0.021631	-0.003769
+Net Interest Margin	-0.012939	-0.019674	+0.006735
+Cost-to-Income Ratio	-0.798561	-0.798839	+0.000278
+Credit Portfolio / Assets	0.157187	0.187346	-0.030160
+Provisioning (provisions/gross credit)	-0.003488	-0.002513	-0.000975
+Funding Ratio (captacoes/assets)	0.038862	0.087670	-0.048809
+
+[OVERLAP]
+log_assets_lo	11.3945
+log_assets_hi	15.6835
+coop_inside_pct	89.90
+nc_inside_pct	52.82
+cem_inst	261
+cem_dropped	2
+trim_inst	213
+trim_obs	4766
+
+[SEGMENT_RESTRICTION]
+excluded_segments	['S1', 'S2']
+institutions_dropped	12
+coop_dropped	0
+obs_dropped	528
+
+[PEER_COMPOSITION]  tcb	institutions	obs
+b1	94	2696
+b2	39	1136
+peers_before_restriction	750
+peers_after_restriction	140
+
+[SEGMENT_COMPOSITION]  segment	coop_inst	coop_obs	bank_inst	bank_obs
+# Res. CMN 4.553/2017 segments. Requirements that vary by segment (systemic
+# buffer, liquidity ratios, internal-model eligibility) bind S1 and S2.
+S2	0	0	3	10
+S3	3	22	50	1245
+S4	127	3023	99	2569
+S5	5	5	0	0
+s5_labelled_obs	5	(0.07% of sample)
+
+[BASEL_LEVERAGE_CORR]
+analysis_all	-0.6631
+analysis_coop	-0.8408
+analysis_nc	-0.6394
+
+[WINSOR_BOUNDS]  outcome	lo	hi
+Basel Capital Ratio (%)	9.703000	192.562500
+Leverage (liabilities/assets)	0.035455	0.967982
+Return on Assets	-0.171113	0.137681
+Net Interest Margin	-0.061692	0.686728
+Cost-to-Income Ratio	0.128665	8.577698
+Credit Portfolio / Assets	0.000000	0.965720
+Provisioning (provisions/gross credit)	0.000000	0.384752
+Funding Ratio (captacoes/assets)	0.000000	0.898126

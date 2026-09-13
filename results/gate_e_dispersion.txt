@@ -1,0 +1,65 @@
+GATE E — DISPERSION AT EQUAL SIZE  (bootstrap B=400)
+
+============================================================================================
+A — dispersion at equal size, with an institution block bootstrap
+============================================================================================
+Ratios are cooperative dispersion over bank dispersion, on residuals from a
+regression of the outcome on log assets and quarter fixed effects. A ratio below
+one means cooperatives are tighter. The bootstrap resamples institutions.
+
+outcome                       sd ratio            95% CI  IQR ratio  IDR ratio  p(ratio<1)
+Basel Capital Ratio (%)           0.31      [0.23, 0.43]       0.46       0.41       1.000
+Leverage (liabilities/assets)      0.42      [0.34, 0.55]       0.56       0.46       1.000
+Return on Assets                  0.43      [0.34, 0.54]       0.77       0.57       1.000
+Cost-to-Income Ratio              0.10      [0.08, 0.13]       0.25       0.18       1.000
+Credit Portfolio / Assets         0.39      [0.34, 0.45]       0.27       0.36       1.000
+Provisioning (provisions/gross credit)      0.35      [0.26, 0.48]       0.42       0.43       1.000
+
+p(ratio<1) is the bootstrap share of draws in which cooperatives are tighter.
+
+============================================================================================
+B — is the tightness a size artefact? dispersion ratio within size deciles
+============================================================================================
+If cooperatives look tight only because they occupy a narrow size range, the
+ratio should move toward one inside a decile of the size distribution.
+
+outcome                          d0     d1     d2     d3     d4     d5     d6     d7     d8     d9
+Basel Capital Ratio (%)        0.33   0.37   0.13   0.26   0.16   0.30   0.31   0.66     --     --
+Leverage (liabilities/assets)   0.41   0.50   0.33   0.36   0.71   0.28   0.60   0.28     --     --
+Return on Assets               0.26   0.41   0.59   0.43   0.45   0.62   0.32   0.51     --     --
+Cost-to-Income Ratio           0.07   0.12   0.06   0.06   0.17   0.09   0.13   0.08     --     --
+Credit Portfolio / Assets      0.69   0.33   0.28   0.40   0.26   0.36   0.35   0.32     --     --
+Provisioning (provisions/gross credit)   0.34   0.45   0.54   0.40   0.20   0.31   0.18   0.35     --     --
+
+Deciles with too few observations on one side are shown as --. Cooperatives
+are absent from the largest and smallest deciles by construction.
+
+============================================================================================
+C — multivariate operating space
+============================================================================================
+Generalised variance det(Sigma)^(1/k) over the residualised outcome vector, and
+the trace, on standardised residuals so the outcomes are commensurable. The
+generalised variance accounts for the correlation between margins; the trace does
+not. A low generalised-variance ratio with a higher trace ratio would mean the
+groups differ mainly in how their margins move together.
+
+complete cases across all 6 outcomes: 6163 (2945 cooperative, 3218 bank)
+  cooperatives   generalised variance 0.1248   mean variance (trace/k) 0.2455
+  banks          generalised variance 1.3302   mean variance (trace/k) 1.5483
+
+  generalised variance ratio (coop/bank): 0.094
+  trace ratio (coop/bank):                 0.159
+
+============================================================================================
+D — dispersion ratio over time
+============================================================================================
+
+outcome                        2017   2018   2019   2020   2021   2022   2023   2024
+Basel Capital Ratio (%)        0.54   0.31   0.25   0.27   0.31   0.25   0.26   0.26
+Leverage (liabilities/assets)   0.56   0.38   0.37   0.40   0.45   0.43   0.43   0.40
+Return on Assets               0.43   0.48   0.48   0.39   0.32   0.38   0.49   0.45
+Cost-to-Income Ratio           0.10   0.07   0.08   0.08   0.08   0.12   0.10   0.09
+Credit Portfolio / Assets      0.41   0.41   0.41   0.36   0.42   0.38   0.34   0.36
+Provisioning (provisions/gross credit)   0.41   0.41   0.33   0.25   0.26   0.28   0.32   0.49
+
+wrote C:\coops-basel-regulation\tables\t8_dispersion.tex

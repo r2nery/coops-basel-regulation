@@ -1,164 +1,147 @@
-# One-Size-Fits-All? Credit Cooperatives Under Full Basel Regulation in Brazil
+# Institutional Profiles Under a Common Prudential Framework
 
-**Author:** Arthur Gomes Nery
-**Affiliation:** Sistema OCB (Organization of Brazilian Cooperatives)
-**Date:** 2025–2026
+**Evidence from Brazilian Credit Cooperatives and Banks**
 
-## Overview
+Replication materials for the paper of the same name (`paper.tex`), prepared for ICA CCR 2026.
 
-This repository contains the replication materials for *"One-Size-Fits-All? Credit Cooperatives Under Full Basel Regulation in Brazil."* The study uses institution-level quarterly data from Brazil's Central Bank (BACEN) IF.data system to compare the financial behavior of singular credit cooperatives and non-cooperative financial institutions operating under the same full Basel-style prudential methodology. By restricting attention to the full-methodology population, the regulatory environment is held fixed by construction, isolating the association between organizational form and financial outcomes.
+## What the paper does
 
-### Key Findings
+Credit cooperatives in Brazil that cross a complexity threshold compute capital, leverage
+and risk under the same full Basel-style methodology as commercial banks. The paper uses
+that setting to ask whether organisational form still leaves an imprint on the balance
+sheet once the regulatory rules are held fixed. Because the comparison is restricted to
+institutions under the full methodology, the rulebook is constant by construction, and
+because cooperative status is time-invariant, the estimates are conditional correlations
+rather than causal effects of form.
 
-- All **eight outcomes keep their sign and 1% significance across all four specifications**, and **none reverses** under common-support trimming. The "unstable" category is empty; the classification reduces to *robust* versus *partially robust* on the magnitude of attenuation.
-- Cooperatives hold **8–12 percentage points less regulatory capital** (Basel ratio), with only ~21% attenuation from raw to trimmed — among the most stable results.
-- Cooperatives report a **~3.3 percentage point lower provisioning ratio**, with essentially **zero attenuation** (the most stable finding). This is an *accounting* quantity (provisions / gross credit), **not** a measure of delinquency; we do **not** interpret it as lower credit risk.
-- Cooperatives run **leaner** (cost-to-income ~3.1pp lower raw → ~1.2pp trimmed) and devote a **larger share of assets to credit** (~25pp raw → ~13pp trimmed).
-- Cooperatives are **more leveraged** (~22pp raw → ~9pp trimmed). Leverage and the Basel ratio are two views of one equity cushion (r ≈ −0.84 among cooperatives) and should not be read as independent findings.
-- **Return on assets** is positive but modest (~0.86pp raw → ~0.34pp trimmed, ~61% attenuation); **net interest margin** is lower (~6.5pp raw → ~1.1pp trimmed, ~84% attenuation); **deposit ratio** is higher (~28pp raw → ~8pp trimmed, ~71% attenuation).
-- Splitting by integrated system, the **capital gap is concentrated in Sicredi**, insignificant for Sicoob, and positive-but-insignificant for the six independent cooperatives — consistent with, but not establishing, a network-backstop story. **Lower provisioning holds and is significant in every system.**
+The analysis sample is the population of full-methodology institutions from 2017Q1 to
+2024Q4: **130 singular credit cooperatives** and **144 banks** (commercial and multiple
+banks `b1` plus investment banks `b2`), **7,234 institution-quarters**. The panel is built
+from the Central Bank of Brazil's public IF.data bulk files.
 
-## Repository Structure
+## Headline results
+
+All coefficients are on a cooperative indicator, controlled for log assets and
+quarter fixed effects, against the bank comparison group. Standard errors are clustered by
+institution and every reported coefficient is checked with a restricted wild cluster
+bootstrap.
+
+- **Credit intensity.** Cooperatives allocate about **19 percentage points** more of assets
+  to credit than banks of comparable size. The most stable result in the study.
+- **Return on assets.** Cooperatives earn about **2.1 percentage points** more on assets, on
+  an intermediation margin indistinguishable from that of banks, so the return comes from
+  volume and cost rather than spread.
+- **Cost efficiency.** Cooperatives run markedly leaner cost-to-income ratios.
+- **Capital.** The size-adjusted mean gap is large and negative (about −15.8 pp), but this
+  is a statement about the bank upper tail, not a shift of the cooperative distribution. The
+  cooperative coefficient is **positive at the bottom** of the conditional capital
+  distribution and **negative at the top**, crossing zero near the fortieth percentile.
+  Cooperatives are the more homogeneous group on every outcome at equal size.
+- **Leverage** moves with capital (correlation −0.84 among cooperatives) and is treated as
+  one result with it.
+- **Two nulls against banks.** Cooperatives provision no differently from banks and their
+  intermediation margin is indistinguishable from banks'. Both differences appear only
+  against a broad comparison group that contains institutions holding no credit and taking
+  no deposits.
+- **Heterogeneity.** The capital gap is concentrated in the integrated systems (Sicredi,
+  Sicoob); the six independent cooperatives point the other way but are too few to measure.
+
+## Repository layout
 
 ```
-paper1_v4.ipynb              # Main analysis notebook (current, consolidated)
-paper1_comprehensive.ipynb   # Comprehensive version integrating all IF.data sources
-expanded_abstract.md         # Extended abstract with full results narrative
-requirements.txt             # Python dependencies
-figures/                     # All output figures (PNG)
-tables/                      # All output tables (CSV)
-  table1_balance.csv         # Balance test: matched vs. unmatched
-  table2_four_specs.csv      # All outcomes × four specifications
-  table3_main.csv            # Main results
-  tableA1_descriptive.csv    # Descriptive statistics
-data/
-  raw/
-    if.data/                 # BACEN IF.data bulk CSVs (semicolon-delimited)
-      prudential_conglomerates/
-        summary/             # Balance sheet overview (primary source)
-        segmentation/        # S1–S5 tier + simplified methodology flag
-        assets/              # Asset decomposition
-        liabilities/         # Funding structure
-        income_statement/    # P&L
-        capital_information/ # RWA decomposition, CET1/Tier1/Basel ratios
-      financial_conglomerates/
-        portfolio_risk_level/          # AA–H loan quality buckets
-        portfolio_legal_person_*       # SME vs. large lending
-        portfolio_geographic_region/   # Regional breakdown
-        portfolio_number_clients_operations/
-    bcb/
-      cadastro/              # Cooperative registry (CNPJ, filiação) for system assignment
-      agencias/              # Monthly branch office locations (2007–2024)
-      postos/                # Monthly ATM/service points (2007–2024)
-  processed/
-    if.data/                 # Processed panels and results
+paper.tex                 the manuscript; \input's tables/ and \includegraphics from figures/
+paper.py                  the analysis pipeline: builds the panel and writes results/*.txt
+gate_d_distribution.py    quantile / distributional evidence -> tables/t7, figures/fig12
+gate_e_dispersion.py      dispersion at equal size            -> tables/t8
+make_tables.py            parses results/*.txt into tables/t1..t6 (no recomputation)
+cleanup_outputs.py        empties figures/, results/, tables/ before a fresh run
+
+results/                  machine-written result files (see below)
+tables/                   LaTeX table fragments (tabular + tablenotes only)
+figures/                  PNG figures referenced by the manuscript
+data/                     raw and processed BACEN inputs (git-ignored; see Data)
 ```
 
-## Data Sources
+### Result files
 
-All data are publicly available from BACEN's IF.data bulk download system:
+| File | Contents |
+|------|----------|
+| `results_primary.txt` | main specification, cooperatives vs banks, four columns, with bootstrap p |
+| `results_broad_peers.txt` | cooperatives vs all non-cooperatives |
+| `results_within_market.txt` | cooperatives vs banks, region-exact matching |
+| `results_no_s12.txt` | cooperatives vs banks, excluding modal-S1/S2 banks |
+| `results_legacy.txt` | the original notebook's choices, for comparison |
+| `robustness.txt` | winsorisation variants, selection test, reverters, coverage, small-cluster simulation, system bootstrap |
+| `diagnostics.txt` | dedup, de-cumulation and seasonal tests, classification, balance |
+| `changes_log.txt` | every deviation from the original notebook, with reasons |
 
-- **Full panel**: 61,377 institution-quarter observations, 1,959 institutions (2014–2024), of which 1,197 are cooperatives (1,157 singular, 40 central) and 762 are non-cooperatives.
-- **Analysis sample**: 13,912 observations, 613 institutions under full Basel methodology (130 singular cooperatives, 483 non-cooperatives), 2017Q1–2024Q4.
-- **Monetary values**: All figures in R$ thousands (R$ mil).
-- **Frequency**: Quarterly (March, June, September, December).
+## Method in brief
 
-Data portal: `https://www.bcb.gov.br/estatisticas/ifdata`
+- **Classification.** Institutions are classified on the Central Bank's consolidation type
+  (`tcb`): `b3S` singular cooperative, `b3C` central cooperative (excluded), everything else
+  non-cooperative. Each institution takes its modal `tcb`, so the group label is
+  time-invariant.
+- **Comparison groups.** A ladder defined on the regulator's categories: all
+  non-cooperatives, bank-like (`b1`,`b2`,`b4`), banks (`b1`,`b2`, the primary group), and
+  commercial (`b1`). The divergence between the broad group and banks is itself a result.
+- **Two measurement corrections.** IF.data income fields accumulate within the semester and
+  are de-cumulated and annualised; the intermediation margin is computed gross of the
+  loan-loss line so it does not reproduce the provisioning result.
+- **Specifications.** (1) raw difference, (2) log assets + quarter fixed effects, (3)
+  coarsened exact matching on size quintile with the same controls, (4) common-support
+  trimming. The CEM estimand is weighted; the unweighted matched-sample regression is
+  reported alongside.
+- **Inference.** Clustered by institution, HC3 reported alongside, and a restricted wild
+  cluster bootstrap with Rademacher weights for every coefficient. System-level estimates
+  print the treated-cluster count because bootstrap p-values are coarse when few clusters
+  are treated.
 
-## Methodology
+## Data
 
-### Classification
+All inputs are public BACEN IF.data bulk files, downloaded from
+`https://www.bcb.gov.br/estatisticas/ifdata`, plus the cooperative registry (cadastro) used
+to assign system membership. The `data/` tree is git-ignored because of its size. The
+pipeline expects:
 
-Institutions are classified on the Central Bank's consolidation type (*tipo de consolidado bancário*, `tcb`), not on trade names: `b3S` = singular credit cooperative, `b3C` = central cooperative, all other categories = non-cooperative. Each institution is assigned its **modal** `tcb` over the period, so cooperative status is **time-invariant by construction**. Central cooperatives (`b3C`) are **excluded** from the comparison as wholesale infrastructure entities; the cooperative group is restricted to **singular retail cooperatives** (`b3S`).
+```
+data/raw/if.data/prudential_conglomerates/{summary,segmentation,assets,income_statement}/
+data/raw/cadastro/cooperativas_cadastro.csv
+```
 
-System membership (Sicredi, Sicoob, independent, etc.) is assigned by joining the analysis sample to the BACEN cooperative cadastro on the tax identifier (CNPJ) and reading the *filiação* field, rolling each central up to its confederation. Of the 130 singular cooperatives, 118 match directly on CNPJ and 12 are filled from a manual mapping; none is left unclassified.
+Raw CSVs are semicolon-delimited with Portuguese headers and Brazilian number format; the
+`parse_br` helper handles conversion. Monetary values are in thousands of reais.
 
-### Identification Strategy
-
-Comparison is restricted to institutions operating under **full Basel-style prudential methodology** (i.e., not using the optional simplified capital computation). This holds constant the regulatory rules — capital requirements, risk-weighting methodology, reporting standards — and isolates the association between institutional form and financial outcomes. Because cooperative status is time-invariant, institution fixed effects cannot be estimated alongside the cooperative indicator; results are **conditional correlations**, not causal effects of organizational form.
-
-### Four Specifications
-
-| Spec | Description | N institutions |
-|------|-------------|----------------|
-| 1 | Unconditional mean difference | 613 |
-| 2 | OLS: log(assets) + calendar-quarter FE | 613 |
-| 3 | Coarsened Exact Matching on size quintile × macro-region + OLS | 525 (88 dropped) |
-| 4 | Common-support restriction (log assets ∈ [11.4, 15.7]) + OLS | 346 (6,756 obs) |
-
-Standard errors are **clustered by institution**; HC3 standard errors are reported alongside and are uniformly tighter, so the clustered errors are the conservative basis for inference. Every coefficient described as significant is significant under both.
-
-### Outcomes (8)
-
-| Dimension | Outcome |
-|-----------|---------|
-| Capital structure | Basel capital adequacy ratio (%), leverage ratio (liabilities / assets) |
-| Profitability | Return on assets, net interest margin |
-| Efficiency | Cost-to-income ratio (operating-income denominator) |
-| Credit | Credit portfolio / assets, provisioning ratio (provisions / gross credit) |
-| Funding | Deposit ratio (captações / assets) |
-
-> **Note on terminology:** the credit-risk outcome is the **provisioning ratio** (provisions over gross credit), an accounting measure. It is **not** an NPL/delinquency ratio and is not interpreted as a measure of credit quality.
-
-## Main Results (four specifications)
-
-| Outcome | (1) Raw | (2) Controls | (3) CEM | (4) Trim | Attenuation | Tier |
-|---------|:-------:|:------------:|:-------:|:--------:|:-----------:|------|
-| Basel capital ratio (pp)   | −12.00  | −8.27  | −8.77  | −9.47  | 21%  | **Robust** |
-| Leverage                   | +0.222  | +0.128 | +0.132 | +0.086 | 61%  | Partial |
-| Return on assets           | +0.0086 | +0.0063| +0.0075| +0.0034| 61%  | Partial |
-| Net interest margin        | −0.0654 | −0.0324| −0.0271| −0.0106| 84%  | Partial |
-| Cost-to-income ratio       | −3.05   | −2.09  | −2.32  | −1.24  | 59%  | **Robust** |
-| Credit portfolio / assets  | +0.253  | +0.203 | +0.202 | +0.127 | 50%  | **Robust** |
-| Provisioning ratio         | −0.0334 | −0.0330| −0.0338| −0.0344| −3%  | **Robust** |
-| Deposit ratio              | +0.280  | +0.177 | +0.195 | +0.081 | 71%  | Partial |
-
-*Coefficient on the cooperative indicator. Spec (2) adds log assets and quarter FE; (3) CEM on size quintile × macro-region with the same controls; (4) trims to common support. All 32 cells significant at 1% under both clustered and HC3 standard errors. Attenuation is 1 − |β_trim| / |β_raw|; the negative value for provisioning means the trimmed coefficient is marginally larger in magnitude than the raw one. Robust = sign and significance hold across all four columns with attenuation below 60%; Partial = they hold but attenuation reaches 60% or more.*
-
-### Heterogeneity by system (controlled specification)
-
-| System | N | Basel (pp) | Leverage | ROA | Provisioning |
-|--------|:-:|:----------:|:--------:|:---:|:------------:|
-| Sicredi     | 106 | −9.70*** | +0.139*** | +0.0066*** | −0.0330*** |
-| Sicoob      | 17  | −2.51    | +0.077**  | +0.0040    | −0.0308*** |
-| Independent | 6   | +11.67   | −0.041    | +0.0075*** | −0.0403**  |
-
-*\*\*\* p<0.001, \*\* p<0.01. Cresol (1 institution), Unicred, Uniprime, Ailos omitted (fewer than five each in the full-methodology sample). The pooled capital gap is concentrated in Sicredi; lower provisioning is significant in every system.*
-
-## Robustness
-
-- Sign and significance maintained across all four specifications (p < 0.001 in each), under both clustered and HC3 standard errors.
-- No outcome reverses sign under common-support trimming.
-- Coefficient stability plots across the four specifications show monotonic attenuation toward zero (without crossing it) or near-zero movement.
-
-## Setup
+## Reproducing the results
 
 ```bash
-# Python 3.12+
 python -m venv .venv
-source .venv/Scripts/activate   # Windows/bash
+.venv/Scripts/activate            # Windows; use source .venv/bin/activate on POSIX
+pip install -r requirements.txt
 
-pip install pandas numpy matplotlib seaborn scipy statsmodels linearmodels
+python cleanup_outputs.py         # optional: clear stale outputs
+python paper.py                   # writes results/ and figures/
+python gate_d_distribution.py     # writes tables/t7 and figures/fig12
+python gate_e_dispersion.py       # writes tables/t8
+python make_tables.py             # writes tables/t1..t6 from results/
 ```
 
-### Running the Analysis
+Then compile `paper.tex` with the usual `pdflatex -> bibtex -> pdflatex -> pdflatex` cycle.
+The bibliography is `references_REVISADO.bib` (not tracked here).
 
-Open `paper1_v4.ipynb` in Jupyter and run all cells sequentially. The notebook expects data at `data/raw/if.data/` as downloaded from BACEN IF.data.
-
-Raw CSVs use semicolon delimiters (`;`), Portuguese column names, and Brazilian number format (`.` = thousands separator, `,` = decimal). The `parse_br()` helper handles conversion automatically.
+Every number in the manuscript comes from a results file or a generated table; none is
+transcribed by hand. Re-running the pipeline is deterministic (fixed bootstrap seed).
 
 ## Citation
 
 ```bibtex
-@unpublished{nery2026onesizefitsall,
-  title={One-Size-Fits-All? Credit Cooperatives Under Full Basel Regulation in Brazil},
-  author={Nery, Arthur Gomes},
-  institution={Sistema OCB},
-  year={2026}
+@unpublished{nery2026profiles,
+  title  = {Institutional Profiles Under a Common Prudential Framework:
+            Evidence from Brazilian Credit Cooperatives and Banks},
+  author = {Nery, Arthur Gomes},
+  year   = {2026},
+  note   = {ICA CCR 2026}
 }
 ```
 
----
-
-**Keywords:** credit cooperatives, prudential regulation, Basel, coarsened exact matching, institutional form, Brazil, BACEN
-**JEL codes:** G21, G28, P13
+**Keywords:** credit cooperatives; prudential regulation; Basel; proportionality; Brazil.
+**JEL:** G21, G28, P13.

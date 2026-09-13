@@ -39,41 +39,41 @@
 
 [PRIMARY_vs_LEGACY main coefficients]
 outcome	spec	legacy_coef	primary_coef	delta
-Basel Capital Ratio (%)	raw	-11.047786	-12.003509	-0.955723
-Basel Capital Ratio (%)	ctrl	-6.889575	-8.271798	-1.382223
-Basel Capital Ratio (%)	cem	-7.548139	-8.771740	-1.223601
-Basel Capital Ratio (%)	trim	-8.074602	-9.473189	-1.398587
-Leverage (liabilities/assets)	raw	0.247949	0.222006	-0.025942
-Leverage (liabilities/assets)	ctrl	0.147131	0.128004	-0.019127
-Leverage (liabilities/assets)	cem	0.149628	0.131978	-0.017650
-Leverage (liabilities/assets)	trim	0.109912	0.085644	-0.024268
-Return on Assets	raw	0.005530	0.008584	+0.003054
-Return on Assets	ctrl	0.003404	0.006301	+0.002897
-Return on Assets	cem	0.003532	0.007527	+0.003995
-Return on Assets	trim	0.001253	0.003379	+0.002126
-Net Interest Margin	raw	-0.066464	-0.065422	+0.001042
-Net Interest Margin	ctrl	-0.034548	-0.032378	+0.002171
-Net Interest Margin	cem	-0.034263	-0.027144	+0.007119
-Net Interest Margin	trim	-0.015813	-0.010594	+0.005219
-Cost-to-Income Ratio	raw	-2.440602	-3.054424	-0.613822
-Cost-to-Income Ratio	ctrl	-1.482191	-2.089869	-0.607677
-Cost-to-Income Ratio	cem	-1.562040	-2.318851	-0.756811
-Cost-to-Income Ratio	trim	-0.884070	-1.238848	-0.354779
-Credit Portfolio / Assets	raw	0.107908	0.253206	+0.145298
-Credit Portfolio / Assets	ctrl	0.055359	0.203006	+0.147646
-Credit Portfolio / Assets	cem	0.059326	0.202129	+0.142803
-Credit Portfolio / Assets	trim	-0.014895	0.126693	+0.141587
-Provisioning (provisions/gross credit)	raw	-0.040904	-0.033374	+0.007530
-Provisioning (provisions/gross credit)	ctrl	-0.039353	-0.032991	+0.006362
-Provisioning (provisions/gross credit)	cem	-0.038848	-0.033818	+0.005030
-Provisioning (provisions/gross credit)	trim	-0.040466	-0.034387	+0.006078
-Deposit Ratio (funding/assets)	raw	0.152045	0.280296	+0.128251
-Deposit Ratio (funding/assets)	ctrl	0.044118	0.176778	+0.132660
-Deposit Ratio (funding/assets)	cem	0.072442	0.194999	+0.122557
-Deposit Ratio (funding/assets)	trim	-0.044649	0.080561	+0.125209
+Basel Capital Ratio (%)	raw	-11.047786	-8.189404	+2.858382
+Basel Capital Ratio (%)	ctrl	-6.889575	-15.773642	-8.884067
+Basel Capital Ratio (%)	cem	-7.238406	-17.495874	-10.257468
+Basel Capital Ratio (%)	trim	-8.074602	-14.207859	-6.133257
+Leverage (liabilities/assets)	raw	0.247949	0.056060	-0.191889
+Leverage (liabilities/assets)	ctrl	0.147131	0.122019	-0.025112
+Leverage (liabilities/assets)	cem	0.162482	0.104594	-0.057887
+Leverage (liabilities/assets)	trim	0.109912	0.081310	-0.028602
+Return on Assets	raw	0.005530	0.018050	+0.012520
+Return on Assets	ctrl	0.003404	0.021456	+0.018052
+Return on Assets	cem	0.000478	0.017910	+0.017432
+Return on Assets	trim	0.001253	0.015886	+0.014634
+Net Interest Margin	raw	-0.066464	-0.000308	+0.066156
+Net Interest Margin	ctrl	-0.034548	-0.018980	+0.015569
+Net Interest Margin	cem	-0.022831	-0.010685	+0.012146
+Net Interest Margin	trim	-0.015813	-0.017144	-0.001331
+Cost-to-Income Ratio	raw	-2.440602	-0.602506	+1.838097
+Cost-to-Income Ratio	ctrl	-1.482191	-0.792256	+0.689936
+Cost-to-Income Ratio	cem	-0.447669	-0.838503	-0.390834
+Cost-to-Income Ratio	trim	-0.884070	-0.752187	+0.131883
+Credit Portfolio / Assets	raw	0.107908	0.165364	+0.057455
+Credit Portfolio / Assets	ctrl	0.055359	0.188130	+0.132770
+Credit Portfolio / Assets	cem	-0.148688	0.170082	+0.318770
+Credit Portfolio / Assets	trim	-0.014895	0.177954	+0.192849
+Provisioning (provisions/gross credit)	raw	-0.040904	0.001970	+0.042874
+Provisioning (provisions/gross credit)	ctrl	-0.039353	-0.001210	+0.038143
+Provisioning (provisions/gross credit)	cem	-0.052613	0.001013	+0.053626
+Provisioning (provisions/gross credit)	trim	-0.040466	0.000870	+0.041336
+Funding Ratio (captacoes/assets)	raw	0.152045	0.046140	-0.105904
+Funding Ratio (captacoes/assets)	ctrl	0.044118	0.088659	+0.044542
+Funding Ratio (captacoes/assets)	cem	0.007761	0.053568	+0.045807
+Funding Ratio (captacoes/assets)	trim	-0.044649	0.032956	+0.077605
 
 [SAMPLE_SIZES]	legacy	primary
-institutions	650	613
+institutions	650	274
 coops	168	130
-noncoops	483	483
-obs	15004	13912
+noncoops	483	144
+obs	15004	7234

@@ -1,0 +1,99 @@
+GATE D — DISTRIBUTIONAL EVIDENCE ON THE CAPITAL RESULT
+
+============================================================================================
+A — cooperative coefficient across the outcome distribution
+============================================================================================
+Controlled specification (log assets + quarter fixed effects) estimated at nine
+quantiles. The OLS column is the conditional mean for comparison.
+
+Basel Capital Ratio (%)
+        q10      q20      q30      q40      q50      q60      q70      q80      q90        OLS
+       2.81     1.98     1.29    -0.08    -2.18    -5.79   -11.30   -19.34   -34.37     -15.77
+  mean of q20-q80 is -5.06, 32% of the OLS coefficient
+
+Leverage (liabilities/assets)
+        q10      q20      q30      q40      q50      q60      q70      q80      q90        OLS
+     0.2943   0.1490   0.0945   0.0540   0.0283   0.0114  -0.0003  -0.0137  -0.0228     0.1220
+  mean of q20-q80 is 0.0462, 38% of the OLS coefficient
+
+Return on Assets
+        q10      q20      q30      q40      q50      q60      q70      q80      q90        OLS
+     0.0440   0.0281   0.0232   0.0200   0.0171   0.0143   0.0114   0.0067  -0.0057     0.0215
+  mean of q20-q80 is 0.0173, 80% of the OLS coefficient
+
+Cost-to-Income Ratio
+        q10      q20      q30      q40      q50      q60      q70      q80      q90        OLS
+     0.1096   0.0374  -0.0257  -0.0934  -0.1796  -0.3091  -0.5074  -0.8520  -1.7561    -0.7923
+  mean of q20-q80 is -0.2757, 35% of the OLS coefficient
+
+Credit Portfolio / Assets
+        q10      q20      q30      q40      q50      q60      q70      q80      q90        OLS
+     0.3827   0.4206   0.4177   0.3564   0.2448   0.1254   0.0356  -0.0728  -0.1702     0.1881
+  mean of q20-q80 is 0.2183, 116% of the OLS coefficient
+
+Provisioning (provisions/gross credit)
+        q10      q20      q30      q40      q50      q60      q70      q80      q90        OLS
+     0.0301   0.0308   0.0287   0.0265   0.0236   0.0180   0.0075  -0.0092  -0.0539    -0.0012
+  mean of q20-q80 is 0.0180, -1487% of the OLS coefficient
+
+============================================================================================
+B — dispersion by group, raw and at equal size
+============================================================================================
+Residualised columns are residuals from a regression of the outcome on log
+assets and quarter fixed effects, so they compare dispersion at equal size.
+
+outcome                        coop sd   bank sd   ratio   coop IQR   bank IQR  IQR ratio
+Basel Capital Ratio (%)           9.24     29.74    0.31       8.37      18.33       0.46
+Leverage (liabilities/assets)    0.0759    0.1788    0.42     0.0793     0.1429       0.56
+Return on Assets                0.0180    0.0420    0.43     0.0174     0.0225       0.77
+Cost-to-Income Ratio            0.1491    1.4751    0.10     0.1859     0.7334       0.25
+Credit Portfolio / Assets       0.1208    0.3088    0.39     0.1486     0.5459       0.27
+Provisioning (provisions/gross credit)    0.0243    0.0701    0.35     0.0213     0.0507       0.42
+
+A ratio below one means cooperatives are the more homogeneous group at equal
+size. This is the quantitative content of the claim that cooperatives occupy a
+narrow band of a distribution across which banks are spread.
+
+============================================================================================
+C — the capital distribution
+============================================================================================
+
+  decile   cooperatives     banks   difference
+     p10          15.33     12.62         2.71
+     p20          16.47     13.99         2.48
+     p30          17.71     15.23         2.48
+     p40          18.98     16.56         2.42
+     p50          20.46     18.41         2.05
+     p60          22.28     21.25         1.03
+     p70          24.34     26.45        -2.11
+     p80          27.34     37.23        -9.90
+     p90          32.90     67.04       -34.14
+
+                   mean          
+    mean          22.77     30.96        -8.19
+      sd           9.16     32.88
+    skew           4.83      3.11
+share above  20%: cooperatives  53.2%, banks  43.9%
+share above  30%: cooperatives  14.1%, banks  25.4%
+share above  50%: cooperatives   1.0%, banks  14.0%
+share above 100%: cooperatives   0.2%, banks   4.5%
+
+The mean gap is produced by the bank right tail, not by a shift of the whole
+distribution. Report the deciles, not only the mean.
+
+============================================================================================
+D — matched estimate under alternative coarsening schemes
+============================================================================================
+
+coarsening             weighted CEM   unweighted  eff. n controls
+size_q5_region                -7.02       -15.64             18.1
+size_q5                      -17.50       -15.49             75.8
+size_q10                     -17.46       -15.49             71.9
+size_q3_region                -8.12       -15.99             20.8
+size_q10_region               -6.88       -16.07             21.6
+
+Reported so the reader can see that the choice of coarsening, not only its
+existence, is an analyst decision with consequences.
+wrote C:\coops-basel-regulation\tables\t7_quantiles.tex
+
+wrote C:\coops-basel-regulation\figures\fig12_capital_quantiles.png

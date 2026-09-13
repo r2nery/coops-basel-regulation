@@ -1,0 +1,12 @@
+TABLE MANIFEST
+built by make_tables.py from results/*.txt (no recomputation)
+
+primary sample: 130 cooperatives, 144 banks, 7234 obs, 2017-03-01..2024-12-01
+common support: [11.3945, 15.6835], coop inside 89.90%, banks inside 48.37%
+CEM effective control sample: 75.7584680851788
+
+t1_descriptives     unconditional means and medians
+t2_main             cooperative differential, four specifications
+t3_peer_ladder      sensitivity to the comparison group
+t4_systems          heterogeneity by cooperative system
+t5_mean_vs_median   conditional mean against conditional median

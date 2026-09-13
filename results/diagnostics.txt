@@ -6,6 +6,24 @@ seg	42559	3	3
 assets	60025	1354	1351
 income	61377	3	3
 
+[FLOW_DECUMULATION]  field	status	nonnull_before	nonnull_after	orphan_closing_qtrs
+lucro_liquido	ok	61068	60863	205
+receitas_intermediacao	ok	61068	60863	205
+resultado_intermediacao	ok	61068	60863	205
+resultado_pcld	ok	61068	60863	205
+tarifas	ok	61068	60863	205
+despesas_pessoal	ok	61068	60863	205
+despesas_admin	ok	61068	60863	205
+pcld_line_b5_available	True
+
+[SEASONAL_ACCEPTANCE_TEST]  median by calendar quarter
+  a semester-cumulative series runs 1,2,1,2 across Q1..Q4;
+  a correctly de-cumulated one is FLAT. Flatness here is the acceptance test.
+before	_roa	Q1=+0.00569	Q2=+0.01200	Q3=+0.00646	Q4=+0.01334
+before	_nim	Q1=+0.02113	Q2=+0.04170	Q3=+0.02163	Q4=+0.04278
+after	_roa	Q1=+0.02278	Q2=+0.02631	Q3=+0.02585	Q4=+0.02831
+after	_nim	Q1=+0.10422	Q2=+0.10612	Q3=+0.10517	Q4=+0.10642
+
 [TCB_VALUE_COUNTS]
 b3S	40352
 n2	6382
@@ -42,11 +60,11 @@ S5	27049	914
 6	32	0
 7	493	0
 8	2525	0
-10	0	10862
+10	0	4184
 
 [CTI_PROPER_vs_GROSS analysis means]  group	cti_proper	cti_gross
-coop	0.714377	0.388166
-noncoop	3.768801	5.868914
+coop	0.553639	0.388166
+noncoop	1.156145	0.854688
 
 [SECTOR_CONTEXT full panel, all cooperatives]
 final_quarter	2024Q4
@@ -58,12 +76,12 @@ all_coops_ever	1197
 singular_full_method	130
 
 [BALANCE_SMD primary]  variable	full	cem	trim
-Basel Capital Ratio (%)	-0.4328	-0.4093	-0.4287
-Leverage (liabilities/assets)	1.0023	0.8978	0.6390
-Return on Assets	0.1871	0.2292	0.1449
-Net Interest Margin	-0.5440	-0.4482	-0.3112
-Cost-to-Income Ratio	-0.4346	-0.4376	-0.3583
-Credit Portfolio / Assets	0.9764	0.9136	0.5799
-Provisioning (provisions/gross credit)	-0.4163	-0.3862	-0.4324
-Deposit Ratio (funding/assets)	1.1059	1.0475	0.4538
-log_assets	0.6151	0.4251	0.4174
+Basel Capital Ratio (%)	-0.3393	-0.5172	-0.5127
+Leverage (liabilities/assets)	0.3409	0.6138	0.5384
+Return on Assets	0.5529	0.4721	0.4178
+Net Interest Margin	-0.0035	-0.1950	-0.1847
+Cost-to-Income Ratio	-0.5606	-0.6394	-0.6340
+Credit Portfolio / Assets	0.7027	0.6250	0.7158
+Provisioning (provisions/gross credit)	0.0369	-0.0284	-0.0181
+Funding Ratio (captacoes/assets)	0.2173	0.2671	0.1649
+log_assets	-0.7214	-0.0879	0.0062
