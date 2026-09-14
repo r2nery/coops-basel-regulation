@@ -1,0 +1,33 @@
+# SUBPERIOD SPLIT (primary sample: singular cooperatives vs banks b1+b2)
+# controlled specification; boundary 2022-01-01 = entry into force of Res. 4.955/4.958
+
+[SUBPERIOD_COUNTS]  window	obs	n_coop	n_bank	date_min	date_max
+full	7234	130	144	2017-03-01	2024-12-01
+p1	4436	112	141	2017-03-01	2021-12-01
+p2	2798	120	134	2022-03-01	2024-12-01
+
+[SUBPERIOD_COEFFICIENTS]  outcome	window	coef	cl_lo	cl_hi	cl_p	p_boot	N	n_clusters
+Basel Capital Ratio (%)	full	-15.773642	-21.927091	-9.620193	5.057e-07	0.0005	7218	272
+Basel Capital Ratio (%)	p1	-16.903881	-23.629877	-10.177884	8.401e-07	0.0005	4427	250
+Basel Capital Ratio (%)	p2	-13.956805	-20.809155	-7.104456	6.551e-05	0.0005	2791	254
+Leverage (liabilities/assets)	full	0.122019	0.082012	0.162025	2.261e-09	0.0005	7232	272
+Leverage (liabilities/assets)	p1	0.133652	0.091265	0.176039	6.407e-10	0.0005	4434	251
+Leverage (liabilities/assets)	p2	0.103327	0.061881	0.144773	1.027e-06	0.0005	2798	254
+Return on Assets	full	0.021456	0.014349	0.028563	3.272e-09	0.0005	7229	271
+Return on Assets	p1	0.024163	0.015675	0.032650	2.407e-08	0.0005	4433	251
+Return on Assets	p2	0.017283	0.009530	0.025036	1.246e-05	0.0005	2796	253
+Net Interest Margin	full	-0.018980	-0.045005	0.007045	1.529e-01	0.1640	7229	271
+Net Interest Margin	p1	-0.025146	-0.053771	0.003479	8.511e-02	0.1110	4433	251
+Net Interest Margin	p2	-0.009333	-0.033725	0.015060	4.533e-01	0.4730	2796	253
+Cost-to-Income Ratio	full	-0.792256	-1.046669	-0.537842	1.038e-09	0.0005	6901	269
+Cost-to-Income Ratio	p1	-0.853283	-1.130158	-0.576408	1.538e-09	0.0005	4268	249
+Cost-to-Income Ratio	p2	-0.692703	-0.970535	-0.414872	1.026e-06	0.0005	2633	250
+Credit Portfolio / Assets	full	0.188130	0.128600	0.247659	5.865e-10	0.0005	7232	272
+Credit Portfolio / Assets	p1	0.204557	0.146028	0.263087	7.387e-12	0.0005	4434	251
+Credit Portfolio / Assets	p2	0.162906	0.096136	0.229676	1.736e-06	0.0005	2798	254
+Provisioning (provisions/gross credit)	full	-0.001210	-0.015135	0.012716	8.648e-01	0.8725	6465	258
+Provisioning (provisions/gross credit)	p1	-0.008246	-0.025323	0.008830	3.439e-01	0.3675	4067	236
+Provisioning (provisions/gross credit)	p2	0.010388	-0.003633	0.024408	1.465e-01	0.1615	2398	239
+Funding Ratio (captacoes/assets)	full	0.088659	0.034405	0.142914	1.361e-03	0.0035	7232	272
+Funding Ratio (captacoes/assets)	p1	0.112762	0.059242	0.166282	3.636e-05	0.0010	4434	251
+Funding Ratio (captacoes/assets)	p2	0.050765	-0.009330	0.110860	9.779e-02	0.1040	2798	254

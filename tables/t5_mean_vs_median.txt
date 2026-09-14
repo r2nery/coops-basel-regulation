@@ -10,6 +10,9 @@ Credit portfolio / assets & 0.1881$^{***}$ & 0.2448 & 1.30 & -0.34 & yes \\
 Provisioning ratio & -0.0012 & 0.0236 & -19.49 & 3.36 & \textbf{no} \\
 Intermediation margin (ann.) & -0.0190 & 0.0203 & -1.07 & 3.86 & \textbf{no} \\
 Funding ratio & 0.0887$^{**}$ & -0.0247 & -0.28 & -1.07 & \textbf{no} \\
+\midrule
+Return on assets volatility & -0.0189$^{***}$ & -0.0133 & 0.71 & 1.97 & yes \\
+Z-score & 6.32$^{***}$ & 7.58 & 1.20 & 0.85 & yes \\
 \bottomrule
 \end{tabular}
 

@@ -11,6 +11,9 @@ Provisioning ratio & -0.0330$^{***}$ & -0.0012 & 0.0010 \\
 Intermediation margin (ann.) & -0.0910$^{***}$ & -0.0190 & -0.0201 \\
 Funding ratio & 0.1768$^{***}$ & 0.0887$^{**}$ & 0.0548 \\
 \midrule
+Return on assets volatility & -0.0624$^{***}$ & -0.0189$^{***}$ & -0.0170$^{***}$ \\
+Z-score & 7.79$^{***}$ & 6.32$^{***}$ & 5.05 \\
+\midrule
 Comparison institutions & 483 & 144 & 144 \\
 \bottomrule
 \end{tabular}

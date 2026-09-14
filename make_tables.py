@@ -30,8 +30,9 @@ FILES = {
     "broad": RESULTS / "results_broad_peers.txt",
     "within": RESULTS / "results_within_market.txt",
     "no_s12": RESULTS / "results_no_s12.txt",     # optional; see OPTIONAL below
+    "subperiod": RESULTS / "subperiod.txt",       # optional; feeds t9
 }
-OPTIONAL = {"no_s12"}                              # missing file is not an error
+OPTIONAL = {"no_s12", "subperiod"}                 # missing file is not an error
 
 SPECS = ["raw", "ctrl", "cem", "trim"]
 SPEC_HEAD = {"raw": "(1) Raw", "ctrl": "(2) Controls", "cem": "(3) CEM", "trim": "(4) Trim"}
@@ -46,6 +47,14 @@ ORDER = [
     ("Net Interest Margin", "Intermediation margin (ann.)"),
     ("Funding Ratio (captacoes/assets)", "Funding ratio"),
 ]
+
+# Institution-level stability outcomes, appended to t2/t3/t5 only (not t1/t6). Their
+# stars come from HC3, not the clustered p, because the unit is the institution.
+STAB_ORDER = [
+    ("Return on assets volatility", "Return on assets volatility"),
+    ("Z-score", "Z-score"),
+]
+STAB_LABELS = {lab for lab, _ in STAB_ORDER}
 
 
 # ------------------------------------------------------------------ parsing
@@ -73,9 +82,18 @@ def coefs(sections):
     for r in sections.get("MAIN_COEFFICIENTS", []):
         if len(r) < 11:
             continue
-        out.setdefault(r[0], {})[r[1]] = {"coef": float(r[2]), "p": float(r[5]),
-                                          "N": int(r[9]), "clusters": int(r[10])}
+        cell = {"coef": float(r[2]), "p": float(r[5]), "hc_p": float(r[8]),
+                "N": int(r[9]), "clusters": int(r[10])}
+        if len(r) >= 12 and r[11] not in ("na", ""):
+            cell["p_boot"] = float(r[11])
+        out.setdefault(r[0], {})[r[1]] = cell
     return out
+
+
+def pstar(v, key):
+    """Significance stars: HC3 for the institution-level stability outcomes, clustered
+    for the panel outcomes."""
+    return st(v["hc_p"] if key in STAB_LABELS else v["p"])
 
 
 def medians(sections):
@@ -141,7 +159,7 @@ def st(p):
 
 
 def dec_for(key):
-    return 2 if "Basel" in key else 4
+    return 2 if ("Basel" in key or key == "Z-score") else 4
 
 
 def f(x, d=3):
@@ -207,18 +225,20 @@ def t1(P):
 def t2(P):
     c, m, s = coefs(P), medians(P), stability(P)
     rows = []
-    for key, lab in ORDER:
+    for key, lab in ORDER + STAB_ORDER:
         if key not in c:
             continue
         k = dec_for(key)
         cells = []
         for sp in SPECS:
             v = c[key].get(sp)
-            cells.append(f"{f(v['coef'],k)}{st(v['p'])}" if v else "")
+            cells.append(f"{f(v['coef'],k)}{pstar(v,key)}" if v else "")
         md = m.get(key, {}).get("ctrl")
         info = s.get(key, {})
         rho = info.get("rho", "")
         rho = "" if rho in ("na", "") else f"{float(rho):.2f}"
+        if key == STAB_ORDER[0][0]:
+            rows.append("\\midrule")
         rows.append(f"{esc(lab)} & " + " & ".join(cells)
                     + f" & {f(md['med'],k) if md else ''} & {rho}"
                       f" & {esc(info.get('tier',''))} \\\\")
@@ -233,18 +253,24 @@ def t2(P):
          "test throughout. "
          "'Median (2)' is the conditional-median counterpart of column (2). "
          "rho = |b_trim|/|b_raw|, reported only when all four columns are significant; "
-         "rho above one means the differential grows as the design tightens.")
+         "rho above one means the differential grows as the design tightens. The final "
+         "two rows are institution-level stability outcomes (return-on-assets volatility "
+         "and the z-score, one value per institution over its full-methodology quarters); "
+         "they are estimated on an institution-level cross-section with HC3 errors and a "
+         "wild bootstrap over institutions, and their stars are HC3.")
 
 
 def t3(P, B, W):
     cb, cp, cw = coefs(B), coefs(P), coefs(W)
     rows = []
-    for key, lab in ORDER:
+    for key, lab in ORDER + STAB_ORDER:
         k = dec_for(key)
         cells = []
         for src, spec in ((cb, "ctrl"), (cp, "ctrl"), (cw, "cem")):
             v = src.get(key, {}).get(spec)
-            cells.append(f"{f(v['coef'],k)}{st(v['p'])}" if v else "")
+            cells.append(f"{f(v['coef'],k)}{pstar(v,key)}" if v else "")
+        if key == STAB_ORDER[0][0]:
+            rows.append("\\midrule")
         rows.append(f"{esc(lab)} & " + " & ".join(cells) + " \\\\")
     nb = kv(B.get("SAMPLE", []))
     np_ = kv(P.get("SAMPLE", []))
@@ -316,7 +342,7 @@ def t4(P):
 def t5(P):
     m, c = medians(P), coefs(P)
     rows = []
-    for key, lab in ORDER:
+    for key, lab in ORDER + STAB_ORDER:
         md = m.get(key, {}).get("ctrl")
         cf = c.get(key, {}).get("ctrl")
         if not (md and cf):
@@ -324,7 +350,9 @@ def t5(P):
         k = dec_for(key)
         ratio = md["med"] / cf["coef"] if abs(cf["coef"]) > 1e-12 else float("nan")
         agree = "yes" if (md["med"] > 0) == (cf["coef"] > 0) else "\\textbf{no}"
-        rows.append(f"{esc(lab)} & {f(cf['coef'],k)}{st(cf['p'])} & "
+        if key == STAB_ORDER[0][0]:
+            rows.append("\\midrule")
+        rows.append(f"{esc(lab)} & {f(cf['coef'],k)}{pstar(cf,key)} & "
                     f"{f(md['med'],k)} & {ratio:.2f} & {md['skew']:.2f} & {agree} \\\\")
     body = ("\\begin{tabular}{lrrrrc}\n\\toprule\n"
             "Outcome & Conditional mean & Conditional median & Ratio & Skewness "
@@ -366,6 +394,62 @@ def t6(P, S):
          "modal segment." + excl_note)
 
 
+def subper_coefs(sections):
+    out = {}
+    for r in sections.get("SUBPERIOD_COEFFICIENTS", []):
+        if len(r) < 6:
+            continue
+        cell = {"coef": float(r[2]), "p": float(r[5])}
+        if len(r) >= 7 and r[6] not in ("na", ""):
+            cell["p_boot"] = float(r[6])
+        out.setdefault(r[0], {})[r[1]] = cell
+    return out
+
+
+def subper_counts(sections):
+    out = {}
+    for r in sections.get("SUBPERIOD_COUNTS", []):
+        if len(r) < 4:
+            continue
+        out[r[0]] = {"obs": r[1], "n_coop": r[2], "n_bank": r[3]}
+    return out
+
+
+def t9(SP):
+    c = subper_coefs(SP)
+    n = subper_counts(SP)
+    cols = ("full", "p1", "p2")
+    head = {"full": "Full sample", "p1": "2017Q1--2021Q4", "p2": "2022Q1--2024Q4"}
+    rows, disagree = [], 0
+    for key, lab in ORDER:
+        k = dec_for(key)
+        cells = []
+        for w in cols:
+            v = c.get(key, {}).get(w)
+            cells.append(f"{f(v['coef'],k)}{st(v['p'])}" if v else "")
+            if v and "p_boot" in v and (v["p"] < 0.05) != (v["p_boot"] < 0.05):
+                disagree += 1
+        rows.append(f"{esc(lab)} & " + " & ".join(cells) + " \\\\")
+    foot = []
+    for label, field in (("Observations", "obs"), ("Cooperatives", "n_coop"), ("Banks", "n_bank")):
+        vals = " & ".join(f"{int(n[w][field]):,}" if w in n else "" for w in cols)
+        foot.append(f"{label} & {vals} \\\\")
+    body = ("\\begin{tabular}{lrrr}\n\\toprule\n"
+            "Outcome & " + " & ".join(head[w] for w in cols) + " \\\\\n\\midrule\n"
+            + "\n".join(rows) + "\n\\midrule\n" + "\n".join(foot)
+            + "\n\\bottomrule\n\\end{tabular}")
+    boot_note = ("Bootstrap p-values (1,999 replications) agree with the clustered stars "
+                 "in every cell." if disagree == 0 else
+                 f"The bootstrap and clustered tests disagree at the 5 percent level in "
+                 f"{disagree} of the twenty-four cells.")
+    emit("t9_subperiod", body,
+         "Controlled specification (log assets and quarter fixed effects), cooperatives "
+         "against banks, estimated on the full sample and on each subperiod. Standard "
+         "errors clustered by institution. The boundary is 3 January 2022, the entry "
+         "into force of Resolutions CMN 4.955 and 4.958 of 2021, which consolidated the "
+         "capital and minimum-requirement rules. " + boot_note)
+
+
 # ------------------------------------------------------------------ main
 def main():
     missing = [str(p) for k, p in FILES.items()
@@ -389,6 +473,8 @@ def main():
     guard(t5, P)
     if S is not None:
         guard(t6, P, S)
+    if FILES["subperiod"].exists():
+        guard(t9, parse(FILES["subperiod"]))
 
     ov = kv(P.get("OVERLAP", []))
     cw = kv(P.get("CEM_WEIGHTING", []))

@@ -218,11 +218,11 @@ def write_table(keep, gv):
     tab = P.ROOT / "tables"
     tab.mkdir(exist_ok=True, parents=True)
     rows = []
-    for o in CORE:
+    for o in CORE + ["zscore"]:
         k = keep.get(o)
         if not k:
             continue
-        lab = P.OUTCOMES[o].replace("%", r"\%")
+        lab = (P.OUTCOMES.get(o) or P.STAB_LABELS.get(o, o)).replace("%", r"\%")
         rows.append(f"{lab} & {k['coop_sd']:.4f} & {k['bank_sd']:.4f} & {k['sd']:.2f} "
                     f"& {k['coop_iqr']:.4f} & {k['bank_iqr']:.4f} " + r"\\")
     body = (r"\small" + "\n" + r"\setlength{\tabcolsep}{5pt}" + "\n"
@@ -237,7 +237,8 @@ def write_table(keep, gv):
               r"The ratio is the cooperative residual standard deviation over the bank one; "
               r"below one means cooperatives are the tighter group. For the Basel capital "
               r"ratio the residual standard deviations are 9.2 for cooperatives against 29.7 "
-              r"for banks and the interquartile ranges are 8.4 against 18.3."
+              r"for banks and the interquartile ranges are 8.4 against 18.3. The z-score "
+              r"is an institution-level quantity, residualised on mean log assets alone."
             + (f" Over the six outcomes jointly, the generalised variance ratio is "
                f"{gv['cooperatives']['gv']/gv['banks']['gv']:.2f}."
                if gv and all(np.isfinite(gv[l]['gv']) for l in gv) else "")
@@ -255,6 +256,18 @@ def main():
     part_b(l2)
     gv = part_c(l2)
     part_d(l2)
+    # institution-level z-score dispersion at equal size (residualised on mean log assets)
+    dz, _, _ = P.collapse_stability(l2)
+    dz = dz.dropna(subset=["zscore", "log_assets"]).copy()
+    dz["r"] = smf.ols("zscore ~ log_assets", data=dz).fit().resid
+    cz = spread(dz.loc[dz.is_coop == 1, "r"].to_numpy())
+    bz = spread(dz.loc[dz.is_coop == 0, "r"].to_numpy())
+    keep["zscore"] = {"coop_sd": cz["sd"], "bank_sd": bz["sd"],
+                      "sd": cz["sd"] / bz["sd"] if bz["sd"] else float("nan"),
+                      "coop_iqr": cz["iqr"], "bank_iqr": bz["iqr"]}
+    say("\nz-score (institution-level, residualised on mean log assets): "
+        f"coop sd {cz['sd']:.4f}, bank sd {bz['sd']:.4f}, ratio {keep['zscore']['sd']:.2f}, "
+        f"coop IQR {cz['iqr']:.4f}, bank IQR {bz['iqr']:.4f}")
     write_table(keep, gv)
     (P.RESULTS / "gate_e_dispersion.txt").write_text(BUF.getvalue(), encoding="utf-8")
     print(f"\nwrote {P.RESULTS / 'gate_e_dispersion.txt'}")

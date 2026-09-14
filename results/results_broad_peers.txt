@@ -18,6 +18,8 @@ Cost-to-Income Ratio	0.553639	3.267788	0.551620	0.909319	3048	10103
 Credit Portfolio / Assets	0.567323	0.314116	0.589942	0.162108	3048	10783
 Provisioning (provisions/gross credit)	0.054649	0.088023	0.050336	0.047459	2945	6250
 Funding Ratio (captacoes/assets)	0.615556	0.335260	0.611448	0.240036	3048	10783
+Return on assets volatility	0.013278	0.118279	0.010698	0.065340	105	392
+Z-score	18.498737	8.391816	17.725930	5.571976	105	390
 
 [MAIN_COEFFICIENTS]  outcome	spec	coef	cl_lo	cl_hi	cl_p	hc_lo	hc_hi	hc_p	N	n_clusters	p_boot	G_treated
 # p_boot: restricted wild cluster bootstrap (Rademacher), na where not run; G_treated: treated clusters
@@ -53,6 +55,14 @@ Funding Ratio (captacoes/assets)	raw	0.280296	0.242083	0.318509	7.267e-47	0.2725
 Funding Ratio (captacoes/assets)	ctrl	0.176778	0.137740	0.215815	6.962e-19	0.168774	0.184781	0.000e+00	13831	605	na	na
 Funding Ratio (captacoes/assets)	cem	0.111189	0.062207	0.160170	8.620e-06	0.101009	0.121369	1.136e-101	13831	605	na	na
 Funding Ratio (captacoes/assets)	trim	0.080561	0.033467	0.127654	7.999e-04	0.070317	0.090805	1.328e-53	6756	346	na	na
+Return on assets volatility	raw	-0.105001	-0.117331	-0.092672	1.508e-62	-0.117341	-0.092662	1.897e-62	497	497	0.0005	105
+Return on assets volatility	ctrl	-0.062397	-0.071045	-0.053749	2.128e-45	-0.071093	-0.053701	6.396e-45	497	497	0.0005	105
+Return on assets volatility	cem	-0.040749	-0.048569	-0.032930	1.724e-24	-0.048632	-0.032867	3.978e-24	497	497	0.0005	105
+Return on assets volatility	trim	-0.035538	-0.043614	-0.027462	6.429e-18	-0.043681	-0.027395	1.189e-17	235	235	0.0005	96
+Z-score	raw	10.106921	8.459200	11.754642	2.717e-33	8.449739	11.764103	6.221e-33	495	495	0.0005	105
+Z-score	ctrl	7.792718	6.094166	9.491270	2.427e-19	6.084011	9.501425	3.941e-19	495	495	0.0005	105
+Z-score	cem	8.122316	5.858792	10.385841	2.021e-12	5.833935	10.410697	3.485e-12	495	495	0.0005	105
+Z-score	trim	8.200830	5.992926	10.408735	3.341e-13	5.973921	10.427740	5.285e-13	235	235	0.0005	96
 
 [STABILITY]  outcome	raw	trim	rho_trim_over_raw	attenuation	tier	specs_sig	amplifies	coef_min	coef_max
 # rho = |b_trim|/|b_raw|, reported only when all four specs are significant;
@@ -65,6 +75,8 @@ Cost-to-Income Ratio	-2.714149	-1.019091	0.3755	0.6245	attenuated	4/4	False	-2.7
 Credit Portfolio / Assets	0.253206	0.126693	0.5004	0.4996	robust	4/4	False	0.121880	0.253206
 Provisioning (provisions/gross credit)	-0.033374	-0.034387	1.0304	-0.0304	robust	4/4	False	-0.035865	-0.032991
 Funding Ratio (captacoes/assets)	0.280296	0.080561	0.2874	0.7126	attenuated	4/4	False	0.080561	0.280296
+Return on assets volatility	-0.105001	-0.035538	0.3385	0.6615	attenuated	4/4	False	-0.105001	-0.035538
+Z-score	10.106921	8.200830	0.8114	0.1886	robust	4/4	False	7.792718	10.106921
 
 [CONDITIONAL_MEDIAN]  outcome	spec	ols_coef	median_coef	ratio	skew
 # where |median| is far below |ols|, the mean gap is produced by the tail
@@ -100,6 +112,14 @@ Funding Ratio (captacoes/assets)	raw	0.280296	0.371436	1.325	-0.07
 Funding Ratio (captacoes/assets)	ctrl	0.176778	0.173373	0.981	-0.07
 Funding Ratio (captacoes/assets)	cem	0.111189	0.173373	1.559	-0.07
 Funding Ratio (captacoes/assets)	trim	0.080561	0.000262	0.003	-0.87
+Return on assets volatility	raw	-0.105001	-0.055167	0.525	1.47
+Return on assets volatility	ctrl	-0.062397	-0.043123	0.691	1.47
+Return on assets volatility	cem	-0.040749	-0.043123	1.058	1.47
+Return on assets volatility	trim	-0.035538	-0.023996	0.675	2.26
+Z-score	raw	10.106921	12.140606	1.201	1.12
+Z-score	ctrl	7.792718	8.530017	1.095	1.12
+Z-score	cem	8.122316	8.530017	1.050	1.12
+Z-score	trim	8.200830	9.191612	1.121	0.75
 
 [CEM_WEIGHTING]  matched-sample OLS vs the weighted CEM estimand
 control_weight_min	0.04903371710526316
@@ -157,3 +177,14 @@ Cost-to-Income Ratio	0.117237	56.806894
 Credit Portfolio / Assets	0.000000	1.017060
 Provisioning (provisions/gross credit)	0.000000	0.500000
 Funding Ratio (captacoes/assets)	0.000000	0.899429
+
+[STABILITY_DESIGN]
+design	institution-level cross-section, one row per institution over its >= 8 full-methodology quarters; raw = coop, ctrl/cem/trim add mean log assets; no quarter fixed effects (unit is the institution); HC3 errors and a wild bootstrap over institutions; roa_vol and zscore winsorised at the pooled 1/99 within the institution-level sample.
+institutions	497
+cem_institutions	497
+trim_institutions	235
+min_quarters	8
+coop_before	130	coop_after	105	coop_dropped	25
+bank_before	483	bank_after	392	bank_dropped	91
+winsor_bounds	Return on assets volatility	0.002046	0.470693
+winsor_bounds	Z-score	-0.132332	39.214028

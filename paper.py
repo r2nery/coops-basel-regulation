@@ -62,6 +62,12 @@ OUTCOMES = {
 }
 HET_OUTCOMES = ["basileia_num", "leverage", "roa", "prov_ratio"]
 
+# Institution-level stability outcomes, computed once per institution over its
+# full-methodology quarters in the analysis sample (see stability_estimates). They
+# are NOT panel outcomes and are never put through the institution-quarter machinery
+# in run_pipeline; they are estimated on an institution-level cross-section.
+STAB_LABELS = {"roa_vol": "Return on assets volatility", "zscore": "Z-score"}
+
 # ----------------------------------------------------------------------------- column maps
 SUMM_MAP = {
     "Instituição": "instituicao", "Código": "codigo", "Data": "data_str",
@@ -1101,6 +1107,188 @@ def small_cluster_simulation(primary, outcome="basileia_num", n_treated=6,
             "effect": summ(eff), "null": summ(nul)}
 
 
+def collapse_stability(l2: pd.DataFrame, min_q: int = 8, bounds=None):
+    """Collapse an analysis-sample frame to one row per institution and build the two
+    stability outcomes over that institution's full-methodology quarters:
+      roa_vol = s.d. of the annualised de-cumulated quarterly ROA already used;
+      zscore  = (mean ROA + mean equity/assets) / s.d.(ROA), equity/assets = 1 - leverage.
+    Institutions with fewer than min_q quarters of ROA are dropped. roa_vol and zscore
+    are winsorised at the pooled 1/99 within the institution-level sample (bounds are
+    computed here unless passed, so subsamples inherit the full-sample clip).
+    Returns (institution_frame, winsor_bounds, drop_counts)."""
+    g = l2.groupby("codigo")
+    d = pd.DataFrame({
+        "is_coop": g["is_coop"].first(),
+        "log_assets": g["log_assets"].mean(),
+        "roa_mean": g["roa"].mean(),
+        "roa_vol": g["roa"].std(ddof=1),
+        "eq_mean": 1.0 - g["leverage"].mean(),
+        "n_q": g["roa"].apply(lambda s: int(s.notna().sum())),
+        "cem_w": g["cem_w"].first() if "cem_w" in l2.columns else np.nan,
+    }).reset_index()
+    before = {"coop": int((d.is_coop == 1).sum()), "bank": int((d.is_coop == 0).sum())}
+    d = d[d["n_q"] >= min_q].copy()
+    after = {"coop": int((d.is_coop == 1).sum()), "bank": int((d.is_coop == 0).sum())}
+    d["zscore"] = (d["roa_mean"] + d["eq_mean"]) / d["roa_vol"].replace(0, np.nan)
+    d, wb = winsorize(d, ["roa_vol", "zscore"], bounds=bounds)
+    d["date"] = pd.Timestamp("2020-06-01")   # dummy: fit()/bootstrap expect a date column
+    drops = {"before": before, "after": after,
+             "dropped_coop": before["coop"] - after["coop"],
+             "dropped_bank": before["bank"] - after["bank"], "min_q": min_q}
+    return d, wb, drops
+
+
+def stability_estimates(res, B=BOOT_B, min_q=8):
+    """Institution-level cross-section of the two stability outcomes for one comparison
+    group. Four designs, mirroring the panel specifications but at the institution level
+    (the unit is the institution, so there are no quarter fixed effects):
+      raw   y ~ coop
+      ctrl  y ~ coop + mean log assets
+      cem   the same on the size-matched institutions, with CEM weights
+      trim  the same on institutions whose mean log assets lie in the common-support band
+    Inference is HC3 (the reported p), with a wild bootstrap over institutions. The
+    matched set and common-support band are taken from the panel result so they coincide
+    with the eight panel outcomes."""
+    l2 = res["_l2"]
+    D_all, wbounds, drops = collapse_stability(l2, min_q=min_q)
+    ov_lo, ov_hi = res["_ov"]
+    matched_w = res["_l2_cem"].groupby("codigo")["cem_w"].first()
+    D_cem = D_all[D_all["codigo"].isin(set(matched_w.index))].copy()
+    D_cem["cem_w"] = D_cem["codigo"].map(matched_w)   # per-institution CEM weight
+    D_trim = D_all[D_all["log_assets"].between(ov_lo, ov_hi)].copy()
+    frames = {"raw": D_all, "ctrl": D_all, "cem": D_cem, "trim": D_trim}
+    fml = {"raw": "{o} ~ is_coop", "ctrl": "{o} ~ is_coop + log_assets",
+           "cem": "{o} ~ is_coop + log_assets", "trim": "{o} ~ is_coop + log_assets"}
+
+    reg = {sl: {} for sl, _ in SPECS}
+    med = {sl: {} for sl, _ in SPECS}
+    for sl, _ in SPECS:
+        for o in STAB_LABELS:
+            wcol = "cem_w" if sl == "cem" else None
+            r = fit(frames[sl], o, fml[sl], weight_col=wcol)
+            if not r:
+                continue
+            wb = wild_cluster_bootstrap(frames[sl], o, fml[sl], B=B, weight_col=wcol)
+            if wb:
+                r["p_boot"] = wb["p_boot"]
+                r["G_treated"] = wb["G_treated"]
+            reg[sl][o] = r
+            sq = frames[sl][["is_coop", "log_assets", o]].dropna()
+            if len(sq) > 50 and sq["is_coop"].nunique() == 2:
+                try:
+                    q = smf.quantreg(fml[sl].format(o=o), data=sq).fit(q=0.5)
+                    med[sl][o] = {"coef": float(q.params["is_coop"]),
+                                  "p": float(q.pvalues["is_coop"]),
+                                  "skew": float(sq[o].skew()), "N": int(len(sq))}
+                except Exception:
+                    pass
+
+    # tier classification on HC3 significance, mirroring run_pipeline's summary
+    summ = {}
+    for o in STAB_LABELS:
+        present = [s for s, _ in SPECS if o in reg[s]]
+        if not present:
+            continue
+        coefs = [reg[s][o]["coef"] for s in present]
+        nsig = sum(1 for s in present if reg[s][o]["hc_p"] < 0.05)
+        allsig = (nsig == len(present)) and len(present) == len(SPECS)
+        same_sign = len({np.sign(c) for c in coefs if c != 0}) == 1
+        raw = reg["raw"].get(o, {}).get("coef", np.nan)
+        trim = reg["trim"].get(o, {}).get("coef", np.nan)
+        rho = (abs(trim) / abs(raw)) if (allsig and abs(raw) > 1e-12
+                                         and not np.isnan(trim)) else np.nan
+        tier = ("null" if not allsig else "sign_unstable" if not same_sign
+                else "robust" if rho >= RHO_ROBUST else "attenuated")
+        summ[o] = {"rho": rho, "atten": (1 - rho) if rho == rho else np.nan,
+                   "tier": tier, "n_sig": nsig, "n_specs": len(present),
+                   "amplifies": bool(rho == rho and rho > 1.10),
+                   "min": min(coefs), "max": max(coefs)}
+
+    desc = {}
+    for o in STAB_LABELS:
+        a, b = D_all.loc[D_all.is_coop == 1, o].dropna(), D_all.loc[D_all.is_coop == 0, o].dropna()
+        desc[o] = {"coop_mean": float(a.mean()), "coop_med": float(a.median()),
+                   "coop_n": int(len(a)), "nc_mean": float(b.mean()),
+                   "nc_med": float(b.median()), "nc_n": int(len(b))}
+
+    design = (f"institution-level cross-section, one row per institution over its "
+              f">= {min_q} full-methodology quarters; raw = coop, ctrl/cem/trim add "
+              f"mean log assets; no quarter fixed effects (unit is the institution); "
+              f"HC3 errors and a wild bootstrap over institutions; roa_vol and zscore "
+              f"winsorised at the pooled 1/99 within the institution-level sample.")
+    return {"reg": reg, "median": med, "summary": summ, "desc": desc,
+            "drops": drops, "wbounds": wbounds, "design": design,
+            "n_inst": int(len(D_all)), "n_cem": int(len(D_cem)), "n_trim": int(len(D_trim))}
+
+
+def subperiod_split(res, B=BOOT_B, cut="2022-01-01"):
+    """Controlled specification against banks for the eight panel outcomes on the two
+    subperiods either side of the entry into force of Res. 4.955/4.958 (3 Jan 2022),
+    beside the full-sample estimate. Clustered SE, wild bootstrap, N and institution
+    counts. Runs on the winsorised primary analysis frame so it inherits the primary
+    sample exactly."""
+    l2 = res["_l2"]
+    cutd = pd.Timestamp(cut)
+    windows = {"full": l2,
+               "p1": l2[l2["date"] < cutd],
+               "p2": l2[l2["date"] >= cutd]}
+    out = {"cut": cut, "reg": {w: {} for w in windows},
+           "counts": {}}
+    for w, fr in windows.items():
+        out["counts"][w] = {
+            "obs": int(len(fr)),
+            "n_coop": int(fr.loc[fr.is_coop == 1, "codigo"].nunique()),
+            "n_bank": int(fr.loc[fr.is_coop == 0, "codigo"].nunique()),
+            "date_min": str(fr["date"].min().date()), "date_max": str(fr["date"].max().date())}
+        for o in OUTCOMES:
+            r = fit(fr, o, "{o} ~ is_coop + log_assets + C(t)")
+            if not r:
+                continue
+            wb = wild_cluster_bootstrap(fr, o, "{o} ~ is_coop + log_assets + C(t)", B=B)
+            if wb:
+                r["p_boot"] = wb["p_boot"]
+                r["G_treated"] = wb["G_treated"]
+            out["reg"][w][o] = r
+    return out
+
+
+def w_stability_rows(P, res):
+    """Append the stability outcomes to the sections make_tables already parses, so the
+    two rows flow into t2/t3/t5 with no special-casing in the writer."""
+    st = res.get("stab")
+    if not st:
+        return
+    for o, lab in STAB_LABELS.items():
+        for sl, _ in SPECS:
+            r = st["reg"][sl].get(o)
+            if r:
+                pb = f"{r['p_boot']:.4f}" if "p_boot" in r else "na"
+                gt = r.get("G_treated", "na")
+                P(f"{lab}\t{sl}\t{r['coef']:.6f}\t{r['cl_lo']:.6f}\t{r['cl_hi']:.6f}\t{r['cl_p']:.3e}"
+                  f"\t{r['hc_lo']:.6f}\t{r['hc_hi']:.6f}\t{r['hc_p']:.3e}\t{r['N']}\t{r['n_clusters']}"
+                  f"\t{pb}\t{gt}")
+
+
+def w_subperiod(sp, path: Path):
+    b = io.StringIO()
+    P = lambda *a: print(*a, file=b)
+    P("# SUBPERIOD SPLIT (primary sample: singular cooperatives vs banks b1+b2)")
+    P(f"# controlled specification; boundary {sp['cut']} = entry into force of Res. 4.955/4.958")
+    P("\n[SUBPERIOD_COUNTS]  window\tobs\tn_coop\tn_bank\tdate_min\tdate_max")
+    for w in ("full", "p1", "p2"):
+        c = sp["counts"][w]
+        P(f"{w}\t{c['obs']}\t{c['n_coop']}\t{c['n_bank']}\t{c['date_min']}\t{c['date_max']}")
+    P("\n[SUBPERIOD_COEFFICIENTS]  outcome\twindow\tcoef\tcl_lo\tcl_hi\tcl_p\tp_boot\tN\tn_clusters")
+    for o, lab in OUTCOMES.items():
+        for w in ("full", "p1", "p2"):
+            r = sp["reg"][w].get(o)
+            if r:
+                pb = f"{r['p_boot']:.4f}" if "p_boot" in r else "na"
+                P(f"{lab}\t{w}\t{r['coef']:.6f}\t{r['cl_lo']:.6f}\t{r['cl_hi']:.6f}\t{r['cl_p']:.3e}"
+                  f"\t{pb}\t{r['N']}\t{r['n_clusters']}")
+    path.write_text(b.getvalue(), encoding="utf-8")
+
+
 def w_robustness(rob, primary, path: Path):
     b = io.StringIO()
     P = lambda *a: print(*a, file=b)
@@ -1300,6 +1488,12 @@ def w_results(res, het, path: Path, title: str):
         if d:
             P(f"{lab}\t{d['coop_mean']:.6f}\t{d['nc_mean']:.6f}\t{d['coop_med']:.6f}\t"
               f"{d['nc_med']:.6f}\t{d['coop_n']}\t{d['nc_n']}")
+    if res.get("stab"):
+        for o, lab in STAB_LABELS.items():
+            d = res["stab"]["desc"].get(o)
+            if d:
+                P(f"{lab}\t{d['coop_mean']:.6f}\t{d['nc_mean']:.6f}\t{d['coop_med']:.6f}\t"
+                  f"{d['nc_med']:.6f}\t{d['coop_n']}\t{d['nc_n']}")
 
     P("\n[MAIN_COEFFICIENTS]  outcome\tspec\tcoef\tcl_lo\tcl_hi\tcl_p\thc_lo\thc_hi\thc_p\tN\tn_clusters\tp_boot\tG_treated")
     P("# p_boot: restricted wild cluster bootstrap (Rademacher), na where not run; G_treated: treated clusters")
@@ -1312,6 +1506,7 @@ def w_results(res, het, path: Path, title: str):
                 P(f"{lab}\t{sl}\t{r['coef']:.6f}\t{r['cl_lo']:.6f}\t{r['cl_hi']:.6f}\t{r['cl_p']:.3e}"
                   f"\t{r['hc_lo']:.6f}\t{r['hc_hi']:.6f}\t{r['hc_p']:.3e}\t{r['N']}\t{r['n_clusters']}"
                   f"\t{pb}\t{gt}")
+    w_stability_rows(P, res)
 
     P("\n[STABILITY]  outcome\traw\ttrim\trho_trim_over_raw\tattenuation\ttier"
       "\tspecs_sig\tamplifies\tcoef_min\tcoef_max")
@@ -1328,6 +1523,18 @@ def w_results(res, het, path: Path, title: str):
             P(f"{lab}\t{raw:.6f}\t{trim:.6f}\t{rho_s}\t{at_s}\t{s['tier']}"
               f"\t{s['n_sig']}/{s['n_specs']}\t{s['amplifies']}"
               f"\t{s['min']:.6f}\t{s['max']:.6f}")
+    if res.get("stab"):
+        for o, lab in STAB_LABELS.items():
+            s = res["stab"]["summary"].get(o)
+            if not s:
+                continue
+            raw = res["stab"]["reg"]["raw"].get(o, {}).get("coef", float("nan"))
+            trim = res["stab"]["reg"]["trim"].get(o, {}).get("coef", float("nan"))
+            rho_s = "na" if s["rho"] != s["rho"] else f"{s['rho']:.4f}"
+            at_s = "na" if s["atten"] != s["atten"] else f"{s['atten']:.4f}"
+            P(f"{lab}\t{raw:.6f}\t{trim:.6f}\t{rho_s}\t{at_s}\t{s['tier']}"
+              f"\t{s['n_sig']}/{s['n_specs']}\t{s['amplifies']}"
+              f"\t{s['min']:.6f}\t{s['max']:.6f}")
 
     P("\n[CONDITIONAL_MEDIAN]  outcome\tspec\tols_coef\tmedian_coef\tratio\tskew")
     P("# where |median| is far below |ols|, the mean gap is produced by the tail")
@@ -1338,6 +1545,14 @@ def w_results(res, het, path: Path, title: str):
             if a and m:
                 r = m["coef"] / a["coef"] if abs(a["coef"]) > 1e-12 else float("nan")
                 P(f"{lab}\t{sl}\t{a['coef']:.6f}\t{m['coef']:.6f}\t{r:.3f}\t{m['skew']:.2f}")
+    if res.get("stab"):
+        for o, lab in STAB_LABELS.items():
+            for sl, _ in SPECS:
+                a = res["stab"]["reg"][sl].get(o)
+                m = res["stab"]["median"][sl].get(o)
+                if a and m:
+                    r = m["coef"] / a["coef"] if abs(a["coef"]) > 1e-12 else float("nan")
+                    P(f"{lab}\t{sl}\t{a['coef']:.6f}\t{m['coef']:.6f}\t{r:.3f}\t{m['skew']:.2f}")
 
     P("\n[CEM_WEIGHTING]  matched-sample OLS vs the weighted CEM estimand")
     cw = res.get("cem_w", {})
@@ -1406,6 +1621,21 @@ def w_results(res, het, path: Path, title: str):
     P("\n[WINSOR_BOUNDS]  outcome\tlo\thi")
     for c, (lo, hi) in res["winsor_bounds"].items():
         P(f"{OUTCOMES.get(c, c)}\t{lo:.6f}\t{hi:.6f}")
+
+    if res.get("stab"):
+        st = res["stab"]
+        P("\n[STABILITY_DESIGN]")
+        P(f"design\t{st['design']}")
+        P(f"institutions\t{st['n_inst']}")
+        P(f"cem_institutions\t{st['n_cem']}")
+        P(f"trim_institutions\t{st['n_trim']}")
+        d = st["drops"]
+        P(f"min_quarters\t{d['min_q']}")
+        P(f"coop_before\t{d['before']['coop']}\tcoop_after\t{d['after']['coop']}\tcoop_dropped\t{d['dropped_coop']}")
+        P(f"bank_before\t{d['before']['bank']}\tbank_after\t{d['after']['bank']}\tbank_dropped\t{d['dropped_bank']}")
+        for o, lab in STAB_LABELS.items():
+            lo, hi = st["wbounds"].get(o, (float("nan"), float("nan")))
+            P(f"winsor_bounds\t{lab}\t{lo:.6f}\t{hi:.6f}")
 
     if het is not None:
         P("\n[SYSTEM_COMPOSITION]")
@@ -1641,6 +1871,14 @@ def main():
     # sample, reverters, provisioning coverage, and the small-cluster simulation.
     bootstrap_main(primary, B=BOOT_B)
     het = system_heterogeneity(primary, panel, use_cluster=True, boot=True, B=BOOT_B)
+
+    # institution-level stability outcomes (roa_vol, zscore) for the three comparison
+    # groups that feed t2/t3/t5, plus the subperiod split (item: Res. 4.955/4.958).
+    primary["stab"] = stability_estimates(primary, B=BOOT_B)
+    broad["stab"] = stability_estimates(broad, B=BOOT_B)
+    within_market["stab"] = stability_estimates(within_market, B=BOOT_B)
+    subperiod = subperiod_split(primary, B=BOOT_B)
+
     robust = {
         "winsor": winsor_variants(panel),
         "adopt": adopter_selection(panel),
@@ -1664,10 +1902,11 @@ def main():
     w_diagnostics(panel, info, tcb_varied, primary, legacy, het, RESULTS / "diagnostics.txt")
     w_changes(primary, legacy, RESULTS / "changes_log.txt")
     w_robustness(robust, primary, RESULTS / "robustness.txt")
+    w_subperiod(subperiod, RESULTS / "subperiod.txt")
 
     print("done. wrote:")
     for f in ("results_primary.txt", "results_legacy.txt", "diagnostics.txt", "changes_log.txt",
-              "robustness.txt"):
+              "robustness.txt", "subperiod.txt"):
         print("  ", RESULTS / f)
     print("figures in:", FIGURES)
 

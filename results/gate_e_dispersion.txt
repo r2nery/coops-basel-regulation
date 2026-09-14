@@ -62,4 +62,6 @@ Cost-to-Income Ratio           0.10   0.07   0.08   0.08   0.08   0.12   0.10   
 Credit Portfolio / Assets      0.41   0.41   0.41   0.36   0.42   0.38   0.34   0.36
 Provisioning (provisions/gross credit)   0.41   0.41   0.33   0.25   0.26   0.28   0.32   0.49
 
+z-score (institution-level, residualised on mean log assets): coop sd 7.4423, bank sd 9.3498, ratio 0.80, coop IQR 8.5542, bank IQR 11.2177
+
 wrote C:\coops-basel-regulation\tables\t8_dispersion.tex
