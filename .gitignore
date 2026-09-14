@@ -2,3 +2,5 @@
 .claude
 /data
 __pycache__/
+references/*.pdf
+references/*.xlsx
