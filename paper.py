@@ -40,6 +40,7 @@ SRC = {
     "seg": PRUD / "segmentation",
     "assets": PRUD / "assets",
     "income": PRUD / "income_statement",
+    "liab": PRUD / "liabilities",
 }
 CAD_PATH = DATA / "raw" / "cadastro" / "cooperativas_cadastro.csv"
 FIGURES = ROOT / "figures"
@@ -97,6 +98,14 @@ ASSET_MAP = {
 }
 ASSET_NUM = ["credito_bruto", "provisao_credito"]
 
+# liabilities module: total deposits (line (a) of Captacoes), used only to define the
+# structural peer rung (banks with strictly positive deposits in every sample quarter)
+LIAB_MAP = {
+    "Código": "codigo", "Data": "data_str",
+    "Captações - Depósito Total (a)": "depositos",
+}
+LIAB_NUM = ["depositos"]
+
 INCOME_MAP = {
     "Código": "codigo", "Data": "data_str",
     "Resultado de Intermediação Financeira - Receitas de Intermediação Financeira (a) = (a1) + (a2) + (a3) + (a4) + (a5) + (a6)": "receitas_intermediacao",
@@ -133,6 +142,12 @@ FLOW_COLS = ["lucro_liquido", "receitas_intermediacao", "resultado_intermediacao
 # restricts on modal tcb AND modal td (td_stable, set in build_panel).
 #   banks_individual     b1, b2 reporting individually (td == I)
 #   banks_conglomerate   b1, b2 reporting as prudential conglomerates (td == C)
+# Business-model rung. "structural" keeps b1 banks with strictly positive total
+# deposits (liabilities line (a)) in every full-methodology quarter of their presence
+# in the sample: an ex-ante definition of a deposit-funded commercial bank.
+#   structural             b1 with positive deposits in every sample quarter
+#   commercial_individual  b1 reporting individually
+#   structural_individual  structural, reporting individually
 PEER_SETS = {
     "all": None,
     "bank_like": {"b1", "b2", "b4"},
@@ -140,6 +155,9 @@ PEER_SETS = {
     "commercial": {"b1"},
     "banks_individual": {"tcb": {"b1", "b2"}, "td": {"I"}},
     "banks_conglomerate": {"tcb": {"b1", "b2"}, "td": {"C"}},
+    "structural": {"tcb": {"b1"}, "structural": True},
+    "commercial_individual": {"tcb": {"b1"}, "td": {"I"}},
+    "structural_individual": {"tcb": {"b1"}, "td": {"I"}, "structural": True},
 }
 
 UF_REGION = {
@@ -275,6 +293,7 @@ def build_panel():
     seg, info["seg"] = load_folder(SRC["seg"], SEG_MAP, [])
     assets, info["assets"] = load_folder(SRC["assets"], ASSET_MAP, ASSET_NUM)
     income, info["income"] = load_folder(SRC["income"], INCOME_MAP, INCOME_NUM)
+    liab, info["liab"] = load_folder(SRC["liab"], LIAB_MAP, LIAB_NUM)
 
     seg["simplified"] = seg["simplified"].astype(str).str.strip().str.upper()
     seg["full_method"] = (seg["simplified"] == "NÃO").astype(int)
@@ -285,6 +304,8 @@ def build_panel():
     panel = panel.merge(assets[["codigo", "date"] + ASSET_NUM],
                         on=["codigo", "date"], how="left")
     panel = panel.merge(income[["codigo", "date"] + INCOME_NUM],
+                        on=["codigo", "date"], how="left")
+    panel = panel.merge(liab[["codigo", "date"] + LIAB_NUM],
                         on=["codigo", "date"], how="left")
 
     # ---- institution-stable cooperative classification from tcb ----------------
@@ -359,6 +380,7 @@ def build_panel():
     opex_q = panel["despesas_pessoal_q"].abs() + panel["despesas_admin_q"].abs()
     op_income_q = inter_ex_pcld + panel["tarifas_q"].abs()
     panel["cti_new"] = opex_q / op_income_q.where(op_income_q > 0, np.nan)
+    panel["op_income_ratio"] = op_income_q / A   # cost-to-income denominator over assets
     opex = panel["despesas_pessoal"].abs() + panel["despesas_admin"].abs()
     op_income = panel["resultado_intermediacao"] + panel["tarifas"].abs()
     panel["cti_semcum"] = opex / op_income.where(op_income > 0, np.nan)   # v5 "proper" cti
@@ -559,7 +581,8 @@ SPECS = [
 
 # ============================================================================= sample selection
 def select_sample(panel: pd.DataFrame, coop_def: str, cti_col: str, roa_col: str,
-                  nim_col: str, peer_set: str, exclude_segments: tuple = ()):
+                  nim_col: str, peer_set: str, exclude_segments: tuple = (),
+                  exclude_codigos: tuple = ()):
     """Apply the cooperative definition, the segment exclusion and the peer-set
     restriction. Returns the un-winsorised frame (all methodologies) plus the two
     drop diagnostics. Shared by run_pipeline and the robustness checks so that every
@@ -610,10 +633,26 @@ def select_sample(panel: pd.DataFrame, coop_def: str, cti_col: str, roa_col: str
             if "td_stable" not in sub.columns:
                 raise KeyError("td_stable not on the panel; cannot apply a reporting-level rung")
             peer_ok = peer_ok & sub["td_stable"].astype(str).isin(td_allowed)
+        if isinstance(allowed, dict) and allowed.get("structural"):
+            # strictly positive total deposits in every full-methodology quarter of the
+            # institution's presence; a missing deposits field in any quarter disqualifies
+            if "depositos" not in sub.columns:
+                raise KeyError("depositos not on the panel; cannot apply the structural rung")
+            fm = sub[(sub["is_coop"] == 0) & (sub["full_method"] == 1)]
+            ok = fm.groupby("codigo")["depositos"].agg(
+                lambda s: bool(s.notna().all() and (s > 0).all() and len(s) > 0))
+            peer_ok = peer_ok & sub["codigo"].map(ok).fillna(False).astype(bool)
+            peer_drop["structural_rule"] = "depositos > 0 in every full-methodology quarter"
         keep = (sub["is_coop"] == 1) | peer_ok
-        peer_drop = {"peers_before": int(before),
-                     "peers_after": int(sub.loc[keep & (sub.is_coop == 0), "codigo"].nunique())}
+        peer_drop.update({"peers_before": int(before),
+                          "peers_after": int(sub.loc[keep & (sub.is_coop == 0), "codigo"].nunique())})
         sub = sub[keep].copy()
+    if exclude_codigos:
+        drop = sub["codigo"].isin(set(exclude_codigos))
+        peer_drop["excluded_codigos"] = {"codigos": list(exclude_codigos),
+                                         "institutions_dropped": int(sub.loc[drop, "codigo"].nunique()),
+                                         "obs_dropped": int(drop.sum())}
+        sub = sub[~drop].copy()
     return sub, seg_drop, peer_drop
 
 
@@ -624,7 +663,8 @@ def run_pipeline(panel: pd.DataFrame, coop_def: str, winsor_scope: str,
                  peer_set: str = "all", coarsen: str = "size_q5_region",
                  cem_weight_mode: str = "per_obs",
                  exclude_segments: tuple = (),
-                 winsor_bounds: dict | None = None):
+                 winsor_bounds: dict | None = None,
+                 exclude_codigos: tuple = ()):
     """Returns a results dict for one configuration.
     coop_def: 'singular' | 'all_coop' | 'legacy_name'
     winsor_scope: 'analysis' | 'panel'
@@ -650,7 +690,7 @@ def run_pipeline(panel: pd.DataFrame, coop_def: str, winsor_scope: str,
     if cem_weight_mode not in ("per_obs", "per_institution"):
         raise ValueError("cem_weight_mode must be per_obs or per_institution")
     sub, seg_drop, peer_drop = select_sample(panel, coop_def, cti_col, roa_col, nim_col,
-                                             peer_set, exclude_segments)
+                                             peer_set, exclude_segments, exclude_codigos)
 
     cols = list(OUTCOMES)
     panel_bounds = winsorize(sub, cols)[1] if winsor_scope == "panel" else None
@@ -846,7 +886,8 @@ def run_pipeline(panel: pd.DataFrame, coop_def: str, winsor_scope: str,
                    "roa_col": roa_col, "nim_col": nim_col, "peer_set": peer_set,
                    "coarsen": coarsen, "cem_weight_mode": cem_weight_mode,
                    "exclude_segments": list(exclude_segments),
-                   "winsor_bounds": "given" if winsor_bounds is not None else None},
+                   "winsor_bounds": "given" if winsor_bounds is not None else None,
+                   "exclude_codigos": list(exclude_codigos)},
         "seg_drop": seg_drop,
         "peer_drop": peer_drop,
         "n_inst": int(l2["codigo"].nunique()),
@@ -1303,7 +1344,7 @@ def w_stability_rows(P, res):
                 gt = r.get("G_treated", "na")
                 P(f"{lab}\t{sl}\t{r['coef']:.6f}\t{r['cl_lo']:.6f}\t{r['cl_hi']:.6f}\t{r['cl_p']:.3e}"
                   f"\t{r['hc_lo']:.6f}\t{r['hc_hi']:.6f}\t{r['hc_p']:.3e}\t{r['N']}\t{r['n_clusters']}"
-                  f"\t{pb}\t{gt}")
+                  f"\t{pb}\t{gt}\t{r.get('cl_se', float('nan')):.6f}\t{r.get('hc_se', float('nan')):.6f}")
 
 
 def w_subperiod(sp, path: Path):
@@ -1532,8 +1573,8 @@ def w_results(res, het, path: Path, title: str):
                 P(f"{lab}\t{d['coop_mean']:.6f}\t{d['nc_mean']:.6f}\t{d['coop_med']:.6f}\t"
                   f"{d['nc_med']:.6f}\t{d['coop_n']}\t{d['nc_n']}")
 
-    P("\n[MAIN_COEFFICIENTS]  outcome\tspec\tcoef\tcl_lo\tcl_hi\tcl_p\thc_lo\thc_hi\thc_p\tN\tn_clusters\tp_boot\tG_treated")
-    P("# p_boot: restricted wild cluster bootstrap (Rademacher), na where not run; G_treated: treated clusters")
+    P("\n[MAIN_COEFFICIENTS]  outcome\tspec\tcoef\tcl_lo\tcl_hi\tcl_p\thc_lo\thc_hi\thc_p\tN\tn_clusters\tp_boot\tG_treated\tcl_se\thc_se")
+    P("# p_boot: restricted wild cluster bootstrap (Rademacher), na where not run; G_treated: treated clusters; cl_se/hc_se: standard errors")
     for c, lab in OUTCOMES.items():
         for sl, _ in SPECS:
             r = res["reg"][sl].get(c)
@@ -1542,7 +1583,7 @@ def w_results(res, het, path: Path, title: str):
                 gt = r.get("G_treated", "na")
                 P(f"{lab}\t{sl}\t{r['coef']:.6f}\t{r['cl_lo']:.6f}\t{r['cl_hi']:.6f}\t{r['cl_p']:.3e}"
                   f"\t{r['hc_lo']:.6f}\t{r['hc_hi']:.6f}\t{r['hc_p']:.3e}\t{r['N']}\t{r['n_clusters']}"
-                  f"\t{pb}\t{gt}")
+                  f"\t{pb}\t{gt}\t{r.get('cl_se', float('nan')):.6f}\t{r.get('hc_se', float('nan')):.6f}")
     w_stability_rows(P, res)
 
     P("\n[STABILITY]  outcome\traw\ttrim\trho_trim_over_raw\tattenuation\ttier"
@@ -1900,6 +1941,16 @@ def main():
                                  use_cluster=True, cti_col="cti_new",
                                  roa_col="roa_ann", nim_col="nim_ann",
                                  peer_set="banks", coarsen="size_q5_region")
+    # Two further rungs of the peer ladder, printed in t3 beside the three above:
+    # commercial (b1 only) and structural (b1 with positive deposits in every quarter).
+    commercial = run_pipeline(panel, coop_def="singular", winsor_scope="analysis",
+                              use_cluster=True, cti_col="cti_new",
+                              roa_col="roa_ann", nim_col="nim_ann",
+                              peer_set="commercial", coarsen="size_q5")
+    structural = run_pipeline(panel, coop_def="singular", winsor_scope="analysis",
+                              use_cluster=True, cti_col="cti_new",
+                              roa_col="roa_ann", nim_col="nim_ann",
+                              peer_set="structural", coarsen="size_q5")
     legacy = run_pipeline(panel, coop_def="legacy_name", winsor_scope="panel",
                           use_cluster=False, cti_col="cti_gross",
                           roa_col="roa_legacy", nim_col="nim_legacy")
@@ -1914,6 +1965,8 @@ def main():
     primary["stab"] = stability_estimates(primary, B=BOOT_B)
     broad["stab"] = stability_estimates(broad, B=BOOT_B)
     within_market["stab"] = stability_estimates(within_market, B=BOOT_B)
+    commercial["stab"] = stability_estimates(commercial, B=BOOT_B)
+    structural["stab"] = stability_estimates(structural, B=BOOT_B)
     subperiod = subperiod_split(primary, B=BOOT_B)
 
     robust = {
@@ -1933,6 +1986,10 @@ def main():
               "RESULTS (BROAD PEER SET / all non-cooperative full-methodology institutions)")
     w_results(within_market, None, RESULTS / "results_within_market.txt",
               "RESULTS (WITHIN-MARKET / banks, region-exact matching)")
+    w_results(commercial, None, RESULTS / "results_commercial.txt",
+              "RESULTS (COMMERCIAL / cooperatives vs b1 banks only)")
+    w_results(structural, None, RESULTS / "results_structural.txt",
+              "RESULTS (STRUCTURAL / cooperatives vs b1 banks with positive deposits in every quarter)")
     w_results(no_s12, None, RESULTS / "results_no_s12.txt",
               "RESULTS (SEGMENT-RESTRICTED / banks, excluding modal S1 and S2)")
     w_results(legacy, None, RESULTS / "results_legacy.txt", "RESULTS (LEGACY / paper reproduction)")

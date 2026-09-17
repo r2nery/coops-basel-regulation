@@ -29,6 +29,9 @@ Writes results/gate_d_distribution.txt and figures/fig12_capital_quantiles.png.
 """
 from __future__ import annotations
 import io
+import os
+import sys
+from concurrent.futures import ProcessPoolExecutor
 import numpy as np
 import pandas as pd
 import statsmodels.formula.api as smf
@@ -39,6 +42,30 @@ import paper as P
 
 BUF = io.StringIO()
 QUANTILES = [0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90]
+_num_args = [a for a in sys.argv[1:] if a.isdigit()]
+B_QBOOT = int(_num_args[0]) if _num_args else 199   # institution bootstrap for t7
+SEED_QBOOT = 20260808
+
+
+def _qboot_cell(o, q, sub, B, seed):
+    """Institution block bootstrap of one quantile-regression cell (worker process)."""
+    rng = np.random.default_rng(seed)
+    groups = {k: g for k, g in sub.groupby("codigo")}
+    ids = np.array(list(groups))
+    out = []
+    for _ in range(B):
+        draw = rng.choice(ids, size=len(ids), replace=True)
+        bs = pd.concat([groups[i] for i in draw], ignore_index=True)
+        if bs["is_coop"].nunique() < 2:
+            continue
+        try:
+            m = smf.quantreg(f"{o} ~ is_coop + log_assets + C(t)", data=bs).fit(q=q)
+            out.append(float(m.params["is_coop"]))
+        except Exception:
+            continue
+    if len(out) < 30:
+        return o, q, float("nan"), float("nan"), len(out)
+    return o, q, float(np.percentile(out, 2.5)), float(np.percentile(out, 97.5)), len(out)
 CORE = ["basileia_num", "leverage", "roa", "cti", "credit_ratio", "prov_ratio"]
 BASE = dict(coop_def="singular", winsor_scope="analysis", use_cluster=True,
             cti_col="cti_new", roa_col="roa_ann", nim_col="nim_ann",
@@ -181,10 +208,10 @@ def figure(store, l2):
     bins = np.linspace(0, TOP, 60)
     cc, bb = c[c <= TOP], b[b <= TOP]
     ax[1].hist(cc, bins=bins, density=True, alpha=.55,
-               color="tab:blue", label=f"cooperatives ({100*(c>TOP).mean():.1f}% above)")
+               color="tab:blue", label=f"cooperatives ({100*(c>TOP).mean():.1f}% above {TOP:.0f}%)")
     ax[1].hist(bb, bins=bins, density=True, alpha=.55,
-               color="tab:red", label=f"banks ({100*(b>TOP).mean():.1f}% above)")
-    ax[1].set_xlabel("Basel capital ratio (%)")
+               color="tab:red", label=f"banks ({100*(b>TOP).mean():.1f}% above {TOP:.0f}%)")
+    ax[1].set_xlabel(f"Basel capital ratio (%), truncated at {TOP:.0f}%")
     ax[1].set_ylabel("density")
     ax[1].set_title("(b) Capital ratio distributions")
     ax[1].legend(fontsize=8)
@@ -200,43 +227,106 @@ def write_quantile_table(store, l2):
     tab = P.ROOT / "tables"
     tab.mkdir(exist_ok=True, parents=True)
     show = [0.10, 0.25, 0.50, 0.75, 0.90]
-    rows = []
+    subs, vals, olss = {}, {}, {}
     for o in CORE:
         sub = l2[["is_coop", "log_assets", "date", "codigo", o]].dropna().copy()
         if len(sub) < 300:
             continue
         sub["t"] = sub["date"].dt.to_period("Q").apply(lambda x: x.ordinal)
-        vals = {}
+        subs[o] = sub
+        vals[o] = {}
         for q in show:
             if o in store and q in store[o]:
-                vals[q] = store[o][q]
+                vals[o][q] = store[o][q]
             else:
                 try:
                     m = smf.quantreg(f"{o} ~ is_coop + log_assets + C(t)",
                                      data=sub).fit(q=q)
-                    vals[q] = float(m.params["is_coop"])
+                    vals[o][q] = float(m.params["is_coop"])
                 except Exception:
-                    vals[q] = float("nan")
-        ols = P.fit(l2, o, "{o} ~ is_coop + log_assets + C(t)")
-        d = 2 if "basileia" in o else 4
-        lab = P.OUTCOMES[o].replace("%", r"\%")
+                    vals[o][q] = float("nan")
+        olss[o] = P.fit(l2, o, "{o} ~ is_coop + log_assets + C(t)")
+    # institution block bootstrap of every cell, one worker per cell
+    say(f"\nbootstrap intervals for the quantile table: B={B_QBOOT} resamples of "
+        f"institutions per cell, {len(subs) * len(show)} cells")
+    tasks = [(o, q, subs[o], B_QBOOT, SEED_QBOOT + 17 * i + int(q * 100))
+             for i, o in enumerate(subs) for q in show]
+    ci = {}
+    workers = max(1, min(8, (os.cpu_count() or 2) - 2))
+    with ProcessPoolExecutor(max_workers=workers) as ex:
+        for o, q, lo, hi, nb in ex.map(_qboot_cell, *zip(*tasks)):
+            ci[(o, q)] = (lo, hi, nb)
+    say("[QUANTILE_CI]  outcome\tq\tcoef\tci_lo\tci_hi\tdraws")
+    for o in subs:
+        for q in show:
+            lo, hi, nb = ci[(o, q)]
+            say(f"{P.OUTCOMES[o]}\t{q:.2f}\t{vals[o][q]:.6f}\t{lo:.6f}\t{hi:.6f}\t{nb}")
+    render_t7(vals, ci, olss, B_QBOOT)
+
+
+SHORT_T7 = {"basileia_num": "Basel ratio (pp)", "leverage": "Leverage",
+            "roa": "Return on assets", "cti": "Cost-to-income",
+            "credit_ratio": "Credit / assets", "prov_ratio": "Provisioning ratio"}
+SHOW_T7 = [0.10, 0.25, 0.50, 0.75, 0.90]
+
+
+def render_t7(vals, ci, olss, B_):
+    """Write tables/t7_quantiles.tex from the quantile coefficients, their bootstrap
+    intervals and the OLS mean with its clustered interval."""
+    tab = P.ROOT / "tables"
+    tab.mkdir(exist_ok=True, parents=True)
+    rows = []
+    for o in vals:
+        d = 2 if "basileia" in o else 3
+        lab = SHORT_T7.get(o, P.OUTCOMES[o]).replace("%", r"\%")
         rows.append(f"{lab} & "
-                    + " & ".join(f"{vals[q]:.{d}f}" for q in show)
-                    + f" & {ols['coef']:.{d}f} " + r"\\")
-    body = (r"\small" + "\n" + r"\setlength{\tabcolsep}{5pt}" + "\n"
+                    + " & ".join(f"{vals[o][q]:.{d}f}" for q in SHOW_T7)
+                    + f" & {olss[o]['coef']:.{d}f} " + r"\\")
+        rows.append(" & " + " & ".join(f"[{ci[(o, q)][0]:.{d}f}, {ci[(o, q)][1]:.{d}f}]" for q in SHOW_T7)
+                    + f" & [{olss[o]['cl_lo']:.{d}f}, {olss[o]['cl_hi']:.{d}f}] " + r"\\")
+    body = (r"\footnotesize" + "\n" + r"\setlength{\tabcolsep}{2.5pt}" + "\n"
             + r"\begin{tabular}{lrrrrrr}" + "\n" + r"\toprule" + "\n"
             + r"Outcome & $q_{10}$ & $q_{25}$ & $q_{50}$ & $q_{75}$ & $q_{90}$ & Mean \\"
             + "\n" + r"\midrule" + "\n" + "\n".join(rows) + "\n"
             + r"\bottomrule" + "\n" + r"\end{tabular}" + "\n"
             + r"\begin{tablenotes}[flushleft]\footnotesize" + "\n"
             + r"\item Cooperative coefficient from quantile regressions of each outcome "
-              r"on the cooperative indicator, log assets and quarter fixed effects, at "
+              r"on the cooperative dummy, log assets and quarter fixed effects, at "
               r"five quantiles of the conditional distribution, with the OLS conditional "
-              r"mean for comparison. Where the coefficient changes sign across quantiles, "
-              r"the mean describes neither tail." + "\n"
+              r"mean for comparison. In brackets, 95 percent intervals from a bootstrap "
+              f"that resamples institutions ({B_} draws per cell) for the quantile "
+              r"cells and the institution-clustered interval for the mean. Where the "
+              r"coefficient changes sign across quantiles, the mean describes neither "
+              r"tail." + "\n"
             + r"\end{tablenotes}" + "\n")
     (tab / "t7_quantiles.tex").write_text(body, encoding="utf-8")
     say(f"wrote {tab / 't7_quantiles.tex'}")
+
+
+def t7_from_results():
+    """Rebuild tables/t7 from results/gate_d_distribution.txt and results_primary.txt
+    without recomputing the bootstrap."""
+    lab2key = {v: k for k, v in P.OUTCOMES.items()}
+    txt = (P.RESULTS / "gate_d_distribution.txt").read_text(encoding="utf-8")
+    block = txt.split("[QUANTILE_CI]")[1].split("wrote ")[0].strip().split("\n")[1:]
+    vals, ci, draws = {}, {}, set()
+    for line in block:
+        p = line.split("\t")
+        if len(p) < 6 or p[0] not in lab2key:
+            continue
+        o, q = lab2key[p[0]], float(p[1])
+        vals.setdefault(o, {})[q] = float(p[2])
+        ci[(o, q)] = (float(p[3]), float(p[4]), int(p[5]))
+        draws.add(int(p[5]))
+    prim = (P.RESULTS / "results_primary.txt").read_text(encoding="utf-8")
+    sec = prim.split("[MAIN_COEFFICIENTS]")[1].split("\n[")[0].strip().split("\n")
+    olss = {}
+    for line in sec:
+        p = line.split("\t")
+        if len(p) >= 5 and p[0] in lab2key and p[1] == "ctrl":
+            olss[lab2key[p[0]]] = {"coef": float(p[2]), "cl_lo": float(p[3]), "cl_hi": float(p[4])}
+    vals = {o: v for o, v in vals.items() if o in olss}
+    render_t7(vals, ci, olss, max(draws) if draws else B_QBOOT)
 
 
 def main():
@@ -255,4 +345,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if "--table-only" in sys.argv:
+        t7_from_results()
+    else:
+        main()

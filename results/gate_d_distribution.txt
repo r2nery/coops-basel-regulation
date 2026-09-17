@@ -94,6 +94,39 @@ size_q10_region               -6.88       -16.07             21.6
 
 Reported so the reader can see that the choice of coarsening, not only its
 existence, is an analyst decision with consequences.
+
+bootstrap intervals for the quantile table: B=199 resamples of institutions per cell, 30 cells
+[QUANTILE_CI]  outcome	q	coef	ci_lo	ci_hi	draws
+Basel Capital Ratio (%)	0.10	2.809235	2.061210	3.754448	199
+Basel Capital Ratio (%)	0.25	1.608546	0.186378	2.761605	199
+Basel Capital Ratio (%)	0.50	-2.180597	-6.522224	1.430966	199
+Basel Capital Ratio (%)	0.75	-14.229272	-22.447383	-8.200270	199
+Basel Capital Ratio (%)	0.90	-34.370178	-47.278561	-21.823885	199
+Leverage (liabilities/assets)	0.10	0.294258	0.194460	0.370308	199
+Leverage (liabilities/assets)	0.25	0.116812	0.068580	0.173627	199
+Leverage (liabilities/assets)	0.50	0.028306	0.003084	0.061642	199
+Leverage (liabilities/assets)	0.75	-0.009260	-0.020676	0.008460	199
+Leverage (liabilities/assets)	0.90	-0.022840	-0.037136	-0.006844	199
+Return on Assets	0.10	0.044046	0.031802	0.061695	199
+Return on Assets	0.25	0.025543	0.019917	0.030250	199
+Return on Assets	0.50	0.017111	0.013510	0.021332	199
+Return on Assets	0.75	0.009751	0.004932	0.014645	199
+Return on Assets	0.90	-0.005667	-0.016935	0.003940	199
+Cost-to-Income Ratio	0.10	0.109610	0.032360	0.152206	199
+Cost-to-Income Ratio	0.25	0.006224	-0.057368	0.053367	199
+Cost-to-Income Ratio	0.50	-0.179565	-0.276918	-0.098659	199
+Cost-to-Income Ratio	0.75	-0.646913	-0.881734	-0.475970	199
+Cost-to-Income Ratio	0.90	-1.756052	-2.609303	-1.147241	199
+Credit Portfolio / Assets	0.10	0.382707	0.342063	0.429131	199
+Credit Portfolio / Assets	0.25	0.424191	0.360837	0.466530	199
+Credit Portfolio / Assets	0.50	0.244846	0.136589	0.352605	199
+Credit Portfolio / Assets	0.75	-0.018532	-0.100422	0.067793	199
+Credit Portfolio / Assets	0.90	-0.170165	-0.219408	-0.108240	199
+Provisioning (provisions/gross credit)	0.10	0.030073	0.026207	0.033483	199
+Provisioning (provisions/gross credit)	0.25	0.029927	0.026084	0.033866	199
+Provisioning (provisions/gross credit)	0.50	0.023587	0.015897	0.028831	199
+Provisioning (provisions/gross credit)	0.75	0.000811	-0.017009	0.017898	199
+Provisioning (provisions/gross credit)	0.90	-0.053874	-0.093400	-0.015372	199
 wrote C:\coops-basel-regulation\tables\t7_quantiles.tex
 
 wrote C:\coops-basel-regulation\figures\fig12_capital_quantiles.png

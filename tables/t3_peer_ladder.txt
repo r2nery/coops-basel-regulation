@@ -1,21 +1,32 @@
-\begin{tabular}{lrrr}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrrrr}
 \toprule
-Outcome & All non-cooperatives & Banks & Banks, within region \\
+Outcome & All non-cooperatives & Banks & Banks, within region & Commercial & Structural \\
 \midrule
-Basel capital ratio (pp) & -8.27$^{***}$ & -15.77$^{***}$ & -7.02$^{*}$ \\
-Leverage & 0.1280$^{***}$ & 0.1220$^{***}$ & 0.1052$^{***}$ \\
-Return on assets (ann.) & 0.0171$^{***}$ & 0.0215$^{***}$ & 0.0131$^{*}$ \\
-Cost-to-income ratio & -1.8277$^{***}$ & -0.7923$^{***}$ & -0.6966$^{*}$ \\
-Credit portfolio / assets & 0.2030$^{***}$ & 0.1881$^{***}$ & -0.0254 \\
-Provisioning ratio & -0.0330$^{***}$ & -0.0012 & 0.0010 \\
-Intermediation margin (ann.) & -0.0910$^{***}$ & -0.0190 & -0.0201 \\
-Funding ratio & 0.1768$^{***}$ & 0.0887$^{**}$ & 0.0548 \\
+Basel capital ratio (pp) & -8.27$^{***}$ & -15.77$^{***}$ & -7.02$^{*}$ & -17.11$^{***}$ & -7.54$^{**}$ \\
+ & (1.52) & (3.14) & (3.03) & (4.57) & (2.91) \\
+Leverage & 0.1280$^{***}$ & 0.1220$^{***}$ & 0.1052$^{***}$ & 0.0881$^{***}$ & 0.0356$^{*}$ \\
+ & (0.0127) & (0.0204) & (0.0276) & (0.0231) & (0.0181) \\
+Return on assets (ann.) & 0.0171$^{***}$ & 0.0215$^{***}$ & 0.0131$^{*}$ & 0.0282$^{***}$ & 0.0283$^{***}$ \\
+ & (0.0032) & (0.0036) & (0.0061) & (0.0044) & (0.0039) \\
+Cost-to-income ratio & -1.8277$^{***}$ & -0.7923$^{***}$ & -0.6966$^{*}$ & -0.9740$^{***}$ & -1.0180$^{***}$ \\
+ & (0.1840) & (0.1298) & (0.3145) & (0.1716) & (0.1991) \\
+Credit portfolio / assets & 0.2030$^{***}$ & 0.1881$^{***}$ & -0.0254 & 0.2614$^{***}$ & 0.2425$^{***}$ \\
+ & (0.0200) & (0.0304) & (0.0634) & (0.0287) & (0.0313) \\
+Provisioning ratio & -0.0330$^{***}$ & -0.0012 & 0.0010 & 0.0062 & 0.0080 \\
+ & (0.0059) & (0.0071) & (0.0087) & (0.0064) & (0.0061) \\
+Intermediation margin (ann.) & -0.0910$^{***}$ & -0.0190 & -0.0201 & 0.0046 & 0.0207$^{**}$ \\
+ & (0.0121) & (0.0133) & (0.0144) & (0.0118) & (0.0072) \\
+Funding ratio & 0.1768$^{***}$ & 0.0887$^{**}$ & 0.0548 & 0.0299 & -0.0348 \\
+ & (0.0199) & (0.0277) & (0.0369) & (0.0315) & (0.0284) \\
 \midrule
-Return on assets volatility & -0.0624$^{***}$ & -0.0189$^{***}$ & -0.0170$^{***}$ \\
-Z-score & 7.79$^{***}$ & 6.32$^{***}$ & 5.05 \\
+Return on assets volatility & -0.0624$^{***}$ & -0.0189$^{***}$ & -0.0170$^{***}$ & -0.0153$^{***}$ & -0.0111$^{***}$ \\
+ & (0.0044) & (0.0021) & (0.0037) & (0.0022) & (0.0021) \\
+Z-score & 7.79$^{***}$ & 6.32$^{***}$ & 5.05 & 7.34$^{***}$ & 7.69$^{***}$ \\
+ & (0.87) & (1.08) & (3.19) & (1.16) & (1.24) \\
 \midrule
-Comparison institutions & 483 & 144 & 144 \\
+Comparison institutions & 483 & 144 & 144 & 105 & 94 \\
 \bottomrule
 \end{tabular}
 
-NOTE: Columns 1 and 2 are the controlled specification and differ only in the comparison group; column 3 additionally exact-matches on macro-region. The broad group includes 196 institutions reporting zero credit and zero deposits. Bank-like (b1+b2+b4) and commercial-only (b1) variants run through the same parameter and are not shown.
+NOTE: Controlled specification (log assets and quarter fixed effects) in every column except the third, which additionally exact-matches on macro-region. Standard errors clustered by institution in parentheses; HC3 for the two institution-level stability rows. The broad group includes 196 institutions reporting zero credit and zero deposits. Commercial: b1 banks only. Structural: b1 banks with strictly positive total deposits in every full-methodology quarter of their presence in the sample, an ex-ante business-model definition of a deposit-funded bank.

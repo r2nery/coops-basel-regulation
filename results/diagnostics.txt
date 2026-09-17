@@ -5,6 +5,7 @@ summary	61377	3	3
 seg	42559	3	3
 assets	60025	1354	1351
 income	61377	3	3
+liab	61377	3	3
 
 [FLOW_DECUMULATION]  field	status	nonnull_before	nonnull_after	orphan_closing_qtrs
 lucro_liquido	ok	61068	60863	205

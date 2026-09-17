@@ -31,8 +31,10 @@ FILES = {
     "within": RESULTS / "results_within_market.txt",
     "no_s12": RESULTS / "results_no_s12.txt",     # optional; see OPTIONAL below
     "subperiod": RESULTS / "subperiod.txt",       # optional; feeds t9
+    "commercial": RESULTS / "results_commercial.txt",   # optional; t3 column 4
+    "structural": RESULTS / "results_structural.txt",   # optional; t3 column 5
 }
-OPTIONAL = {"no_s12", "subperiod"}                 # missing file is not an error
+OPTIONAL = {"no_s12", "subperiod", "commercial", "structural"}   # missing file is not an error
 
 SPECS = ["raw", "ctrl", "cem", "trim"]
 SPEC_HEAD = {"raw": "(1) Raw", "ctrl": "(2) Controls", "cem": "(3) CEM", "trim": "(4) Trim"}
@@ -83,9 +85,13 @@ def coefs(sections):
         if len(r) < 11:
             continue
         cell = {"coef": float(r[2]), "p": float(r[5]), "hc_p": float(r[8]),
-                "N": int(r[9]), "clusters": int(r[10])}
+                "N": int(r[9]), "clusters": int(r[10]),
+                "cl_lo": float(r[3]), "cl_hi": float(r[4]),
+                "hc_lo": float(r[6]), "hc_hi": float(r[7])}
         if len(r) >= 12 and r[11] not in ("na", ""):
             cell["p_boot"] = float(r[11])
+        if len(r) >= 15:
+            cell["cl_se"], cell["hc_se"] = float(r[13]), float(r[14])
         out.setdefault(r[0], {})[r[1]] = cell
     return out
 
@@ -217,7 +223,7 @@ def t1(P):
             + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}")
     emit("t1_descriptives", body,
          "Unconditional. The median cooperative Basel ratio exceeds the median bank "
-         "ratio while the size-adjusted differential in Table 2 is negative: "
+         "ratio while the size-adjusted differential in Table 3 is negative: "
          "cooperatives are smaller than the banks in this population and capital "
          "ratios fall with size.")
 
@@ -260,32 +266,80 @@ def t2(P):
          "wild bootstrap over institutions, and their stars are HC3.")
 
 
-def t3(P, B, W):
-    cb, cp, cw = coefs(B), coefs(P), coefs(W)
+def t2_ci(P):
+    """Supplement version of the main table: every cell with its 95 percent interval."""
+    c = coefs(P)
     rows = []
     for key, lab in ORDER + STAB_ORDER:
+        if key not in c:
+            continue
         k = dec_for(key)
-        cells = []
-        for src, spec in ((cb, "ctrl"), (cp, "ctrl"), (cw, "cem")):
-            v = src.get(key, {}).get(spec)
-            cells.append(f"{f(v['coef'],k)}{pstar(v,key)}" if v else "")
+        cells, cis = [], []
+        for sp in SPECS:
+            v = c[key].get(sp)
+            if not v:
+                cells.append("")
+                cis.append("")
+                continue
+            lo, hi = ((v["hc_lo"], v["hc_hi"]) if key in STAB_LABELS
+                      else (v["cl_lo"], v["cl_hi"]))
+            cells.append(f"{f(v['coef'],k)}{pstar(v,key)}")
+            cis.append(f"[{f(lo,k)}, {f(hi,k)}]")
         if key == STAB_ORDER[0][0]:
             rows.append("\\midrule")
         rows.append(f"{esc(lab)} & " + " & ".join(cells) + " \\\\")
-    nb = kv(B.get("SAMPLE", []))
-    np_ = kv(P.get("SAMPLE", []))
-    body = ("\\begin{tabular}{lrrr}\n\\toprule\n"
-            "Outcome & All non-cooperatives & Banks & Banks, within region \\\\\n"
+        rows.append(" & " + " & ".join(cis) + " \\\\")
+    body = ("\\begin{tabular}{lrrrr}\n\\toprule\n"
+            "Outcome & " + " & ".join(SPEC_HEAD[x] for x in SPECS)
+            + " \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}")
+    emit("t2_main_ci", body, small="footnotesize", note=
+         "Supplement version of the main table: each coefficient with its 95 percent "
+         "confidence interval beneath it, clustered by institution for the eight panel "
+         "outcomes and HC3 for the two institution-level stability rows. Stars as in the "
+         "main table.")
+
+
+def t3(P, B, W, C=None, S=None):
+    """Peer ladder: broad, banks, banks within region, and, when their results files
+    exist, commercial (b1) and structural (b1 with positive deposits in every quarter).
+    Clustered standard errors (HC3 for the stability rows) under every coefficient."""
+    srcs = [("All non-cooperatives", coefs(B), "ctrl", B),
+            ("Banks", coefs(P), "ctrl", P),
+            ("Banks, within region", coefs(W), "cem", W)]
+    if C is not None:
+        srcs.append(("Commercial", coefs(C), "ctrl", C))
+    if S is not None:
+        srcs.append(("Structural", coefs(S), "ctrl", S))
+    rows = []
+    for key, lab in ORDER + STAB_ORDER:
+        k = dec_for(key)
+        cells, ses = [], []
+        for _, src, spec, _ in srcs:
+            v = src.get(key, {}).get(spec)
+            cells.append(f"{f(v['coef'],k)}{pstar(v,key)}" if v else "")
+            se = None
+            if v:
+                se = v.get("hc_se") if key in STAB_LABELS else v.get("cl_se")
+            ses.append(f"({f(se,k)})" if se is not None and se == se else "")
+        if key == STAB_ORDER[0][0]:
+            rows.append("\\midrule")
+        rows.append(f"{esc(lab)} & " + " & ".join(cells) + " \\\\")
+        rows.append(" & " + " & ".join(ses) + " \\\\")
+    counts = [kv(s.get("SAMPLE", [])).get("analysis_noncoops", "") for *_, s in srcs]
+    body = ("\\setlength{\\tabcolsep}{3pt}\n"
+            "\\begin{tabular}{l" + "r" * len(srcs) + "}\n\\toprule\n"
+            "Outcome & " + " & ".join(h for h, *_ in srcs) + " \\\\\n"
             "\\midrule\n" + "\n".join(rows) + "\n\\midrule\n"
-            f"Comparison institutions & {nb.get('analysis_noncoops','')} & "
-            f"{np_.get('analysis_noncoops','')} & {np_.get('analysis_noncoops','')} \\\\\n"
+            "Comparison institutions & " + " & ".join(counts) + " \\\\\n"
             "\\bottomrule\n\\end{tabular}")
-    emit("t3_peer_ladder", body, small=True, note=
-         "Columns 1 and 2 are the controlled specification and differ only in the "
-         "comparison group; column 3 additionally exact-matches on macro-region. The "
-         "broad group includes 196 institutions reporting zero credit and zero "
-         "deposits. Bank-like (b1+b2+b4) and commercial-only (b1) variants run through "
-         "the same parameter and are not shown.")
+    emit("t3_peer_ladder", body, small="footnotesize", note=
+         "Controlled specification (log assets and quarter fixed effects) in every column "
+         "except the third, which additionally exact-matches on macro-region. Standard "
+         "errors clustered by institution in parentheses; HC3 for the two institution-level "
+         "stability rows. The broad group includes 196 institutions reporting zero credit "
+         "and zero deposits. Commercial: b1 banks only. Structural: b1 banks with strictly "
+         "positive total deposits in every full-methodology quarter of their presence in "
+         "the sample, an ex-ante business-model definition of a deposit-funded bank.")
 
 
 def t4(P):
@@ -461,6 +515,8 @@ def main():
 
     P, B, W = (parse(FILES[k]) for k in ("primary", "broad", "within"))
     S = parse(FILES["no_s12"]) if FILES["no_s12"].exists() else None
+    C = parse(FILES["commercial"]) if FILES["commercial"].exists() else None
+    S2 = parse(FILES["structural"]) if FILES["structural"].exists() else None
     s = kv(P.get("SAMPLE", []))
     print(f"primary: {s.get('analysis_coops')} cooperatives, "
           f"{s.get('analysis_noncoops')} banks, {s.get('analysis_obs')} observations")
@@ -468,7 +524,8 @@ def main():
 
     guard(t1, P)
     guard(t2, P)
-    guard(t3, P, B, W)
+    guard(t2_ci, P)
+    guard(t3, P, B, W, C, S2)
     guard(t4, P)
     guard(t5, P)
     if S is not None:
