@@ -109,7 +109,8 @@ to assign system membership. The `data/` tree is git-ignored because of its size
 pipeline expects:
 
 ```
-data/raw/if.data/prudential_conglomerates/{summary,segmentation,assets,income_statement}/
+data/raw/if.data/prudential_conglomerates/{summary,segmentation,assets,liabilities,income_statement}/
+data/raw/if.data/individual_institutions/summary/      (gate_f validation only)
 data/raw/cadastro/cooperativas_cadastro.csv
 ```
 
