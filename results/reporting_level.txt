@@ -1,0 +1,153 @@
+GATE F — REPORTING LEVEL  (bootstrap B=1999)
+# banks rung: 130 cooperatives, 144 banks, 7234 obs
+
+============================================================================================
+A — reporting level in the analysis sample (IF.data prudential report, field TD)
+============================================================================================
+TD = C: prudential-conglomerate consolidation; TD = I: institution reporting
+individually. Modal TD over the institution's analysis-sample quarters defines
+its level; switchers are institutions whose TD takes both values.
+
+[REPORTING_LEVEL]  group	level	institutions	quarters_by_row_td	quarters_by_modal_td	mean_log_assets
+banks	C	87	2587	2604	16.155
+banks	I	57	1597	1580	13.690
+banks	missing	0	0	0	nan
+# banks: 144 institutions, 4184 institution-quarters, 25 switch level inside the analysis sample
+#   switcher 1000080343 JOHN DEERE - PRUDENCIAL (modal C): 2017:C 2018:C 2019:C 2020:I 2021:I 2022:I 2023:I 2024:I
+#   switcher 1000080350 FATOR - PRUDENCIAL (modal C): 2017:C 2018:C 2019:C 2020:C 2021:CI 2022:CI 2023:C 2024:C
+#   switcher 1000080422 BONSUCESSO - PRUDENCIAL (modal C): 2017:CI 2018:C 2019:C 2020:C 2021:C 2022:C 2023:C 2024:C
+#   switcher 1000080532 DEUTSCHE - PRUDENCIAL (modal C): 2017:C 2018:C 2019:C 2020:C 2021:C 2022:CI 2023:I 2024:I
+#   switcher 1000080697 MIZUHO - PRUDENCIAL (modal C): 2017:C 2018:C 2019:C 2020:C 2021:C 2022:CI 2023:I 2024:I
+#   switcher 1000080862 BEXS - PRUDENCIAL (modal C): 2017:C 2018:C 2019:C 2020:C 2021:C 2022:C 2023:C 2024:CI
+#   switcher 1000081012 OURINVEST - PRUDENCIAL (modal C): 2017:C 2018:C 2019:C 2020:CI 2021:I 2022:I 2023:I 2024:I
+#   switcher 1000081225 BANCO BM&FBOVESPA - PRUDENCIAL (modal I): 2017:I 2018:I 2019:I 2020:I 2021:I 2022:I 2023:CI 2024:C
+#   switcher 1000081335 BCO INBURSA INV S.A. - PRUDENCIAL (modal I): 2017:CI 2018:I 2019:I 2020:I 2021:I 2022:I 2023:I 2024:I
+#   switcher 1000081380 BANCO SEMEAR - PRUDENCIAL (modal I): 2017:I 2018:I 2019:I 2020:I 2021:CI 2022:I 2023:I 2024:I
+#   switcher 1000081397 BCO CATERPILLAR S.A. - PRUDENCIAL (modal C): 2017:CI 2018:C 2019:C 2020:C 2021:CI 2022:I 2023:I 2024:I
+#   switcher 1000081438 BCO TRIANGULO S.A. - PRUDENCIAL (modal C): 2017:CI 2018:C 2019:C 2020:C 2021:C 2022:C 2023:C 2024:C
+#   switcher 1000081452 SCOTIABANK BRASIL - PRUDENCIAL (modal I): 2017:I 2018:I 2019:I 2020:I 2021:C 2022:C 2023:C 2024:C
+#   switcher 1000081562 BCO TOYOTA DO BRASIL S.A. - PRUDENCIAL (modal I): 2017:I 2018:I 2019:I 2020:I 2021:CI 2022:C 2023:C 2024:C
+#   switcher 1000081579 BCO ABN AMRO S.A. - PRUDENCIAL (modal I): 2017:I 2018:I 2019:I 2020:I 2021:I 2022:CI 2023:C 2024:C
+#   switcher 1000081593 BCO DO NORDESTE DO BRASIL S.A. - PRUDENC (modal I): 2017:I 2018:I 2019:I 2020:I 2021:I 2022:I 2023:CI 2024:C
+#   switcher 1000081603 BCO KDB BRASIL S.A. - PRUDENCIAL (modal C): 2017:CI 2018:C 2019:C 2020:C 2021:C 2022:C 2023:C 2024:CI
+#   switcher 1000081634 BCO DO EST. DE SE S.A. - PRUDENCIAL (modal C): 2017:CI 2018:C 2019:C 2020:C 2021:C 2022:C 2023:C 2024:C
+#   switcher 1000081641 BCO CAPITAL S.A. - PRUDENCIAL (modal I): 2017:I 2018:I 2019:I 2020:I 2021:I 2022:CI 2023:CI 2024:I
+#   switcher 1000081665 BCO CLASSICO S.A. - PRUDENCIAL (modal C): 2017:CI 2018:C 2019:C 2020:C 2021:C 2022:C 2023:C 2024:C
+#   switcher 1000081672 BCO GUANABARA S.A. - PRUDENCIAL (modal I): 2017:I 2018:I 2019:CI 2020:C 2021:C 2022:C 2023:C 2024:C
+#   switcher 1000081720 BCO SUMITOMO MITSUI BRASIL S.A. - PRUDEN (modal C): 2017:CI 2018:C 2019:C 2020:C 2021:C 2022:C 2023:C 2024:C
+#   switcher 1000081799 BCO A.J. RENNER S.A. - PRUDENCIAL (modal C): 2017:CI 2018:C 2019:C 2020:C 2021:C 2022:C 2023:C 2024:C
+#   switcher 1000083632 CREFISA S.A. CFI - PRUDENCIAL (modal C): 2017:CI 2018:C 2019:C 2020:C 2021:C 2022:C 2023:C 2024:C
+#   switcher 1000084088 INTL FCSTONE DTVM LTDA. - PRUDENCIAL (modal C): 2017:I 2018:C 2019:C 2020:C 2021:C 2022:C 2023:C 2024:C
+# banks: 26 switch level anywhere in 2017-2024 (all methodologies)
+cooperatives	C	0	0	0	nan
+cooperatives	I	130	3050	3050	13.627
+cooperatives	missing	0	0	0	nan
+# cooperatives: 130 institutions, 3050 institution-quarters, 0 switch level inside the analysis sample
+# cooperatives: 0 switch level anywhere in 2017-2024 (all methodologies)
+
+# bank-quarters by TD (rows) and 1000-prefixed code (columns): the prefix is universal
+pref  True
+td        
+C     2587
+I     1597
+
+# validation: members per prudential row, from IF.data's individual-institution report
+# coverage (rows with a prudential-conglomerate code) by file: 2017-03=558, 2017-06=554, 2017-09=550, 2017-12=548, 2018-03=547, 2018-06=543, 2018-09=543, 2018-12=544, 2019-03=548, 2019-06=549, 2019-09=553, 2019-12=552, 2020-03=556, 2020-06=559, 2020-09=568, 2020-12=579, 2021-03=588, 2021-06=603, 2021-09=611, 2021-12=619, 2022-03=634, 2022-06=646, 2022-09=657, 2022-12=681, 2023-03=702, 2023-06=713, 2023-09=735, 2023-12=752, 2024-03=765, 2024-06=775, 2024-09=797, 2024-12=809
+[MEMBERS_BY_TD]  td	bank_quarters	matched	share_one_member	median_members	max_members	median_assets_ratio	p90_assets_ratio
+C	2587	2587	0.2543	2	21	1.0112	1.2925
+I	1597	1597	1.0000	1	1	1.0000	1.0000
+cooperatives	3050	0	nan	nan	nan	nan	nan
+# a prudential row marked I should group exactly one individual institution with
+# the same assets (ratio 1); a row marked C groups several.
+
+============================================================================================
+B — Basel ratio and leverage against each reporting-level rung
+============================================================================================
+Cooperative side: all singular cooperatives under the full methodology. Two
+winsorisation variants: fixed = clipped at the primary sample's 1/99 bounds, so
+the numbers sit beside the main table; own = bounds recomputed on the rung, as
+the peer ladder does. Common support and CEM strata are recomputed on each rung. B=1999.
+
+# primary winsorisation bounds: Basel [9.83, 189.42], leverage [0.0372, 0.9683]
+[RUNG_COEFFICIENTS]  rung	winsor	outcome	spec	coef	cl_se	cl_p	hc_se	hc_p	p_boot	G_treated	G	N	n_coop	n_banks	median_coef	median_p
+# banks_individual/fixed: 130 cooperatives, 57 banks, 4630 obs; Basel clipped at [9.83, 189.42]; common support [11.39, 15.68], coop inside 89.9%, banks inside 65.9%; CEM strata 5, eff. controls 47.4, weights [0.65, 1.86]
+banks_individual	fixed	Basel Capital Ratio (%)	raw	-21.771746	5.256483	3.445e-05	1.154784	2.749e-79	0.0005	128	185	4625	128	57	-4.060002	1.387e-35
+banks_individual	fixed	Basel Capital Ratio (%)	ctrl	-21.421736	4.813852	8.586e-06	1.068445	2.040e-89	0.0005	128	185	4625	128	57	-5.776121	3.057e-90
+banks_individual	fixed	Basel Capital Ratio (%)	cem	-20.874298	6.412444	1.133e-03	1.250399	1.447e-62	0.0005	128	185	4625	128	57	-5.776121	3.057e-90
+banks_individual	fixed	Basel Capital Ratio (%)	trim	-20.650961	6.537795	1.585e-03	1.373865	4.580e-51	0.0015	119	167	3782	119	48	-5.163245	6.685e-53
+banks_individual	fixed	Leverage (liabilities/assets)	raw	0.126629	0.033200	1.367e-04	0.007021	1.018e-72	0.0005	128	185	4628	128	57	0.017569	1.361e-10
+banks_individual	fixed	Leverage (liabilities/assets)	ctrl	0.120392	0.025321	1.988e-06	0.005429	5.912e-109	0.0005	128	185	4628	128	57	0.025976	3.881e-28
+banks_individual	fixed	Leverage (liabilities/assets)	cem	0.089872	0.024591	2.575e-04	0.005277	4.971e-65	0.0005	128	185	4628	128	57	0.025976	3.881e-28
+banks_individual	fixed	Leverage (liabilities/assets)	trim	0.071789	0.027039	7.931e-03	0.005979	3.271e-33	0.0120	119	167	3784	119	48	0.009514	3.886e-04
+
+# banks_individual/own: 130 cooperatives, 57 banks, 4630 obs; Basel clipped at [11.27, 273.30]; common support [11.39, 15.68], coop inside 89.9%, banks inside 65.9%; CEM strata 5, eff. controls 47.4, weights [0.65, 1.86]
+banks_individual	own	Basel Capital Ratio (%)	raw	-24.804472	6.563548	1.574e-04	1.425624	8.392e-68	0.0005	128	185	4625	128	57	-4.060001	1.387e-35
+banks_individual	own	Basel Capital Ratio (%)	ctrl	-24.481778	6.182074	7.491e-05	1.350495	1.916e-73	0.0005	128	185	4625	128	57	-5.776121	4.378e-90
+banks_individual	own	Basel Capital Ratio (%)	cem	-24.274470	8.388794	3.808e-03	1.632435	5.154e-50	0.0005	128	185	4625	128	57	-5.776121	4.378e-90
+banks_individual	own	Basel Capital Ratio (%)	trim	-23.950536	8.469505	4.686e-03	1.740210	4.254e-43	0.0015	119	167	3782	119	48	-5.163245	7.477e-53
+banks_individual	own	Leverage (liabilities/assets)	raw	0.127353	0.033328	1.328e-04	0.007044	4.713e-73	0.0005	128	185	4628	128	57	0.017569	1.361e-10
+banks_individual	own	Leverage (liabilities/assets)	ctrl	0.121121	0.025434	1.914e-06	0.005450	2.052e-109	0.0005	128	185	4628	128	57	0.025976	3.796e-28
+banks_individual	own	Leverage (liabilities/assets)	cem	0.090377	0.024682	2.505e-04	0.005295	2.569e-65	0.0005	128	185	4628	128	57	0.025976	3.796e-28
+banks_individual	own	Leverage (liabilities/assets)	trim	0.072037	0.027059	7.763e-03	0.005984	2.233e-33	0.0120	119	167	3784	119	48	0.009488	3.986e-04
+
+# banks_conglomerate/fixed: 130 cooperatives, 87 banks, 5654 obs; Basel clipped at [9.83, 189.42]; common support [12.62, 15.68], coop inside 82.9%, banks inside 34.1%; CEM strata 4, eff. controls 25.1, weights [0.14, 2.68]
+banks_conglomerate	fixed	Basel Capital Ratio (%)	raw	0.071048	1.752598	9.677e-01	0.382301	8.526e-01	0.9705	128	215	5641	128	87	3.689999	2.689e-76
+banks_conglomerate	fixed	Basel Capital Ratio (%)	ctrl	-5.387993	2.724739	4.799e-02	0.609532	9.610e-19	0.0670	128	215	5641	128	87	1.708901	2.537e-13
+banks_conglomerate	fixed	Basel Capital Ratio (%)	cem	-10.345882	4.612052	2.488e-02	0.996436	2.967e-25	0.0440	128	177	4547	128	49	1.294598	8.359e-07
+banks_conglomerate	fixed	Basel Capital Ratio (%)	trim	-5.110787	3.932150	1.937e-01	0.845094	1.470e-09	0.2245	104	148	3416	104	44	2.716024	1.998e-18
+banks_conglomerate	fixed	Leverage (liabilities/assets)	raw	0.013241	0.018239	4.679e-01	0.003545	1.878e-04	0.4640	128	215	5652	128	87	-0.033926	3.598e-52
+banks_conglomerate	fixed	Leverage (liabilities/assets)	ctrl	0.081846	0.024412	8.003e-04	0.004803	4.051e-65	0.0020	128	215	5652	128	87	0.006791	2.237e-03
+banks_conglomerate	fixed	Leverage (liabilities/assets)	cem	0.115457	0.029922	1.140e-04	0.006250	3.411e-76	0.0010	128	177	4548	128	49	0.015150	5.023e-10
+banks_conglomerate	fixed	Leverage (liabilities/assets)	trim	0.053859	0.022850	1.842e-02	0.005196	3.558e-25	0.0325	104	148	3417	104	44	0.011111	1.555e-04
+
+# banks_conglomerate/own: 130 cooperatives, 87 banks, 5654 obs; Basel clipped at [9.99, 78.92]; common support [12.62, 15.68], coop inside 82.9%, banks inside 34.1%; CEM strata 4, eff. controls 25.1, weights [0.14, 2.68]
+banks_conglomerate	own	Basel Capital Ratio (%)	raw	0.535991	1.581729	7.347e-01	0.319262	9.318e-02	0.7515	128	215	5641	128	87	3.689999	2.689e-76
+banks_conglomerate	own	Basel Capital Ratio (%)	ctrl	-4.313596	2.435980	7.660e-02	0.490178	1.367e-18	0.0995	128	215	5641	128	87	1.708901	2.492e-13
+banks_conglomerate	own	Basel Capital Ratio (%)	cem	-8.768638	4.057557	3.069e-02	0.811001	3.016e-27	0.0550	128	177	4547	128	49	1.294598	8.352e-07
+banks_conglomerate	own	Basel Capital Ratio (%)	trim	-3.848245	3.347046	2.502e-01	0.680425	1.553e-08	0.2730	104	148	3416	104	44	2.716024	1.995e-18
+banks_conglomerate	own	Leverage (liabilities/assets)	raw	0.011382	0.017396	5.129e-01	0.003385	7.724e-04	0.5000	128	215	5652	128	87	-0.033927	3.588e-52
+banks_conglomerate	own	Leverage (liabilities/assets)	ctrl	0.079132	0.023542	7.759e-04	0.004634	2.186e-65	0.0030	128	215	5652	128	87	0.006791	2.238e-03
+banks_conglomerate	own	Leverage (liabilities/assets)	cem	0.114218	0.029675	1.186e-04	0.006132	1.926e-77	0.0010	128	177	4548	128	49	0.015150	5.039e-10
+banks_conglomerate	own	Leverage (liabilities/assets)	trim	0.051680	0.022241	2.014e-02	0.004980	3.159e-25	0.0350	104	148	3417	104	44	0.011111	1.547e-04
+
+============================================================================================
+C — quantile coefficients for the Basel ratio, controlled specification
+============================================================================================
+[QUANTILES]  rung	winsor	q10	q20	q30	q40	q50	q60	q70	q80	q90	OLS	mean_q20_q80	share_of_OLS
+banks_individual	fixed	2.0778	0.7407	-0.6700	-2.9669	-5.7761	-10.4538	-17.0732	-25.7772	-55.7130	-21.4217	-8.8538	0.413
+banks_individual	own	2.0778	0.7407	-0.6700	-2.9658	-5.7761	-10.4538	-17.0732	-25.7772	-55.7130	-24.4818	-8.8536	0.362
+banks_conglomerate	fixed	3.4165	3.0593	2.5849	2.3147	1.7089	0.2964	-2.6524	-7.0950	-17.3997	-5.3880	0.0310	-0.006
+banks_conglomerate	own	3.4165	3.0593	2.5849	2.3147	1.7089	0.2987	-2.6524	-7.0950	-17.3997	-4.3136	0.0313	-0.007
+
+============================================================================================
+D — residual dispersion at equal size on the individual rung (as t8; fixed winsorisation)
+============================================================================================
+[DISPERSION_INDIVIDUAL]  outcome	coop_sd	bank_sd	sd_ratio	ci_lo	ci_hi	coop_iqr	bank_iqr	iqr_ratio	p_ratio_lt_1
+Basel Capital Ratio (%)	10.431779	41.290713	0.2526	0.1907	0.3668	10.330177	30.051687	0.3437	1.000
+Leverage (liabilities/assets)	0.090225	0.206039	0.4379	0.3538	0.5545	0.097269	0.198707	0.4895	1.000
+Return on Assets	0.018333	0.050092	0.3660	0.2901	0.4719	0.018624	0.032043	0.5812	1.000
+Cost-to-Income Ratio	0.171328	1.345147	0.1274	0.1018	0.1745	0.214852	0.663156	0.3240	1.000
+Credit Portfolio / Assets	0.117142	0.317485	0.3690	0.3264	0.4281	0.151405	0.606183	0.2498	1.000
+Provisioning (provisions/gross credit)	0.024024	0.091444	0.2627	0.1913	0.4188	0.020052	0.049570	0.4045	1.000
+Z-score	7.337452	9.031791	0.8124	nan	nan	8.502724	10.470688	0.8121	nan
+# z-score: 105 cooperatives and 53 banks with at least eight quarters
+
+============================================================================================
+E — unconditional Basel ratio by reporting level (modal TD)
+============================================================================================
+Winsorised: the analysis sample the paper's tables use (1/99 within the
+cooperatives-vs-banks sample). Raw: the same institution-quarters before winsorisation.
+
+[BASEL_BY_LEVEL]  sample	group	institutions	obs	mean	sd	median	p75	p90	p99	share_gt_20	share_gt_50	max
+winsorised	Banks, conglomerate	87	2593	22.699	17.533	16.770	23.370	39.206	90.224	0.3344	0.0644	189.42
+winsorised	Banks, individual	57	1577	44.542	45.367	24.520	51.550	109.108	189.422	0.6100	0.2638	189.42
+winsorised	Banks, all	144	4170	30.959	32.885	18.405	30.510	67.037	189.422	0.4386	0.1398	189.42
+winsorised	Cooperatives	128	3048	22.770	9.163	20.460	25.770	32.897	49.750	0.5318	0.0098	189.42
+raw	Banks, conglomerate	87	2593	22.388	18.476	16.770	23.370	39.206	90.224	0.3344	0.0644	190.18
+raw	Banks, individual	57	1577	51.132	74.635	24.520	51.550	109.108	410.237	0.6100	0.2638	709.82
+raw	Banks, all	144	4170	33.258	50.123	18.405	30.510	67.037	284.127	0.4386	0.1398	709.82
+raw	Cooperatives	128	3048	22.765	9.204	20.460	25.770	32.897	49.750	0.5318	0.0098	194.02
+
+# bank-quarters above 50% in the winsorised sample: 583; by modal level: I=416, C=167; institutions: 45 ({'I': 33, 'C': 12})
+
+wrote C:\coops-basel-regulation\tables\t11_reporting_level.tex

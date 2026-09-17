@@ -1,0 +1,63 @@
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+\multicolumn{7}{l}{\textit{Panel A. Reporting level and the unconditional Basel ratio, analysis sample}} \\
+Group & Institutions & Quarters & Mean & Median & $p_{90}$ & Share $>50\%$ \\
+\midrule
+Banks, conglomerate consolidations & 87 & 2,604 & 22.7 & 16.8 & 39.2 & 6.4 \\
+Banks, individual & 57 & 1,580 & 44.5 & 24.5 & 109.1 & 26.4 \\
+Cooperatives (all individual) & 130 & 3,050 & 22.8 & 20.5 & 32.9 & 1.0 \\
+\bottomrule
+\end{tabular}
+\par\medskip
+\begin{tabular}{lrrrr}
+\toprule
+\multicolumn{5}{l}{\textit{Panel B. Cooperative differential by reporting-level rung, primary winsorisation}} \\
+Outcome & (1) Raw & (2) Controls & (3) CEM & (4) Trim \\
+\midrule
+\multicolumn{5}{l}{\textit{Banks reporting individually}} \\
+Basel capital ratio (pp) & -21.77*** & -21.42*** & -20.87*** & -20.65*** \\
+ & (5.26) & (4.81) & (6.41) & (6.54) \\
+Leverage & 0.127*** & 0.120*** & 0.090*** & 0.072** \\
+ & (0.033) & (0.025) & (0.025) & (0.027) \\
+Cooperative / bank clusters & 128 / 57 & 128 / 57 & 128 / 57 & 119 / 48 \\
+\midrule
+\multicolumn{5}{l}{\textit{Banks reporting as prudential conglomerates}} \\
+Basel capital ratio (pp) & 0.07 & -5.39* & -10.35** & -5.11 \\
+ & (1.75) & (2.72) & (4.61) & (3.93) \\
+Leverage & 0.013 & 0.082*** & 0.115*** & 0.054** \\
+ & (0.018) & (0.024) & (0.030) & (0.023) \\
+Cooperative / bank clusters & 128 / 87 & 128 / 87 & 128 / 49 & 104 / 44 \\
+\bottomrule
+\end{tabular}
+\par\medskip
+\begin{tabular}{lrrrrrrrrrr}
+\toprule
+\multicolumn{11}{l}{\textit{Panel C. Basel ratio, cooperative coefficient across the conditional distribution}} \\
+Bank rung & $q_{10}$ & $q_{20}$ & $q_{30}$ & $q_{40}$ & $q_{50}$ & $q_{60}$ & $q_{70}$ & $q_{80}$ & $q_{90}$ & OLS \\
+\midrule
+Individual & 2.1 & 0.7 & -0.7 & -3.0 & -5.8 & -10.5 & -17.1 & -25.8 & -55.7 & -21.4 \\
+Conglomerate & 3.4 & 3.1 & 2.6 & 2.3 & 1.7 & 0.3 & -2.7 & -7.1 & -17.4 & -5.4 \\
+\bottomrule
+\end{tabular}
+\par\medskip
+\begin{tabular}{lrrrrr}
+\toprule
+\multicolumn{6}{l}{\textit{Panel D. Residual dispersion at equal size, banks reporting individually}} \\
+ & \multicolumn{2}{c}{Residual s.d.} & & \multicolumn{2}{c}{Residual IQR} \\
+\cmidrule(lr){2-3}\cmidrule(lr){5-6}
+Outcome & Coop. & Banks & Ratio & Coop. & Banks \\
+\midrule
+Basel Capital Ratio (\%) & 10.4318 & 41.2907 & 0.25 & 10.3302 & 30.0517 \\
+Leverage (liabilities/assets) & 0.0902 & 0.2060 & 0.44 & 0.0973 & 0.1987 \\
+Return on Assets & 0.0183 & 0.0501 & 0.37 & 0.0186 & 0.0320 \\
+Cost-to-Income Ratio & 0.1713 & 1.3451 & 0.13 & 0.2149 & 0.6632 \\
+Credit Portfolio / Assets & 0.1171 & 0.3175 & 0.37 & 0.1514 & 0.6062 \\
+Provisioning (provisions/gross credit) & 0.0240 & 0.0914 & 0.26 & 0.0201 & 0.0496 \\
+Z-score & 7.3375 & 9.0318 & 0.81 & 8.5027 & 10.4707 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item Reporting level is the document-type field of IF.data's prudential report (C: prudential-conglomerate consolidation; I: institution reporting individually), taken as the institution's modal value over its sample quarters; 25 banks and 0 cooperatives switch level inside the sample. Panel A uses the winsorised analysis sample of the main tables. Panel B re-runs the four specifications with the cooperative side unchanged (130 cooperatives) and the bank side restricted to one reporting level (57 individual, 87 conglomerate), clipping every outcome at the primary sample's winsorisation bounds so the coefficients are comparable with the main table; common support and CEM strata are recomputed on each sample. With the bounds recomputed on the individual rung instead, the controlled Basel coefficient is -24.5 (6.2). Clustered standard errors in parentheses; stars from the restricted wild cluster bootstrap with 1,999 replications (*** $p<0.01$, ** $p<0.05$, * $p<0.10$). Panel C reports quantile regressions of the Basel ratio on the cooperative dummy, log assets and quarter fixed effects. Panel D follows the dispersion table: residuals from a regression on log assets and quarter fixed effects, the z-score residualised on mean log assets at the institution level.
+\end{tablenotes}

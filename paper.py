@@ -126,11 +126,20 @@ FLOW_COLS = ["lucro_liquido", "receitas_intermediacao", "resultado_intermediacao
 #   banks      b1, b2     - commercial/multiple/investment banks
 #   commercial b1         - banks with a commercial portfolio, the closest analogue
 #                           to a deposit-funded retail cooperative
+# Reporting-level rungs. IF.data's prudential report carries a document-type field
+# (TD): "C" is a prudential-conglomerate consolidation, "I" an institution reporting
+# individually. Every singular cooperative is "I"; most banks are "C", so a bank row
+# consolidates the whole conglomerate (leasing, DTVM, consorcio...). A dict entry
+# restricts on modal tcb AND modal td (td_stable, set in build_panel).
+#   banks_individual     b1, b2 reporting individually (td == I)
+#   banks_conglomerate   b1, b2 reporting as prudential conglomerates (td == C)
 PEER_SETS = {
     "all": None,
     "bank_like": {"b1", "b2", "b4"},
     "banks": {"b1", "b2"},
     "commercial": {"b1"},
+    "banks_individual": {"tcb": {"b1", "b2"}, "td": {"I"}},
+    "banks_conglomerate": {"tcb": {"b1", "b2"}, "td": {"C"}},
 }
 
 UF_REGION = {
@@ -287,6 +296,15 @@ def build_panel():
                   .pipe(lambda s: s[s > 1]).index.tolist())
     panel["tcb_stable"] = panel["codigo"].map(modal)
 
+    # reporting level (TD: C = prudential-conglomerate consolidation, I = individual),
+    # made time-invariant the same way so a peer rung can be defined on it
+    if "td" not in panel.columns:
+        panel["td"] = np.nan
+    panel["td"] = panel["td"].astype("string").str.strip().str.upper()
+    modal_td = (panel.dropna(subset=["td"]).groupby("codigo")["td"]
+                .agg(lambda s: s.mode().iloc[0] if len(s.mode()) else np.nan))
+    panel["td_stable"] = panel["codigo"].map(modal_td)
+
     def klass(t):
         t = "" if pd.isna(t) else str(t)
         if t == "b3S":
@@ -395,9 +413,12 @@ def fit(df: pd.DataFrame, out: str, formula: str, weight_col: str | None = None)
         "coef": float(cl.params["is_coop"]),
         "cl_lo": float(ci_cl.iloc[0]), "cl_hi": float(ci_cl.iloc[1]),
         "cl_p": float(cl.pvalues["is_coop"]),
+        "cl_se": float(cl.bse["is_coop"]),
         "hc_lo": float(ci_hc.iloc[0]), "hc_hi": float(ci_hc.iloc[1]),
         "hc_p": float(hc.pvalues["is_coop"]),
+        "hc_se": float(hc.bse["is_coop"]),
         "N": int(len(sub)), "n_clusters": int(sub["codigo"].nunique()),
+        "n_treated": int(sub.loc[sub.is_coop == 1, "codigo"].nunique()),
     }
 
 
@@ -578,9 +599,18 @@ def select_sample(panel: pd.DataFrame, coop_def: str, cti_col: str, roa_col: str
     allowed = PEER_SETS[peer_set]
     peer_drop = {}
     if allowed is not None:
+        # a set restricts on modal tcb only; a dict restricts on modal tcb and on the
+        # modal reporting level td (see the PEER_SETS comment)
+        tcb_allowed = allowed["tcb"] if isinstance(allowed, dict) else allowed
+        td_allowed = allowed.get("td") if isinstance(allowed, dict) else None
         tcb = sub["tcb_stable"].astype(str)
         before = sub.loc[sub.is_coop == 0, "codigo"].nunique()
-        keep = (sub["is_coop"] == 1) | tcb.isin(allowed)
+        peer_ok = tcb.isin(tcb_allowed)
+        if td_allowed is not None:
+            if "td_stable" not in sub.columns:
+                raise KeyError("td_stable not on the panel; cannot apply a reporting-level rung")
+            peer_ok = peer_ok & sub["td_stable"].astype(str).isin(td_allowed)
+        keep = (sub["is_coop"] == 1) | peer_ok
         peer_drop = {"peers_before": int(before),
                      "peers_after": int(sub.loc[keep & (sub.is_coop == 0), "codigo"].nunique())}
         sub = sub[keep].copy()
@@ -593,10 +623,14 @@ def run_pipeline(panel: pd.DataFrame, coop_def: str, winsor_scope: str,
                  roa_col: str = "roa_ann", nim_col: str = "nim_ann",
                  peer_set: str = "all", coarsen: str = "size_q5_region",
                  cem_weight_mode: str = "per_obs",
-                 exclude_segments: tuple = ()):
+                 exclude_segments: tuple = (),
+                 winsor_bounds: dict | None = None):
     """Returns a results dict for one configuration.
     coop_def: 'singular' | 'all_coop' | 'legacy_name'
     winsor_scope: 'analysis' | 'panel'
+    winsor_bounds: optional {outcome: (lo, hi)} that overrides the winsorisation
+      bounds, so a sub-rung can be clipped exactly as the primary sample was (pass
+      primary["winsor_bounds"]) and its coefficients compared with the main table.
     cti_col / roa_col / nim_col: which constructed column carries each flow outcome.
       primary: cti_new / roa_ann / nim_ann   (de-cumulated, annualized, gross of PCLD)
       v5     : cti_semcum / roa_legacy / nim_legacy
@@ -622,7 +656,9 @@ def run_pipeline(panel: pd.DataFrame, coop_def: str, winsor_scope: str,
     panel_bounds = winsorize(sub, cols)[1] if winsor_scope == "panel" else None
 
     l2 = sub[sub["full_method"] == 1].copy()
-    if winsor_scope == "panel":
+    if winsor_bounds is not None:
+        l2, wbounds = winsorize(l2, cols, bounds=winsor_bounds)
+    elif winsor_scope == "panel":
         l2, wbounds = winsorize(l2, cols, bounds=panel_bounds)
     else:
         l2, wbounds = winsorize(l2, cols)
@@ -809,7 +845,8 @@ def run_pipeline(panel: pd.DataFrame, coop_def: str, winsor_scope: str,
                    "cluster": use_cluster, "cti_col": cti_col,
                    "roa_col": roa_col, "nim_col": nim_col, "peer_set": peer_set,
                    "coarsen": coarsen, "cem_weight_mode": cem_weight_mode,
-                   "exclude_segments": list(exclude_segments)},
+                   "exclude_segments": list(exclude_segments),
+                   "winsor_bounds": "given" if winsor_bounds is not None else None},
         "seg_drop": seg_drop,
         "peer_drop": peer_drop,
         "n_inst": int(l2["codigo"].nunique()),

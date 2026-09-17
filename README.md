@@ -53,6 +53,7 @@ paper.tex                 the manuscript; \input's tables/ and \includegraphics 
 paper.py                  the analysis pipeline: builds the panel and writes results/*.txt
 gate_d_distribution.py    quantile / distributional evidence -> tables/t7, figures/fig12
 gate_e_dispersion.py      dispersion at equal size            -> tables/t8
+gate_f_reporting_level.py reporting level (conglomerate vs individual banks) -> results/reporting_level.txt, tables/t11
 make_tables.py            parses results/*.txt into tables/t1..t6 (no recomputation)
 cleanup_outputs.py        empties figures/, results/, tables/ before a fresh run
 
@@ -84,6 +85,9 @@ data/                     raw and processed BACEN inputs (git-ignored; see Data)
 - **Comparison groups.** A ladder defined on the regulator's categories: all
   non-cooperatives, bank-like (`b1`,`b2`,`b4`), banks (`b1`,`b2`, the primary group), and
   commercial (`b1`). The divergence between the broad group and banks is itself a result.
+  Two further rungs split banks by reporting level in IF.data's prudential report
+  (`banks_individual`: banks reporting individually, TD = I; `banks_conglomerate`:
+  prudential-conglomerate consolidations, TD = C); see `gate_f_reporting_level.py`.
 - **Two measurement corrections.** IF.data income fields accumulate within the semester and
   are de-cumulated and annualised; the intermediation margin is computed gross of the
   loan-loss line so it does not reproduce the provisioning result.
@@ -122,6 +126,7 @@ python cleanup_outputs.py         # optional: clear stale outputs
 python paper.py                   # writes results/ and figures/
 python gate_d_distribution.py     # writes tables/t7 and figures/fig12
 python gate_e_dispersion.py       # writes tables/t8
+python gate_f_reporting_level.py  # writes results/reporting_level.txt and tables/t11
 python make_tables.py             # writes tables/t1..t6 from results/
 ```
 
