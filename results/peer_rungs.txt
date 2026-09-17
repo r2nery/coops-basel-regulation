@@ -1,0 +1,155 @@
+GATE G — PEER RUNGS, COOPERATIVE-OWNED BANKS, PROVISIONING BY CAPITAL, COST-TO-INCOME (B=1999)
+# primary: 130 cooperatives, 144 banks, 7234 obs
+
+============================================================================================
+A — peer rungs: Basel distribution and controlled coefficients
+============================================================================================
+Distribution: primary winsorised sample restricted to the rung's banks. Coefficients:
+run_pipeline on the rung with the primary winsorisation bounds; controlled specification;
+clustered SE, wild cluster bootstrap B=1999; stability rows HC3 with B=499.
+
+[RUNG_BASEL]  rung	banks	bank_quarters	mean	median	p90	share_gt_50	share_gt_20	coop_inside_pct	banks_inside_pct
+banks	144	4184	30.959	18.405	67.037	0.1398	0.4386	89.9	48.4
+banks_individual	57	1580	44.542	24.520	109.108	0.2638	0.6100	89.9	65.9
+commercial	105	3048	29.839	17.200	59.150	0.1167	0.3856	88.0	43.0
+commercial_individual	35	959	48.002	25.005	129.355	0.2552	0.6203	89.9	70.1
+structural	94	2765	24.755	16.600	42.350	0.0749	0.3355	87.0	39.8
+structural_individual	27	762	36.151	21.860	83.042	0.1739	0.5534	89.9	68.4
+
+[RUNG_CTRL]  rung	outcome	coef	se	p	p_boot	G_treated	N	n_banks
+# se/p: clustered by institution for the eight panel outcomes, HC3 for the two stability rows
+banks	Basel Capital Ratio (%)	-15.773642	3.139573	5.057e-07	0.0005	128	7218	144
+banks	Leverage (liabilities/assets)	0.122019	0.020412	2.261e-09	0.0005	128	7232	144
+banks	Return on Assets	0.021456	0.003626	3.272e-09	0.0005	128	7229	143
+banks	Net Interest Margin	-0.018980	0.013278	1.529e-01	0.1640	128	7229	143
+banks	Cost-to-Income Ratio	-0.792256	0.129805	1.038e-09	0.0005	128	6901	141
+banks	Credit Portfolio / Assets	0.188130	0.030373	5.865e-10	0.0005	128	7232	144
+banks	Provisioning (provisions/gross credit)	-0.001210	0.007105	8.648e-01	0.8725	128	6465	130
+banks	Funding Ratio (captacoes/assets)	0.088659	0.027681	1.361e-03	0.0035	128	7232	144
+banks	Return on assets volatility	-0.018877	0.002074	8.853e-20	0.0020	105	242	137
+banks	Z-score	6.318393	1.084847	5.738e-09	0.0020	105	241	136
+banks_individual	Basel Capital Ratio (%)	-21.421736	4.813852	8.586e-06	0.0005	128	4625	57
+banks_individual	Leverage (liabilities/assets)	0.120392	0.025321	1.988e-06	0.0005	128	4628	57
+banks_individual	Return on Assets	0.026916	0.004023	2.222e-11	0.0005	128	4627	57
+banks_individual	Net Interest Margin	-0.002186	0.012822	8.646e-01	0.8910	128	4627	57
+banks_individual	Cost-to-Income Ratio	-0.457864	0.096697	2.190e-06	0.0005	128	4510	56
+banks_individual	Credit Portfolio / Assets	0.111094	0.042322	8.665e-03	0.0180	128	4628	57
+banks_individual	Provisioning (provisions/gross credit)	-0.004790	0.011253	6.704e-01	0.6970	128	4229	51
+banks_individual	Funding Ratio (captacoes/assets)	0.085042	0.038572	2.747e-02	0.0315	128	4628	57
+banks_individual	Return on assets volatility	-0.017907	0.002798	1.567e-10	0.0020	105	159	54
+banks_individual	Z-score	5.556391	1.455049	1.342e-04	0.0020	105	158	53
+commercial	Basel Capital Ratio (%)	-16.771614	4.432080	1.542e-04	0.0005	128	6082	105
+commercial	Leverage (liabilities/assets)	0.089640	0.023459	1.328e-04	0.0005	128	6096	105
+commercial	Return on Assets	0.027628	0.004622	2.258e-09	0.0005	128	6095	104
+commercial	Net Interest Margin	0.000146	0.014144	9.918e-01	0.9950	128	6095	104
+commercial	Cost-to-Income Ratio	-0.988147	0.173911	1.332e-08	0.0005	128	5805	102
+commercial	Credit Portfolio / Assets	0.259869	0.029025	3.454e-19	0.0005	128	6096	105
+commercial	Provisioning (provisions/gross credit)	0.003281	0.007270	6.518e-01	0.6650	128	5619	98
+commercial	Funding Ratio (captacoes/assets)	0.029969	0.031512	3.416e-01	0.3625	128	6096	105
+commercial	Return on assets volatility	-0.016615	0.002304	5.577e-13	0.0020	105	204	99
+commercial	Z-score	7.692942	1.141527	1.593e-11	0.0020	105	203	98
+commercial_individual	Basel Capital Ratio (%)	-26.877362	7.325099	2.433e-04	0.0005	128	4004	35
+commercial_individual	Leverage (liabilities/assets)	0.086125	0.030006	4.102e-03	0.0090	128	4007	35
+commercial_individual	Return on Assets	0.033665	0.005856	9.014e-09	0.0005	128	4007	35
+commercial_individual	Net Interest Margin	0.021144	0.008877	1.722e-02	0.0225	128	4007	35
+commercial_individual	Cost-to-Income Ratio	-0.689408	0.151471	5.329e-06	0.0005	128	3914	34
+commercial_individual	Credit Portfolio / Assets	0.222158	0.042737	2.011e-07	0.0005	128	4007	35
+commercial_individual	Provisioning (provisions/gross credit)	0.010143	0.009556	2.885e-01	0.3275	128	3755	33
+commercial_individual	Funding Ratio (captacoes/assets)	0.031522	0.046350	4.965e-01	0.5110	128	4007	35
+commercial_individual	Return on assets volatility	-0.015415	0.003585	1.708e-05	0.0020	105	137	32
+commercial_individual	Z-score	6.796789	1.522955	8.086e-06	0.0020	105	136	31
+structural	Basel Capital Ratio (%)	-8.885264	3.301932	7.125e-03	0.0115	128	5799	94
+structural	Leverage (liabilities/assets)	0.039446	0.019685	4.509e-02	0.0645	128	5813	94
+structural	Return on Assets	0.029202	0.004383	2.702e-11	0.0005	128	5812	93
+structural	Net Interest Margin	0.015858	0.008853	7.324e-02	0.0745	128	5812	93
+structural	Cost-to-Income Ratio	-1.035325	0.202126	3.020e-07	0.0005	128	5542	91
+structural	Credit Portfolio / Assets	0.241045	0.031542	2.138e-14	0.0005	128	5813	94
+structural	Provisioning (provisions/gross credit)	0.004095	0.007375	5.787e-01	0.5850	128	5455	89
+structural	Funding Ratio (captacoes/assets)	-0.032595	0.028835	2.583e-01	0.2910	128	5813	94
+structural	Return on assets volatility	-0.013815	0.002498	3.190e-08	0.0020	105	194	89
+structural	Z-score	8.173565	1.231543	3.205e-11	0.0020	105	193	88
+structural_individual	Basel Capital Ratio (%)	-14.960319	5.435729	5.919e-03	0.0060	128	3807	27
+structural_individual	Leverage (liabilities/assets)	0.027458	0.025504	2.816e-01	0.3700	128	3810	27
+structural_individual	Return on Assets	0.033411	0.005870	1.254e-08	0.0005	128	3810	27
+structural_individual	Net Interest Margin	0.022550	0.010745	3.586e-02	0.0545	128	3810	27
+structural_individual	Cost-to-Income Ratio	-0.620547	0.179213	5.349e-04	0.0005	128	3730	26
+structural_individual	Credit Portfolio / Assets	0.184938	0.046066	5.954e-05	0.0020	128	3810	27
+structural_individual	Provisioning (provisions/gross credit)	0.006830	0.010931	5.321e-01	0.5700	128	3642	26
+structural_individual	Funding Ratio (captacoes/assets)	-0.052057	0.044147	2.383e-01	0.2705	128	3810	27
+structural_individual	Return on assets volatility	-0.010117	0.003665	5.773e-03	0.0240	105	130	25
+structural_individual	Z-score	6.882609	1.787986	1.184e-04	0.0020	105	129	24
+
+============================================================================================
+B — dropping the cooperative sector's own banks from the bank comparison group
+============================================================================================
+# 1000080745: BCO COOPERATIVO SICREDI - PRUDENCIAL / SICREDI - PRUDENCIAL; tcb b1; 32 analysis-sample quarters; mean Basel 17.62, mean leverage 0.968, mean credit/assets 0.201
+# 1000080879: BANCOOB - PRUDENCIAL; tcb b1; 32 analysis-sample quarters; mean Basel 16.47, mean leverage 0.967, mean credit/assets 0.181
+# without them: 130 cooperatives, 142 banks, 7170 obs (primary 130, 144, 7234); primary winsorisation bounds kept
+[DROP_COOP_BANKS]  outcome	coef_primary	coef_excl	delta	delta_pct	se_excl	p_excl	p_boot_excl	N_excl
+Basel Capital Ratio (%)	-15.773642	-15.760608	0.013035	-0.08	3.139064	5.146e-07	0.0005	7154
+Leverage (liabilities/assets)	0.122019	0.122275	0.000256	0.21	0.020416	2.109e-09	0.0005	7168
+Return on Assets	0.021456	0.021373	-0.000083	-0.39	0.003619	3.493e-09	0.0005	7165
+Net Interest Margin	-0.018980	-0.019161	-0.000181	0.95	0.013273	1.489e-01	0.1570	7165
+Cost-to-Income Ratio	-0.792256	-0.790140	0.002116	-0.27	0.129792	1.145e-09	0.0005	6838
+Credit Portfolio / Assets	0.188130	0.186575	-0.001554	-0.83	0.030380	8.176e-10	0.0005	7168
+Provisioning (provisions/gross credit)	-0.001210	-0.001402	-0.000192	15.91	0.007115	8.438e-01	0.8555	6403
+Funding Ratio (captacoes/assets)	0.088659	0.089814	0.001155	1.30	0.027769	1.219e-03	0.0020	7168
+Return on assets volatility	-0.018877	-0.018928	-0.000050	0.27	0.002075	7.327e-20	0.0020	240
+Z-score	6.318393	6.382897	0.064503	1.02	1.085280	4.070e-09	0.0020	239
+
+============================================================================================
+C — provisioning differential within terciles of the Basel ratio
+============================================================================================
+Terciles cut on the pooled analysis sample (cooperatives and banks together), first on
+the Basel ratio residualised on log assets and quarter fixed effects, then on the
+unconditional ratio. Controlled specification within each tercile; clustered SE; B=1999.
+
+[PROV_BY_TERCILE]  mode	tercile	cut_lo	cut_hi	coef	cl_se	cl_p	p_boot	G_treated	coop_obs	bank_obs	coop_inst	bank_inst	coop_prov_mean	bank_prov_mean	coop_basel_med	bank_basel_med
+residualised	Bottom	-40.7661	-9.7344	-0.010455	0.009493	2.707e-01	0.2905	84	1375	796	84	59	0.052529	0.063471	17.830	14.480
+residualised	Middle	-9.7344	-0.5720	0.000739	0.010417	9.435e-01	0.9360	89	1181	1105	89	98	0.054389	0.052363	22.445	16.165
+residualised	Top	-0.5720	165.0747	0.010896	0.013906	4.333e-01	0.4460	33	389	1605	33	92	0.062929	0.047424	35.400	29.480
+unconditional	Bottom	9.8251	16.7500	-0.008132	0.008631	3.461e-01	0.3550	58	657	1598	58	92	0.048136	0.057606	15.455	14.080
+unconditional	Middle	16.7500	23.9500	0.017753	0.005565	1.423e-03	0.0010	94	1344	881	94	96	0.054353	0.038870	19.765	19.140
+unconditional	Top	23.9500	189.4220	-0.000656	0.012693	9.588e-01	0.9510	76	944	1027	76	72	0.059602	0.056670	29.205	41.900
+
+wrote C:\coops-basel-regulation\tables\t12_provisioning_by_capital.tex
+============================================================================================
+D — cost-to-income with the denominator trimmed
+============================================================================================
+Rows whose operating income gross of provisions (the cost-to-income denominator) is
+below 0.5 percent of total assets are removed. Controlled specification; clustered SE;
+bootstrap B=1999; conditional median with an institution block bootstrap of 499 draws.
+
+[CTI_TRIM]  item	value
+threshold_op_income_over_assets	0.005
+quarters_with_cti	6901	coop	3048	bank	3853
+quarters_removed	95	coop	0	bank	95
+institutions_touched	38	coop	0	bank	38
+mean_cti_removed	coop	nan	bank	4.7433
+[CTI_TRIM_COEF]  sample	coef	cl_se	cl_p	p_boot	G_treated	N	median_coef	med_ci_lo	med_ci_hi	med_draws
+full	-0.792256	0.129805	1.038e-09	nan	na	6901	-0.179565	-0.272947	-0.103652	499
+trimmed	-0.703429	0.129963	6.214e-08	0.0005	128	6806	-0.170347	-0.258722	-0.092238	499
+
+============================================================================================
+E — provisioning-ratio coverage by group and by year (analysis sample)
+============================================================================================
+[PROV_COVERAGE]  group	year	obs	obs_with_prov	share
+cooperatives	all	3050	2945	0.9656
+cooperatives	2017	312	310	0.9936
+cooperatives	2018	329	329	1.0000
+cooperatives	2019	346	346	1.0000
+cooperatives	2020	378	378	1.0000
+cooperatives	2021	408	408	1.0000
+cooperatives	2022	408	408	1.0000
+cooperatives	2023	411	308	0.7494
+cooperatives	2024	458	458	1.0000
+banks	all	4184	3520	0.8413
+banks	2017	537	462	0.8603
+banks	2018	530	446	0.8415
+banks	2019	536	456	0.8507
+banks	2020	532	470	0.8835
+banks	2021	528	462	0.8750
+banks	2022	520	454	0.8731
+banks	2023	507	334	0.6588
+banks	2024	494	436	0.8826
+

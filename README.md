@@ -54,6 +54,7 @@ paper.py                  the analysis pipeline: builds the panel and writes res
 gate_d_distribution.py    quantile / distributional evidence -> tables/t7, figures/fig12
 gate_e_dispersion.py      dispersion at equal size            -> tables/t8
 gate_f_reporting_level.py reporting level (conglomerate vs individual banks) -> results/reporting_level.txt, tables/t11
+gate_g_peers.py           peer rungs, cooperative-owned banks, provisioning by capital tercile, cost-to-income trim -> results/peer_rungs.txt, tables/t12
 make_tables.py            parses results/*.txt into tables/t1..t6 (no recomputation)
 cleanup_outputs.py        empties figures/, results/, tables/ before a fresh run
 
@@ -127,6 +128,7 @@ python paper.py                   # writes results/ and figures/
 python gate_d_distribution.py     # writes tables/t7 and figures/fig12
 python gate_e_dispersion.py       # writes tables/t8
 python gate_f_reporting_level.py  # writes results/reporting_level.txt and tables/t11
+python gate_g_peers.py            # writes results/peer_rungs.txt and tables/t12
 python make_tables.py             # writes tables/t1..t6 from results/
 ```
 
