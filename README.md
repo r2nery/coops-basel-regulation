@@ -52,7 +52,7 @@ bootstrap.
 paper/paper.tex           the manuscript; \input's tables/ and \includegraphics from figures/
 paper/supplement.tex      the online appendix, compiled separately
 paper.py                  the analysis pipeline: builds the panel and writes results/*.txt
-gate_d_distribution.py    quantile / distributional evidence -> results/gate_d_distribution.txt, capital_quantile_ci.txt, tables/t7
+gate_d_distribution.py    quantile / distributional evidence -> results/gate_d_distribution.txt, capital_quantile_ci.txt, coarsening_sensitivity.txt, tables/t7
 gate_e_dispersion.py      dispersion at equal size            -> tables/t8
 gate_f_reporting_level.py reporting level (conglomerate vs individual banks) -> results/reporting_level.txt, tables/t11
 gate_g_peers.py           peer rungs, cooperative-owned banks, provisioning by capital tercile, cost-to-income trim -> results/peer_rungs.txt, tables/t12
@@ -128,8 +128,9 @@ pip install -r requirements.txt
 
 python cleanup_outputs.py         # optional: clear stale outputs
 python paper.py                   # writes results/
-python gate_d_distribution.py     # writes results/gate_d_distribution.txt, results/capital_quantile_ci.txt and tables/t7
-                                  #   (--capital-ci reruns only the nine-quantile capital band for Figure 4)
+python gate_d_distribution.py     # writes results/gate_d_distribution.txt, capital_quantile_ci.txt, coarsening_sensitivity.txt and tables/t7
+                                  #   (--capital-ci reruns only the nine-quantile capital band for Figure 4;
+                                  #    --coarsening reruns only the coarsening block, capital and credit)
 python gate_e_dispersion.py       # writes tables/t8
 python gate_f_reporting_level.py  # writes results/reporting_level.txt and tables/t11
 python gate_g_peers.py            # writes results/peer_rungs.txt and tables/t12

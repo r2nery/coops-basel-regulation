@@ -172,7 +172,11 @@ def part_d(panel):
     say("D — matched estimate under alternative coarsening schemes")
     say("=" * 92)
     say(f"\n{'coarsening':<20}{'weighted CEM':>15}{'unweighted':>13}"
-        f"{'eff. n controls':>17}")
+        f"{'eff. n controls':>17}{'credit CEM':>12}{'credit p':>10}")
+    lines = ["[COARSENING]  coarsening\tbasel_cem\tbasel_cem_unweighted\teff_n_controls"
+             "\tcredit_cem\tcredit_cl_p",
+             "# weighted CEM estimand of the capital ratio and of credit/assets under every "
+             "coarsening scheme; the paper's within-region claim rests on the three region rows"]
     for cs in P.COARSENINGS:
         cfg = dict(BASE); cfg["coarsen"] = cs
         try:
@@ -182,10 +186,15 @@ def part_d(panel):
             continue
         a = r["reg"]["cem"].get("basileia_num")
         u = r["reg_extra"]["cem_unweighted"].get("basileia_num")
+        c = r["reg"]["cem"].get("credit_ratio")
         say(f"{cs:<20}{a['coef']:>15.2f}{u['coef']:>13.2f}"
-            f"{r['cem_w']['eff_n_controls']:>17.1f}")
+            f"{r['cem_w']['eff_n_controls']:>17.1f}{c['coef']:>12.4f}{c['cl_p']:>10.3f}")
+        lines.append(f"{cs}\t{a['coef']:.6f}\t{u['coef']:.6f}\t{r['cem_w']['eff_n_controls']:.2f}"
+                     f"\t{c['coef']:.6f}\t{c['cl_p']:.3e}")
     say("\nReported so the reader can see that the choice of coarsening, not only its")
     say("existence, is an analyst decision with consequences.")
+    (P.RESULTS / "coarsening_sensitivity.txt").write_text("\n".join(lines) + "\n",
+                                                          encoding="utf-8")
 
 
 def write_quantile_table(store, l2):
@@ -322,6 +331,9 @@ def main():
     l2 = res["_l2"]
     if "--capital-ci" in sys.argv:
         capital_ci(l2)
+        return
+    if "--coarsening" in sys.argv:
+        part_d(panel)
         return
     say("GATE D — DISTRIBUTIONAL EVIDENCE ON THE CAPITAL RESULT\n")
     store = part_a(l2)

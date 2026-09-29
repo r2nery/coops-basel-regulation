@@ -1,0 +1,7 @@
+[COARSENING]  coarsening	basel_cem	basel_cem_unweighted	eff_n_controls	credit_cem	credit_cl_p
+# weighted CEM estimand of the capital ratio and of credit/assets under every coarsening scheme; the paper's within-region claim rests on the three region rows
+size_q5_region	-7.018561	-15.638264	18.06	-0.025397	6.887e-01
+size_q5	-17.495874	-15.487111	75.76	0.170082	1.105e-05
+size_q10	-17.459925	-15.487111	71.88	0.168166	3.085e-05
+size_q3_region	-8.119987	-15.993926	20.80	0.066800	2.085e-01
+size_q10_region	-6.880803	-16.066829	21.64	0.013644	8.120e-01
