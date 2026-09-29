@@ -49,13 +49,15 @@ bootstrap.
 ## Repository layout
 
 ```
-paper.tex                 the manuscript; \input's tables/ and \includegraphics from figures/
+paper/paper.tex           the manuscript; \input's tables/ and \includegraphics from figures/
+paper/supplement.tex      the online appendix, compiled separately
 paper.py                  the analysis pipeline: builds the panel and writes results/*.txt
-gate_d_distribution.py    quantile / distributional evidence -> tables/t7, figures/fig12
+gate_d_distribution.py    quantile / distributional evidence -> results/gate_d_distribution.txt, capital_quantile_ci.txt, tables/t7
 gate_e_dispersion.py      dispersion at equal size            -> tables/t8
 gate_f_reporting_level.py reporting level (conglomerate vs individual banks) -> results/reporting_level.txt, tables/t11
 gate_g_peers.py           peer rungs, cooperative-owned banks, provisioning by capital tercile, cost-to-income trim -> results/peer_rungs.txt, tables/t12
-make_tables.py            parses results/*.txt into tables/t1..t6 (no recomputation)
+make_tables.py            parses results/*.txt into tables/t1..t6 and t9 (no recomputation)
+make_figures.py           draws every figure from results/*.txt and the panel (no regressions), plus figures/slides/
 cleanup_outputs.py        empties figures/, results/, tables/ before a fresh run
 
 results/                  machine-written result files (see below)
@@ -125,16 +127,19 @@ python -m venv .venv
 pip install -r requirements.txt
 
 python cleanup_outputs.py         # optional: clear stale outputs
-python paper.py                   # writes results/ and figures/
-python gate_d_distribution.py     # writes tables/t7 and figures/fig12
+python paper.py                   # writes results/
+python gate_d_distribution.py     # writes results/gate_d_distribution.txt, results/capital_quantile_ci.txt and tables/t7
+                                  #   (--capital-ci reruns only the nine-quantile capital band for Figure 4)
 python gate_e_dispersion.py       # writes tables/t8
 python gate_f_reporting_level.py  # writes results/reporting_level.txt and tables/t11
 python gate_g_peers.py            # writes results/peer_rungs.txt and tables/t12
-python make_tables.py             # writes tables/t1..t6 from results/
+python make_tables.py             # writes tables/t1..t6 and t9 from results/
+python make_figures.py            # writes figures/ from results/ and the panel
 ```
 
-Then compile `paper.tex` with the usual `pdflatex -> bibtex -> pdflatex -> pdflatex` cycle.
-The bibliography is `references_REVISADO.bib` (not tracked here).
+Then compile `paper/paper.tex` and `paper/supplement.tex` with the usual
+`pdflatex -> bibtex -> pdflatex -> pdflatex` cycle, with `tables/` and `figures/` beside
+them (the paper is rendered on Overleaf). The bibliography is `paper/references.bib`.
 
 Every number in the manuscript comes from a results file or a generated table; none is
 transcribed by hand. Re-running the pipeline is deterministic (fixed bootstrap seed).

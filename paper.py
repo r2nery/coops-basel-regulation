@@ -1459,89 +1459,6 @@ def w_robustness(rob, primary, path: Path):
     path.write_text(b.getvalue(), encoding="utf-8")
 
 
-# ============================================================================= figures
-def make_figures(primary, panel):
-    l2, l2_cem, l2_trim = primary["_l2"], primary["_l2_cem"], primary["_l2_trim"]
-    ov_lo, ov_hi = primary["_ov"]
-    cols = list(OUTCOMES)
-
-    # fig5: regulatory environment (full panel, all cooperatives vs non-coops)
-    pf = panel.copy()
-    pf["grp"] = np.where(pf.is_coop_any == 1, "Coop", "Non-coop")
-    fig, ax = plt.subplots(1, 3, figsize=(15, 4))
-    for a, grp, c in [(ax[0], "Coop", COOP_C), (ax[1], "Non-coop", NONCOOP_C)]:
-        m = (pf[pf.grp == grp].groupby(["year_q", "full_method"])["codigo"].nunique()
-             .unstack(fill_value=0))
-        m.columns = [{0: "Simplified", 1: "Full"}.get(x, str(x)) for x in m.columns]
-        m.plot.area(ax=a, color=[GREY, c], alpha=0.7)
-        a.set_title(grp); a.set_ylabel("N"); a.legend(frameon=False, fontsize=8)
-    for grp, c, lab in [("Coop", COOP_C, "Coop"), ("Non-coop", NONCOOP_C, "Non-coop")]:
-        m = (pf[pf.grp == grp].groupby(["year_q", "full_method"])["codigo"].nunique()
-             .unstack(fill_value=0))
-        share = m.get(1, pd.Series(0, index=m.index)) / m.sum(axis=1) * 100
-        ax[2].plot(share.index.to_timestamp(), share.values, color=c, lw=1.5, label=lab)
-    ax[2].set_title("% Under Full Methodology"); ax[2].legend(frameon=False)
-    fig.tight_layout(); fig.savefig(FIGURES / "fig5_regulatory.png", bbox_inches="tight"); plt.close(fig)
-
-    # fig8: common support
-    fig, ax = plt.subplots(figsize=(8, 4))
-    for v, lab, c in [(1, "Coop", COOP_C), (0, "Non-coop", NONCOOP_C)]:
-        s = l2.loc[l2.is_coop == v, "log_assets"].dropna()
-        if len(s) > 2:
-            s.plot.kde(ax=ax, color=c, lw=1.5,
-                       label=f"{lab} (N={l2.loc[l2.is_coop==v,'codigo'].nunique()})")
-    ax.axvspan(ov_lo, ov_hi, alpha=0.1, color="green", label=f"Overlap [{ov_lo:.1f},{ov_hi:.1f}]")
-    ax.set_xlabel("log(Assets)"); ax.legend(frameon=False, fontsize=8)
-    fig.tight_layout(); fig.savefig(FIGURES / "fig8_overlap.png", bbox_inches="tight"); plt.close(fig)
-
-    # fig10: coefficient stability across specs (cluster CIs)
-    reg = primary["reg"]
-    plot_outs = [o for o in OUTCOMES if all(o in reg[s] for s, _ in SPECS)]
-    ncol = 4; nrow = (len(plot_outs) + ncol - 1) // ncol
-    fig, axes = plt.subplots(nrow, ncol, figsize=(4 * ncol, 4.5 * nrow), squeeze=False)
-    axf = axes.flatten()
-    spec_c = [GREY, COOP_C, "#16a34a", ACCENT]
-    for j, o in enumerate(plot_outs):
-        a = axf[j]
-        for i, (sl, _) in enumerate(SPECS):
-            v = reg[sl][o]
-            a.errorbar(i, v["coef"], yerr=[[abs(v["coef"] - v["cl_lo"])], [abs(v["cl_hi"] - v["coef"])]],
-                       fmt="o", color=spec_c[i], capsize=4)
-        a.axhline(0, color="grey", ls="--", lw=0.7)
-        a.set_xticks(range(4)); a.set_xticklabels(["Raw", "Ctrl", "CEM", "Trim"], fontsize=7, rotation=30)
-        a.set_title(OUTCOMES[o], fontsize=8)
-    for k in range(len(plot_outs), len(axf)):
-        axf[k].set_visible(False)
-    fig.tight_layout(); fig.savefig(FIGURES / "fig10_stability.png", bbox_inches="tight"); plt.close(fig)
-
-    # fig11: stable outcomes over time (median, analysis sample)
-    stable = [o for o in OUTCOMES if primary["summary"].get(o, {}).get("tier") in ("robust", "partial")]
-    k = max(min(len(stable), 4), 1)
-    fig, axes = plt.subplots(1, k, figsize=(5 * k, 5), squeeze=False)
-    for idx, o in enumerate(stable[:4]):
-        a = axes[0][idx]
-        for v, lab, c in [(1, "Coop", COOP_C), (0, "Non-coop", NONCOOP_C)]:
-            ts = l2[l2.is_coop == v].groupby("year_q")[o].median()
-            a.plot(ts.index.to_timestamp(), ts.values, color=c, lw=1.5, label=lab)
-        a.set_title(OUTCOMES[o], fontsize=9); a.legend(fontsize=7, frameon=False)
-        a.tick_params(axis="x", rotation=30, labelsize=7)
-    fig.tight_layout(); fig.savefig(FIGURES / "fig11_stable.png", bbox_inches="tight"); plt.close(fig)
-
-    # fig12: sign-flip scatter
-    flips = [o for o in OUTCOMES if primary["summary"].get(o, {}).get("tier") == "sign_flip"]
-    if flips:
-        fig, axes = plt.subplots(1, len(flips), figsize=(6 * len(flips), 5), squeeze=False)
-        for idx, o in enumerate(flips):
-            a = axes[0][idx]
-            for v, lab, c in [(1, "Coop", COOP_C), (0, "Non-coop", NONCOOP_C)]:
-                s = l2[l2.is_coop == v].drop_duplicates("codigo")
-                a.scatter(s["log_assets"], s[o], alpha=0.15, s=8, color=c, label=lab)
-            a.axvspan(ov_lo, ov_hi, alpha=0.05, color="green")
-            a.set_xlabel("log(Assets)"); a.set_ylabel(OUTCOMES[o]); a.set_title(OUTCOMES[o])
-            a.legend(fontsize=8, frameon=False)
-        fig.tight_layout(); fig.savefig(FIGURES / "fig12_signflips.png", bbox_inches="tight"); plt.close(fig)
-
-
 # ============================================================================= writers
 def w_results(res, het, path: Path, title: str):
     b = io.StringIO()
@@ -1914,8 +1831,9 @@ def main():
 
     # PRIMARY SPECIFICATION (see results/changes_log.txt and the README for the
     # evidence behind each choice):
-    #   peers = banks (b1+b2). The full non-b3 population includes 196 institutions
-    #     reporting zero credit and zero deposits; comparing a lender to a brokerage
+    #   peers = banks (b1+b2). The full non-b3 population includes 158 institutions
+    #     with a median of zero credit and zero funds raised (146 of the 196 n2
+    #     institutions, plus a few n1 and banks); comparing a lender to a brokerage
     #     makes several outcomes mechanical.
     #   coarsen = size quintile only. Exact-matching on macro-region leaves ~18
     #     effective control institutions, and region is plausibly a mediator of
@@ -1978,7 +1896,7 @@ def main():
         "het": het,
     }
 
-    make_figures(primary, panel)
+    # figures are drawn by make_figures.py from the results files and the panel
 
     w_results(primary, het, RESULTS / "results_primary.txt",
               "RESULTS (PRIMARY / cooperatives vs banks b1+b2, size-quintile coarsening)")

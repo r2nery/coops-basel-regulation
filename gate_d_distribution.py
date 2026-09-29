@@ -23,7 +23,8 @@ script produces the evidence for that reframing.
   PART D  Coarsening sensitivity, gathered for the paper rather than left in a
           diagnostic: the matched estimate under five coarsening schemes.
 
-Writes results/gate_d_distribution.txt and figures/fig12_capital_quantiles.png.
+Writes results/gate_d_distribution.txt and tables/t7_quantiles.tex; make_figures.py
+draws figures/fig12_capital_quantiles.png from the results file.
 
     python gate_d_distribution.py
 """
@@ -187,41 +188,6 @@ def part_d(panel):
     say("existence, is an analyst decision with consequences.")
 
 
-# ---------------------------------------------------------------- figure
-def figure(store, l2):
-    fig, ax = plt.subplots(1, 2, figsize=(11, 4))
-    row = store.get("basileia_num")
-    if row:
-        ax[0].axhline(0, color="0.7", lw=.8)
-        ax[0].plot([q * 100 for q in QUANTILES], [row[q] for q in QUANTILES],
-                   "o-", color="tab:blue", label="quantile estimate")
-        ols = P.fit(l2, "basileia_num", "{o} ~ is_coop + log_assets + C(t)")
-        ax[0].axhline(ols["coef"], color="tab:red", ls="--",
-                      label=f"conditional mean ({ols['coef']:.1f})")
-        ax[0].set_xlabel("quantile of the Basel ratio distribution")
-        ax[0].set_ylabel("cooperative coefficient (pp)")
-        ax[0].set_title("(a) Capital differential across the distribution")
-        ax[0].legend(fontsize=8)
-    c = l2.loc[l2.is_coop == 1, "basileia_num"].dropna()
-    b = l2.loc[l2.is_coop == 0, "basileia_num"].dropna()
-    TOP = 80.0
-    bins = np.linspace(0, TOP, 60)
-    cc, bb = c[c <= TOP], b[b <= TOP]
-    ax[1].hist(cc, bins=bins, density=True, alpha=.55,
-               color="tab:blue", label=f"cooperatives ({100*(c>TOP).mean():.1f}% above {TOP:.0f}%)")
-    ax[1].hist(bb, bins=bins, density=True, alpha=.55,
-               color="tab:red", label=f"banks ({100*(b>TOP).mean():.1f}% above {TOP:.0f}%)")
-    ax[1].set_xlabel(f"Basel capital ratio (%), truncated at {TOP:.0f}%")
-    ax[1].set_ylabel("density")
-    ax[1].set_title("(b) Capital ratio distributions")
-    ax[1].legend(fontsize=8)
-    fig.tight_layout()
-    out = P.FIGURES / "fig12_capital_quantiles.png"
-    fig.savefig(out, dpi=150)
-    plt.close(fig)
-    say(f"\nwrote {out}")
-
-
 def write_quantile_table(store, l2):
     """Emit tables/t7_quantiles.tex so the paper does not transcribe these numbers."""
     tab = P.ROOT / "tables"
@@ -329,17 +295,41 @@ def t7_from_results():
     render_t7(vals, ci, olss, max(draws) if draws else B_QBOOT)
 
 
+def capital_ci(l2):
+    """Institution-bootstrap intervals for the capital-ratio coefficient at all nine
+    quantiles, for the continuous band in Figure 4(a). Same cell function and seed rule
+    as the t7 table, so the five quantiles t7 reports reproduce exactly."""
+    o = "basileia_num"
+    sub = l2[["is_coop", "log_assets", "date", "codigo", o]].dropna().copy()
+    sub["t"] = sub["date"].dt.to_period("Q").apply(lambda x: x.ordinal)
+    point = {q: float(smf.quantreg(f"{o} ~ is_coop + log_assets + C(t)", data=sub)
+                      .fit(q=q).params["is_coop"]) for q in QUANTILES}
+    tasks = [(o, q, sub, B_QBOOT, SEED_QBOOT + int(round(q * 100))) for q in QUANTILES]
+    workers = max(1, min(8, (os.cpu_count() or 2) - 2))
+    lines = ["[CAPITAL_QUANTILE_CI]  q\tcoef\tci_lo\tci_hi\tdraws",
+             f"# institution block bootstrap, B={B_QBOOT} per quantile, seed rule as t7"]
+    with ProcessPoolExecutor(max_workers=workers) as ex:
+        for _, q, lo, hi, nb in ex.map(_qboot_cell, *zip(*tasks)):
+            lines.append(f"{q:.2f}\t{point[q]:.6f}\t{lo:.6f}\t{hi:.6f}\t{nb}")
+    path = P.RESULTS / "capital_quantile_ci.txt"
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"wrote {path}")
+
+
 def main():
     panel, info, _ = P.build_panel()
     res = P.run_pipeline(panel, **BASE)
     l2 = res["_l2"]
+    if "--capital-ci" in sys.argv:
+        capital_ci(l2)
+        return
     say("GATE D — DISTRIBUTIONAL EVIDENCE ON THE CAPITAL RESULT\n")
     store = part_a(l2)
     part_b(l2)
     part_c(l2)
     part_d(panel)
     write_quantile_table(store, l2)
-    figure(store, l2)
+    capital_ci(l2)
     (P.RESULTS / "gate_d_distribution.txt").write_text(BUF.getvalue(), encoding="utf-8")
     print(f"\nwrote {P.RESULTS / 'gate_d_distribution.txt'}")
 
