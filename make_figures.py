@@ -106,7 +106,9 @@ KEY = {v: k for k, v in P.OUTCOMES.items()}   # results-file label -> panel colu
 
 
 def save(fig, name):
+    """PNG for viewing and a vector PDF for the manuscript, same basename."""
     fig.savefig(FIG / name)
+    fig.savefig((FIG / name).with_suffix(".pdf"))
     plt.close(fig)
     print(f"  figures/{name}")
 
@@ -127,7 +129,9 @@ def analysis_sample(panel, peer_set="banks"):
     cooperatives against the peer set, full-methodology quarters, winsorised 1/99."""
     sub, _, _ = P.select_sample(panel, "singular", "cti_new", "roa_ann", "nim_ann", peer_set)
     l2 = sub[sub["full_method"] == 1].copy()
+    raw = l2["basileia_num"].copy()          # before clipping, for the distribution panel
     l2, _ = P.winsorize(l2, list(P.OUTCOMES))
+    l2["basileia_raw"] = raw
     return sub, l2
 
 
@@ -326,10 +330,12 @@ def fig_capital(l2, txt):
     ygrid(a)
 
     b = ax[1]
-    c = l2.loc[l2.is_coop == 1, "basileia_num"].dropna()
-    k = l2.loc[l2.is_coop == 0, "basileia_num"].dropna()
-    lo, hi = max(1.0, min(c.min(), k.min()) * 0.9), max(c.max(), k.max()) * 1.1
-    bins = np.logspace(np.log10(lo), np.log10(hi), 46)
+    col = "basileia_raw" if "basileia_raw" in l2.columns else "basileia_num"
+    c = l2.loc[l2.is_coop == 1, col].dropna()
+    k = l2.loc[l2.is_coop == 0, col].dropna()
+    lo, hi = 5.0, 900.0                      # a few negative and near-zero ratios are drawn at 5
+    c, k = c.clip(lower=lo, upper=hi), k.clip(lower=lo, upper=hi)
+    bins = np.logspace(np.log10(lo), np.log10(hi), 40)
     for s, col, lab in [(k, BANK, "Banks"), (c, COOP, "Cooperatives")]:
         w = np.full(len(s), 100.0 / len(s))     # bar height: percent of the group's quarters
         b.hist(s, bins=bins, weights=w, color=col, alpha=0.25, lw=0)
@@ -344,15 +350,15 @@ def fig_capital(l2, txt):
     b.axvline(50, color=INK2, lw=0.8)
     b.axvline(100, color=INK2, lw=0.8)
     top = b.get_ylim()[1]
-    b.text(53, top * 0.62, f"above 50%\nbanks {sb50:.0f}%\ncoops {sc50:.0f}%",
+    b.text(53, top * 0.82, f"above 50%\nbanks {sb50:.0f}%\ncooperatives {sc50:.0f}%",
            fontsize=6.5, color=INK, va="top")
-    b.text(106, top * 0.30, f"above 100%\nbanks {sb100:.1f}%\ncoops {sc100:.1f}%",
+    b.text(106, top * 0.30, f"above 100%\nbanks {sb100:.1f}%\ncooperatives {sc100:.1f}%",
            fontsize=6.5, color=INK, va="top")
     b.set_xlabel("Basel capital ratio (%), log scale")
     b.set_ylabel("Percent of quarters")
     b.set_title("(b) The two distributions")
-    b.text(27.5, top * 0.78, "Cooperatives", fontsize=7, color=COOP, fontweight="bold")
-    b.text(9.3, top * 0.82, "Banks", fontsize=7, color=BANK, fontweight="bold")
+    b.text(33, top * 0.40, "Cooperatives", fontsize=7, color=COOP, fontweight="bold")
+    b.text(5.6, top * 0.45, "Banks", fontsize=7, color=BANK, fontweight="bold", ha="left")
     ygrid(b)
     fig.tight_layout(w_pad=1.5)
     save(fig, "fig12_capital_quantiles.png")
@@ -469,7 +475,7 @@ def fig_ladder():
             if name == "Banks":
                 a.axhspan(y - 0.42, y + 0.42, color=BAND, lw=0, zorder=0)
         a.set_title(SHORT[key], fontsize=7.5, loc="center")
-        a.tick_params(axis="x", labelsize=6.5)
+        a.tick_params(axis="x", labelsize=7)
         a.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(nbins=2, min_n_ticks=2))
         a.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: f"{v:g}"))
         xgrid(a)

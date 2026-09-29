@@ -62,7 +62,7 @@ cleanup_outputs.py        empties figures/, results/, tables/ before a fresh run
 
 results/                  machine-written result files (see below)
 tables/                   LaTeX table fragments (tabular + tablenotes only)
-figures/                  PNG figures referenced by the manuscript
+figures/                  figures referenced by the manuscript (PDF for the manuscript, PNG for viewing)
 data/                     raw and processed BACEN inputs (git-ignored; see Data)
 ```
 
