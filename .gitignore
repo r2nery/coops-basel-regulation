@@ -4,3 +4,5 @@
 __pycache__/
 references/*.pdf
 references/*.xlsx
+
+paper/*.pdf

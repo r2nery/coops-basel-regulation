@@ -1,0 +1,103 @@
+% Online appendix. Compiled separately; does not count toward the 8,000-word limit.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{threeparttable}
+\usepackage[hidelinks]{hyperref}
+\title{Online Appendix\\[0.3em]\large Institutional Profiles Under a Common Prudential
+Framework: Evidence from Brazilian Credit Cooperatives and Banks}
+\author{[Author names withheld for review]}
+\date{}
+\begin{document}
+\maketitle
+
+\noindent All tables and figures are the authors' calculations from BACEN IF.data.
+
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Descriptive statistics}
+\input{tables/t1_descriptives.tex}
+\end{threeparttable}\end{table}
+
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Cooperative differential with bootstrap intervals}
+\input{tables/t2_main_ci.tex}
+\end{threeparttable}\end{table}
+
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Cooperative differential by comparison group}
+\input{tables/t3_peer_ladder.tex}
+\end{threeparttable}\end{table}
+
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Quantile regression coefficients}
+\input{tables/t7_quantiles.tex}
+\end{threeparttable}\end{table}
+
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Dispersion at equal size}
+\input{tables/t8_dispersion.tex}
+\end{threeparttable}\end{table}
+
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Cooperative differential by system}
+\input{tables/t4_systems.tex}
+\end{threeparttable}\end{table}
+
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Banks by reporting level}
+\input{tables/t11_reporting_level.tex}
+\end{threeparttable}\end{table}
+
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Provisioning by capital tercile}
+\input{tables/t12_provisioning_by_capital.tex}
+\end{threeparttable}\end{table}
+
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Conditional mean and median}
+\input{tables/t5_mean_vs_median.tex}
+\end{threeparttable}\end{table}
+
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Excluding S1 and S2 banks}
+\input{tables/t6_segment_restricted.tex}
+\end{threeparttable}\end{table}
+
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Before and after the 2022 capital rules}
+\input{tables/t9_subperiod.tex}
+\end{threeparttable}\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/fig10_stability.png}
+\caption{Cooperative coefficient by specification}
+\par\smallskip{\footnotesize\raggedright In standard deviations of each outcome. Intervals are 95 percent, clustered by institution.\par}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/fig15_quantile_profiles.png}
+\caption{Quantile coefficients relative to the conditional mean}
+\par\smallskip{\footnotesize\raggedright Shaded: 20th to 80th percentile. The percentage beside each label is the average quantile coefficient over that range as a share of the conditional mean.\par}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/fig16_dispersion.png}
+\caption{Dispersion ratios at equal size}
+\par\smallskip{\footnotesize\raggedright Cooperative over bank value, residualised on log assets and quarter.\par}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.75\textwidth]{figures/fig17_decumulation.png}
+\caption{Return on assets before and after de-cumulation}
+\par\smallskip{\footnotesize\raggedright Median across the analysis sample, annualised.\par}
+\end{figure}
+
+\end{document}
