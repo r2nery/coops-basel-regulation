@@ -36,9 +36,6 @@ from concurrent.futures import ProcessPoolExecutor
 import numpy as np
 import pandas as pd
 import statsmodels.formula.api as smf
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 import paper as P
 
 BUF = io.StringIO()
