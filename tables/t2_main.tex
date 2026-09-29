@@ -4,19 +4,19 @@
 \toprule
 Outcome & (1) Raw & (2) Controls & (3) CEM & (4) Trim & Median (2) & $\rho$ & Tier \\
 \midrule
-Basel capital ratio (pp) & -8.19$^{***}$ & -15.77$^{***}$ & -17.50$^{***}$ & -14.21$^{***}$ & -2.18 & 1.73 & robust \\
-Leverage & 0.0561$^{**}$ & 0.1220$^{***}$ & 0.1046$^{***}$ & 0.0813$^{***}$ & 0.0283 & 1.45 & robust \\
-Return on assets (ann.) & 0.0181$^{***}$ & 0.0215$^{***}$ & 0.0179$^{***}$ & 0.0159$^{***}$ & 0.0171 & 0.88 & robust \\
-Cost-to-income ratio & -0.6025$^{***}$ & -0.7923$^{***}$ & -0.8385$^{***}$ & -0.7522$^{***}$ & -0.1796 & 1.25 & robust \\
-Credit portfolio / assets & 0.1654$^{***}$ & 0.1881$^{***}$ & 0.1701$^{***}$ & 0.1780$^{***}$ & 0.2448 & 1.08 & robust \\
+Basel capital ratio (pp) & -8.19$^{***}$ & -15.77$^{***}$ & -17.50$^{***}$ & -14.21$^{***}$ & -2.18 & 1.73 & stable in sign \\
+Leverage & 0.0561$^{**}$ & 0.1220$^{***}$ & 0.1046$^{***}$ & 0.0813$^{***}$ & 0.0283 & 1.45 & stable in sign \\
+Return on assets (ann.) & 0.0181$^{***}$ & 0.0215$^{***}$ & 0.0179$^{***}$ & 0.0159$^{***}$ & 0.0171 & 0.88 & stable \\
+Cost-to-income ratio & -0.6025$^{***}$ & -0.7923$^{***}$ & -0.8385$^{***}$ & -0.7522$^{***}$ & -0.1796 & 1.25 & stable in sign \\
+Credit portfolio / assets & 0.1654$^{***}$ & 0.1881$^{***}$ & 0.1701$^{***}$ & 0.1780$^{***}$ & 0.2448 & 1.08 & stable \\
 Provisioning ratio & 0.0020 & -0.0012 & 0.0010 & 0.0009 & 0.0236 &  & null \\
 Intermediation margin (ann.) & -0.0003 & -0.0190 & -0.0107 & -0.0171 & 0.0203 &  & null \\
 Funding ratio & 0.0461 & 0.0887$^{**}$ & 0.0536 & 0.0330 & -0.0247 &  & null \\
 \midrule
-Return on assets volatility & -0.0110$^{***}$ & -0.0189$^{***}$ & -0.0175$^{***}$ & -0.0170$^{***}$ & -0.0133 & 1.55 & robust \\
-Z-score & 4.20$^{***}$ & 6.32$^{***}$ & 6.14$^{***}$ & 6.20$^{***}$ & 7.58 & 1.48 & robust \\
+Return on assets volatility & -0.0110$^{***}$ & -0.0189$^{***}$ & -0.0175$^{***}$ & -0.0170$^{***}$ & -0.0133 & 1.55 & stable \\
+Z-score & 4.20$^{***}$ & 6.32$^{***}$ & 6.14$^{***}$ & 6.20$^{***}$ & 7.58 & 1.48 & stable \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[flushleft]\footnotesize
-\item Coefficient on the cooperative indicator; standard errors clustered by institution. Every starred cell was additionally checked with a restricted wild cluster bootstrap (1,999 replications), which agrees with the clustered test throughout. 'Median (2)' is the conditional-median counterpart of column (2). rho = |b\_trim|/|b\_raw|, reported only when all four columns are significant; rho above one means the differential grows as the design tightens. The final two rows are institution-level stability outcomes (return-on-assets volatility and the z-score, one value per institution over its full-methodology quarters); they are estimated on an institution-level cross-section with HC3 errors and a wild bootstrap over institutions, and their stars are HC3.
+\item Standard errors clustered by institution, HC3 for the last two rows; * p<0.05, ** p<0.01, *** p<0.001, confirmed by a wild cluster bootstrap. Median (2): conditional median of column (2). rho = |b\_trim|/|b\_raw|. Tier: see Section 3.4.
 \end{tablenotes}

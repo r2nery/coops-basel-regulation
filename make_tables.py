@@ -33,8 +33,10 @@ FILES = {
     "subperiod": RESULTS / "subperiod.txt",       # optional; feeds t9
     "commercial": RESULTS / "results_commercial.txt",   # optional; t3 column 4
     "structural": RESULTS / "results_structural.txt",   # optional; t3 column 5
+    "robustness": RESULTS / "robustness.txt",           # optional; winsorisation variants for the t2 tier
+    "distribution": RESULTS / "gate_d_distribution.txt",  # optional; q20-q80 share for the t2 tier
 }
-OPTIONAL = {"no_s12", "subperiod", "commercial", "structural"}   # missing file is not an error
+OPTIONAL = {"no_s12", "subperiod", "commercial", "structural", "robustness", "distribution"}
 
 SPECS = ["raw", "ctrl", "cem", "trim"]
 SPEC_HEAD = {"raw": "(1) Raw", "ctrl": "(2) Controls", "cem": "(3) CEM", "trim": "(4) Trim"}
@@ -129,6 +131,72 @@ def stability(sections):
         if len(r) < 8:
             continue
         out[r[0]] = {"rho": r[3], "tier": r[5], "sig": r[6], "amp": r[7]}
+    return out
+
+
+def winsor_variants(sections):
+    """Controlled coefficient and clustered p for each outcome under every winsorisation rule."""
+    out = {}
+    for r in sections.get("WINSOR_VARIANTS", []):
+        if len(r) < 6:
+            continue
+        out.setdefault(r[1], []).append({"coef": float(r[2]), "p": float(r[5])})
+    return out
+
+
+def mid_distribution_share():
+    """Mean of the q20-q80 quantile coefficients as a share of the conditional mean, read
+    from the gate_d report ('mean of q20-q80 is X, NN% of the OLS coefficient')."""
+    path = FILES["distribution"]
+    if not path.exists():
+        return {}
+    out, current = {}, None
+    for line in path.read_text(encoding="utf-8").splitlines():
+        name = line.strip()
+        if any(name == key for key, _ in ORDER):
+            current = name
+            continue
+        m = re.search(r"mean of q20-q80 is .*?, (-?\d+)% of the OLS coefficient", line)
+        if m and current:
+            out[current] = int(m.group(1)) / 100
+            current = None
+    return out
+
+
+def tiers(P):
+    """The classification rule stated in the paper (Section 3.4).
+
+    null           unless significant at 5 percent, with one sign, in all four specifications
+    stable         significant, keeps significance under every winsorisation rule, varies by
+                   less than a factor of two across those rules, and the q20-q80 average of
+                   the quantile coefficients is at least half the conditional mean
+    stable in sign significant in all four specifications, but fails one of the tail or
+                   distribution conditions above
+    The institution-level stability outcomes have no winsorisation or quantile variants, so
+    they are stable whenever they are significant in all four specifications.
+    """
+    c = coefs(P)
+    wins = winsor_variants(parse(FILES["robustness"])) if FILES["robustness"].exists() else {}
+    mid = mid_distribution_share()
+    out = {}
+    for key, _ in ORDER + STAB_ORDER:
+        cells = [c.get(key, {}).get(sp) for sp in SPECS]
+        if any(v is None for v in cells):
+            continue
+        pv = [v["hc_p"] if key in STAB_LABELS else v["p"] for v in cells]
+        signs = {v["coef"] > 0 for v in cells}
+        if max(pv) >= 0.05 or len(signs) > 1:
+            out[key] = "null"
+            continue
+        if key in STAB_LABELS:
+            out[key] = "stable"
+            continue
+        w = wins.get(key, [])
+        mags = [abs(v["coef"]) for v in w]
+        tail_ok = bool(w) and all(v["p"] < 0.05 and (v["coef"] > 0) in signs for v in w) \
+            and max(mags) < 2 * min(mags)
+        dist_ok = key in mid and mid[key] >= 0.5
+        out[key] = "stable" if tail_ok and dist_ok else "stable in sign"
     return out
 
 
@@ -229,7 +297,7 @@ def t1(P):
 
 
 def t2(P):
-    c, m, s = coefs(P), medians(P), stability(P)
+    c, m, s, tier = coefs(P), medians(P), stability(P), tiers(P)
     rows = []
     for key, lab in ORDER + STAB_ORDER:
         if key not in c:
@@ -247,23 +315,16 @@ def t2(P):
             rows.append("\\midrule")
         rows.append(f"{esc(lab)} & " + " & ".join(cells)
                     + f" & {f(md['med'],k) if md else ''} & {rho}"
-                      f" & {esc(info.get('tier',''))} \\\\")
+                      f" & {esc(tier.get(key, ''))} \\\\")
     body = ("\\begin{tabular}{lrrrrrrl}\n\\toprule\n"
             "Outcome & " + " & ".join(SPEC_HEAD[x] for x in SPECS)
             + " & Median (2) & $\\rho$ & Tier \\\\\n\\midrule\n"
             + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}")
     emit("t2_main", body, small="footnotesize", note=
-         "Coefficient on the cooperative indicator; standard errors clustered by "
-         "institution. Every starred cell was additionally checked with a restricted "
-         "wild cluster bootstrap (1,999 replications), which agrees with the clustered "
-         "test throughout. "
-         "'Median (2)' is the conditional-median counterpart of column (2). "
-         "rho = |b_trim|/|b_raw|, reported only when all four columns are significant; "
-         "rho above one means the differential grows as the design tightens. The final "
-         "two rows are institution-level stability outcomes (return-on-assets volatility "
-         "and the z-score, one value per institution over its full-methodology quarters); "
-         "they are estimated on an institution-level cross-section with HC3 errors and a "
-         "wild bootstrap over institutions, and their stars are HC3.")
+         "Standard errors clustered by institution, HC3 for the last two rows; "
+         "* p<0.05, ** p<0.01, *** p<0.001, confirmed by a wild cluster bootstrap. "
+         "Median (2): conditional median of column (2). rho = |b_trim|/|b_raw|. "
+         "Tier: see Section 3.4.")
 
 
 def t2_ci(P):
@@ -336,8 +397,8 @@ def t3(P, B, W, C=None, S=None):
          "Controlled specification (log assets and quarter fixed effects) in every column "
          "except the third, which additionally exact-matches on macro-region. Standard "
          "errors clustered by institution in parentheses; HC3 for the two institution-level "
-         "stability rows. The broad group includes 196 institutions reporting zero credit "
-         "and zero deposits. Commercial: b1 banks only. Structural: b1 banks with strictly "
+         "stability rows. The broad group includes 158 institutions with a median of zero "
+         "credit and zero funds raised. Commercial: b1 banks only. Structural: b1 banks with strictly "
          "positive total deposits in every full-methodology quarter of their presence in "
          "the sample, an ex-ante business-model definition of a deposit-funded bank.")
 
