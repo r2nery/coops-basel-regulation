@@ -46,7 +46,7 @@ AUTHORS = [("Arthur Gomes Nery", "a"), ("Thiago de Oliveira Victorino", "b"), ("
 AUTHORS_SHORT = "Nery, Victorino and Rangel"
 AFFILIATIONS = [
     ("a", "Organization of Brazilian Cooperatives (OCB System), Brasília, Brazil, ORCID [0000-0000-0000-0000], arthurgomesqq@gmail.com"),
-    ("b", "Organization of Brazilian Cooperatives (OCB System) and Department of Administration, University of Brasilia, Brasília, Brazil, ORCID [0000-0000-0000-0000], [email]"),
+    ("b", "Organization of Brazilian Cooperatives (OCB System), Brasília, Brazil, ORCID [0000-0000-0000-0000], [email]"),
     ("c", "Organization of Brazilian Cooperatives (OCB System), Brasília, Brazil, ORCID [0000-0000-0000-0000], [email]"),
 ]
 AWARD = "Best Young and Emerging Scholar Paper"
