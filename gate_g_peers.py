@@ -226,15 +226,11 @@ def write_t12(out, B_=None):
                      f"{k['coop_prov']:.3f} & {k['bank_prov']:.3f} " + r"\\")
     L += [r"\bottomrule", r"\end{tabular}"]
     note = (r"\begin{tablenotes}[flushleft]\footnotesize" "\n"
-            r"\item Coefficient on the cooperative dummy in a regression of the provisioning ratio on the "
-            r"dummy, log assets and quarter fixed effects, estimated separately within each tercile of the "
-            r"analysis sample. Terciles are cut on the pooled sample of cooperatives and banks: in Panel A on "
-            r"the residual of the Basel ratio from a regression on log assets and quarter fixed effects, in "
-            r"Panel B on the ratio itself; the range column gives the tercile's cut points on that variable. "
-            r"Standard errors clustered by institution in parentheses; stars and "
-            f"the $p$-value from the restricted wild cluster bootstrap with {B_:,} replications "
-            r"(*** $p<0.01$, ** $p<0.05$, * $p<0.10$). Quarters are those with a non-missing provisioning "
-            r"ratio." "\n" r"\end{tablenotes}" "\n")
+            r"\item Cooperative coefficient, controlled specification, within each tercile of the pooled "
+            r"sample: Panel A cut on the Basel ratio residualised on log assets and quarter fixed effects, "
+            r"Panel B on the ratio itself. Clustered standard errors in parentheses; $p$-values and stars "
+            f"from the restricted wild cluster bootstrap ({B_:,} replications; *** $p<0.01$, ** $p<0.05$, "
+            r"* $p<0.10$). Quarters with a provisioning ratio." "\n" r"\end{tablenotes}" "\n")
     (tab / "t12_provisioning_by_capital.tex").write_text("\n".join(L) + "\n" + note, encoding="utf-8")
     say(f"wrote {tab / 't12_provisioning_by_capital.tex'}")
 

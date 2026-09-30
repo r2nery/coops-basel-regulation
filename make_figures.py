@@ -106,9 +106,7 @@ KEY = {v: k for k, v in P.OUTCOMES.items()}   # results-file label -> panel colu
 
 
 def save(fig, name):
-    """PNG for viewing and a vector PDF for the manuscript, same basename."""
     fig.savefig(FIG / name)
-    fig.savefig((FIG / name).with_suffix(".pdf"))
     plt.close(fig)
     print(f"  figures/{name}")
 
@@ -211,8 +209,8 @@ def fig_regulatory(panel):
     for grp, c, lab in [("coop", COOP, "Cooperatives"), ("noncoop", BANK, "Non-cooperatives")]:
         s = shares[grp]
         ax[2].plot(s.index.to_timestamp(), s.values, color=c)
-        ax[2].text(s.index[2].to_timestamp(), 66 if grp == "noncoop" else s.values[2] + 6,
-                   lab, ha="left", va="bottom", fontsize=7, color=INK2)
+        ax[2].text(s.index[1].to_timestamp(), 48 if grp == "noncoop" else 24, lab,
+                   ha="left", va="bottom", fontsize=7, color=INK2)
     ax[2].set_title("(c) Share under full method.")
     ax[2].set_ylabel("Percent")
     ax[2].set_ylim(0, 105)
@@ -271,10 +269,8 @@ def fig_broad_group(panel):
                    alpha=0.75, lw=0.5, edgecolor="white",
                    label=f"{lab} ({int((med.grp == grp).sum())})")
     ax.scatter([0], [0], s=90, facecolor=OTHER, edgecolor="white", lw=1.2, zorder=3)
-    ax.annotate(f"{n_zero} institutions with a median of zero\ncredit and zero funding",
-                (0, 0), xytext=(0.14, 0.08), textcoords="data", fontsize=7, color=INK,
-                bbox=dict(boxstyle="round,pad=0.25", fc="white", ec=AXIS, lw=0.5),
-                arrowprops=dict(arrowstyle="-", color=INK2, lw=0.6), zorder=5)
+    ax.text(0.05, -0.005, f"{n_zero} institutions", fontsize=7, color=INK, va="center",
+            ha="left", zorder=5)
     ax.set_xlim(-0.04, cap + 0.02)
     ax.set_ylim(-0.04, cap + 0.02)
     ax.set_xlabel("Credit portfolio / total assets (institution median)")
@@ -347,9 +343,8 @@ def fig_capital(l2, txt):
     b.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
     sc50, sb50 = share_above(txt, 50)
     sc100, sb100 = share_above(txt, 100)
-    b.axvline(50, color=INK2, lw=0.8)
-    b.axvline(100, color=INK2, lw=0.8)
     top = b.get_ylim()[1]
+    b.vlines([50, 100], 0, top * 0.26, color=INK2, lw=0.8)
     b.text(53, top * 0.82, f"above 50%\nbanks {sb50:.0f}%\ncooperatives {sc50:.0f}%",
            fontsize=6.5, color=INK, va="top")
     b.text(106, top * 0.30, f"above 100%\nbanks {sb100:.1f}%\ncooperatives {sc100:.1f}%",
@@ -443,7 +438,7 @@ def fig_series(l2):
         ygrid(a)
         a.xaxis.set_major_locator(matplotlib.dates.YearLocator(2))
         a.xaxis.set_major_formatter(matplotlib.dates.DateFormatter("%Y"))
-    axes[0, 0].legend(loc="upper right")
+    axes[0, 1].legend(loc="lower right")
     fig.tight_layout(h_pad=1.2, w_pad=1.5)
     save(fig, "fig11_stable.png")
 
@@ -499,7 +494,8 @@ def fig_profiles(txt):
     ax.axvspan(20, 80, color=BAND, lw=0)
     ax.axhline(1, color=INK2, lw=0.8)
     ax.axhline(0, color=AXIS, lw=0.8)
-    ax.text(10.5, 0.95, "equal to the\nconditional mean", fontsize=6.5, color=INK2, va="top")
+    ax.text(36, 1.03, "equal to the\nconditional mean", fontsize=6.5, color=INK2,
+            va="bottom")
     ends = []
     for name in order:
         r = rows[name]
@@ -548,7 +544,7 @@ def fig_dispersion(txt):
     ax.set_yticklabels([LABEL[n] for n in names])
     ax.set_xlim(0, 1.1)
     ax.set_xlabel("Cooperatives / banks, residualised on size and quarter")
-    ax.legend(loc="lower right")
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.22), ncol=2, frameon=False)
     xgrid(ax)
     fig.tight_layout()
     save(fig, "fig16_dispersion.png")

@@ -290,10 +290,8 @@ def t1(P):
             "Outcome & Mean & Median & Mean & Median & Coop. & Banks \\\\\n\\midrule\n"
             + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}")
     emit("t1_descriptives", body,
-         "Unconditional. The median cooperative Basel ratio exceeds the median bank "
-         "ratio while the size-adjusted differential in Table 3 is negative: "
-         "cooperatives are smaller than the banks in this population and capital "
-         "ratios fall with size.")
+         "Unconditional, analysis sample after winsorisation. Observations are "
+         "institution-quarters with the outcome observed.")
 
 
 def t2(P):
@@ -354,10 +352,9 @@ def t2_ci(P):
             "Outcome & " + " & ".join(SPEC_HEAD[x] for x in SPECS)
             + " \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}")
     emit("t2_main_ci", body, small="footnotesize", note=
-         "Supplement version of the main table: each coefficient with its 95 percent "
-         "confidence interval beneath it, clustered by institution for the eight panel "
-         "outcomes and HC3 for the two institution-level stability rows. Stars as in the "
-         "main table.")
+         "Each coefficient with its 95 percent interval beneath it, clustered by "
+         "institution; HC3 for the two institution-level rows. Stars as in Table 2 of the "
+         "main text.")
 
 
 def t3(P, B, W, C=None, S=None):
@@ -394,13 +391,9 @@ def t3(P, B, W, C=None, S=None):
             "Comparison institutions & " + " & ".join(counts) + " \\\\\n"
             "\\bottomrule\n\\end{tabular}")
     emit("t3_peer_ladder", body, small="footnotesize", note=
-         "Controlled specification (log assets and quarter fixed effects) in every column "
-         "except the third, which additionally exact-matches on macro-region. Standard "
-         "errors clustered by institution in parentheses; HC3 for the two institution-level "
-         "stability rows. The broad group includes 158 institutions with a median of zero "
-         "credit and zero funds raised. Commercial: b1 banks only. Structural: b1 banks with strictly "
-         "positive total deposits in every full-methodology quarter of their presence in "
-         "the sample, an ex-ante business-model definition of a deposit-funded bank.")
+         "Controlled specification; the within-region column also exact-matches on "
+         "macro-region. Clustered standard errors in parentheses; HC3 for the two "
+         "institution-level rows. Rungs as defined in Section 3.2 of the main text.")
 
 
 def t4(P):
@@ -437,20 +430,15 @@ def t4(P):
     sicoob = marg.get(("Sicoob", "Basel Capital Ratio (%)"))
     indroa = marg.get(("Independent", "Return on Assets"))
     note = (
-        "Each system estimated against the same bank comparison group under the "
-        "controlled specification. Stars are from a restricted wild cluster bootstrap "
-        "(Rademacher weights): * p<0.05, ** p<0.01, *** p<0.001. 'Inst.' is the number "
-        "of cooperatives; 'Treated' is the number of treated clusters that carry a usable "
-        "observation, which governs reliability. The independent group lists six "
-        "cooperatives but one contributes no usable observation, so five treated clusters "
-        "enter every estimate; with five treated clusters the smallest attainable "
-        "bootstrap p-value is about 0.03.")
+        "Controlled specification against the bank group. Stars from the restricted "
+        "wild cluster bootstrap: * p<0.05, ** p<0.01, *** p<0.001. Treated: cooperative "
+        "clusters with a usable observation; with five, the smallest attainable bootstrap "
+        "p-value is about 0.03.")
     if sicoob is not None:
         note += f" Sicoob's capital coefficient has a bootstrap p-value of {sicoob:.3f}."
     if indroa is not None:
-        note += (f" The independent return-on-assets coefficient carries an asymptotic "
-                 f"p-value below 0.001 but a bootstrap p-value of {indroa:.3f}, the "
-                 f"expected gap when only five clusters are treated.")
+        note += (f" The independent return-on-assets coefficient has an asymptotic "
+                 f"p-value below 0.001 and a bootstrap p-value of {indroa:.3f}.")
     emit("t4_systems", body, note)
 
 
@@ -474,10 +462,8 @@ def t5(P):
             "& Same sign \\\\\n\\midrule\n" + "\n".join(rows)
             + "\n\\bottomrule\n\\end{tabular}")
     emit("t5_mean_vs_median", body, small=True, note=
-         "Controlled specification, cooperatives against banks. A ratio well below one "
-         "means the mean differential is produced by the tail of the outcome "
-         "distribution rather than by the typical institution; a sign disagreement "
-         "means the mean result does not describe the centre of the distribution.")
+         "Controlled specification, cooperatives against banks. Ratio: conditional "
+         "median over conditional mean.")
 
 
 def t6(P, S):
@@ -503,10 +489,8 @@ def t6(P, S):
                      f"{ss['analysis_noncoops']} banks over {int(ss['analysis_obs']):,} "
                      f"institution-quarters.")
     emit("t6_segment_restricted", body,
-         "Controlled specification. Segments 1 and 2 carry the systemic capital buffer, "
-         "the liquidity ratios and eligibility for internal models under Res. CMN "
-         "4.553/2017, and contain no cooperatives. Institutions are excluded on their "
-         "modal segment." + excl_note)
+         "Controlled specification. Institutions are excluded on their modal segment "
+         "under Res. CMN 4.553/2017; S1 and S2 contain no cooperatives." + excl_note)
 
 
 def subper_coefs(sections):
@@ -558,11 +542,9 @@ def t9(SP):
                  f"The bootstrap and clustered tests disagree at the 5 percent level in "
                  f"{disagree} of the twenty-four cells.")
     emit("t9_subperiod", body,
-         "Controlled specification (log assets and quarter fixed effects), cooperatives "
-         "against banks, estimated on the full sample and on each subperiod. Standard "
-         "errors clustered by institution. The boundary is 3 January 2022, the entry "
-         "into force of Resolutions CMN 4.955 and 4.958 of 2021, which consolidated the "
-         "capital and minimum-requirement rules. " + boot_note)
+         "Controlled specification, cooperatives against banks, on the full sample and "
+         "on each subperiod; the boundary is 3 January 2022, when Resolutions CMN 4.955 "
+         "and 4.958 took effect. Standard errors clustered by institution. " + boot_note)
 
 
 # ------------------------------------------------------------------ main

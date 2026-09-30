@@ -15,4 +15,4 @@ Funding ratio & 0.6156 & 0.6114 & 0.5694 & 0.6752 & 3,048 & 4,184 \\
 \bottomrule
 \end{tabular}
 
-NOTE: Unconditional. The median cooperative Basel ratio exceeds the median bank ratio while the size-adjusted differential in Table 3 is negative: cooperatives are smaller than the banks in this population and capital ratios fall with size.
+NOTE: Unconditional, analysis sample after winsorisation. Observations are institution-quarters with the outcome observed.

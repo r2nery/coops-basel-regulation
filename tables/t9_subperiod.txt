@@ -17,4 +17,4 @@ Banks & 144 & 141 & 134 \\
 \bottomrule
 \end{tabular}
 
-NOTE: Controlled specification (log assets and quarter fixed effects), cooperatives against banks, estimated on the full sample and on each subperiod. Standard errors clustered by institution. The boundary is 3 January 2022, the entry into force of Resolutions CMN 4.955 and 4.958 of 2021, which consolidated the capital and minimum-requirement rules. Bootstrap p-values (1,999 replications) agree with the clustered stars in every cell.
+NOTE: Controlled specification, cooperatives against banks, on the full sample and on each subperiod; the boundary is 3 January 2022, when Resolutions CMN 4.955 and 4.958 took effect. Standard errors clustered by institution. Bootstrap p-values (1,999 replications) agree with the clustered stars in every cell.

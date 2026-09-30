@@ -1,4 +1,6 @@
 % Online appendix. Compiled separately; does not count toward the 8,000-word limit.
+% Tables come from tables/*.tex (make_tables.py and the gate scripts); figures from
+% make_figures.py. Do not transcribe numbers by hand.
 \documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -18,88 +20,118 @@ Framework: Evidence from Brazilian Credit Cooperatives and Banks}
 \begin{document}
 \maketitle
 
-\noindent All tables and figures are the authors' calculations from BACEN IF.data.
+\noindent All tables and figures are the authors' calculations from BACEN IF.data, on
+the analysis sample of the main text unless a note says otherwise. Outcomes are defined
+in Table~1 of the main text and the specifications in its Section~3.4. The material
+follows the order of the results: the sample and the main estimates
+(Tables~\ref{tab:a1} to~\ref{tab:a3}, Figure~\ref{fig:a1}), the distribution and
+dispersion of the outcomes (Tables~\ref{tab:a4} to~\ref{tab:a6},
+Figures~\ref{fig:a2} and~\ref{fig:a3}), the comparison groups (Tables~\ref{tab:a7}
+and~\ref{tab:a8}), the network split (Table~\ref{tab:a9}), the sensitivity checks
+(Tables~\ref{tab:a10} and~\ref{tab:a11}) and the de-cumulation of the income fields
+(Figure~\ref{fig:a4}).
 
+% ---------------------------------------------------------------- sample and main estimates
 \begin{table}[htbp]\centering\begin{threeparttable}
 \caption{Descriptive statistics}
+\label{tab:a1}
 \input{tables/t1_descriptives.tex}
 \end{threeparttable}\end{table}
 
 \begin{table}[htbp]\centering\begin{threeparttable}
-\caption{Cooperative differential with bootstrap intervals}
+\caption{Cooperative differential with confidence intervals}
+\label{tab:a2}
 \input{tables/t2_main_ci.tex}
 \end{threeparttable}\end{table}
 
 \begin{table}[htbp]\centering\begin{threeparttable}
-\caption{Cooperative differential by comparison group}
-\input{tables/t3_peer_ladder.tex}
+\caption{Conditional mean and median}
+\label{tab:a3}
+\input{tables/t5_mean_vs_median.tex}
 \end{threeparttable}\end{table}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/fig10_stability.png}
+\caption{Cooperative coefficient by specification}
+\label{fig:a1}
+\par\smallskip{\footnotesize\raggedright In standard deviations of each outcome. Intervals are 95 percent, clustered by institution.\par}
+\end{figure}
+
+% ---------------------------------------------------------------- distribution and dispersion
 \begin{table}[htbp]\centering\begin{threeparttable}
 \caption{Quantile regression coefficients}
+\label{tab:a4}
 \input{tables/t7_quantiles.tex}
 \end{threeparttable}\end{table}
 
 \begin{table}[htbp]\centering\begin{threeparttable}
 \caption{Dispersion at equal size}
+\label{tab:a5}
 \input{tables/t8_dispersion.tex}
 \end{threeparttable}\end{table}
 
 \begin{table}[htbp]\centering\begin{threeparttable}
-\caption{Cooperative differential by system}
-\input{tables/t4_systems.tex}
-\end{threeparttable}\end{table}
-
-\begin{table}[htbp]\centering\begin{threeparttable}
 \caption{Banks by reporting level}
+\label{tab:a6}
 \input{tables/t11_reporting_level.tex}
 \end{threeparttable}\end{table}
 
-\begin{table}[htbp]\centering\begin{threeparttable}
-\caption{Provisioning by capital tercile}
-\input{tables/t12_provisioning_by_capital.tex}
-\end{threeparttable}\end{table}
-
-\begin{table}[htbp]\centering\begin{threeparttable}
-\caption{Conditional mean and median}
-\input{tables/t5_mean_vs_median.tex}
-\end{threeparttable}\end{table}
-
-\begin{table}[htbp]\centering\begin{threeparttable}
-\caption{Excluding S1 and S2 banks}
-\input{tables/t6_segment_restricted.tex}
-\end{threeparttable}\end{table}
-
-\begin{table}[htbp]\centering\begin{threeparttable}
-\caption{Before and after the 2022 capital rules}
-\input{tables/t9_subperiod.tex}
-\end{threeparttable}\end{table}
-
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.8\textwidth]{figures/fig10_stability.pdf}
-\caption{Cooperative coefficient by specification}
-\par\smallskip{\footnotesize\raggedright In standard deviations of each outcome. Intervals are 95 percent, clustered by institution.\par}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.8\textwidth]{figures/fig15_quantile_profiles.pdf}
+\includegraphics[width=0.8\textwidth]{figures/fig15_quantile_profiles.png}
 \caption{Quantile coefficients relative to the conditional mean}
+\label{fig:a2}
 \par\smallskip{\footnotesize\raggedright Shaded: 20th to 80th percentile. The percentage beside each label is the average quantile coefficient over that range as a share of the conditional mean.\par}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.7\textwidth]{figures/fig16_dispersion.pdf}
+\includegraphics[width=0.7\textwidth]{figures/fig16_dispersion.png}
 \caption{Dispersion ratios at equal size}
+\label{fig:a3}
 \par\smallskip{\footnotesize\raggedright Cooperative over bank value, residualised on log assets and quarter.\par}
 \end{figure}
 
+% ---------------------------------------------------------------- comparison groups
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Cooperative differential by comparison group}
+\label{tab:a7}
+\input{tables/t3_peer_ladder.tex}
+\end{threeparttable}\end{table}
+
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Provisioning by capital tercile}
+\label{tab:a8}
+\input{tables/t12_provisioning_by_capital.tex}
+\end{threeparttable}\end{table}
+
+% ---------------------------------------------------------------- networks
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Cooperative differential by system}
+\label{tab:a9}
+\input{tables/t4_systems.tex}
+\end{threeparttable}\end{table}
+
+% ---------------------------------------------------------------- sensitivity
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Excluding S1 and S2 banks}
+\label{tab:a10}
+\input{tables/t6_segment_restricted.tex}
+\end{threeparttable}\end{table}
+
+\begin{table}[htbp]\centering\begin{threeparttable}
+\caption{Before and after the 2022 capital rules}
+\label{tab:a11}
+\input{tables/t9_subperiod.tex}
+\end{threeparttable}\end{table}
+
+% ---------------------------------------------------------------- measurement
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.75\textwidth]{figures/fig17_decumulation.pdf}
+\includegraphics[width=0.75\textwidth]{figures/fig17_decumulation.png}
 \caption{Return on assets before and after de-cumulation}
+\label{fig:a4}
 \par\smallskip{\footnotesize\raggedright Median across the analysis sample, annualised.\par}
 \end{figure}
 
