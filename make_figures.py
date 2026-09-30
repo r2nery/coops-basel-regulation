@@ -269,8 +269,10 @@ def fig_broad_group(panel):
                    alpha=0.75, lw=0.5, edgecolor="white",
                    label=f"{lab} ({int((med.grp == grp).sum())})")
     ax.scatter([0], [0], s=90, facecolor=OTHER, edgecolor="white", lw=1.2, zorder=3)
-    ax.text(0.06, 0.03, f"{n_zero} institutions", fontsize=7, color=INK, va="center",
-            ha="left", bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="none"), zorder=5)
+    ax.annotate(f"{n_zero} institutions", (0, 0), xytext=(0.10, 0.10), textcoords="data",
+                fontsize=7, color=INK, va="center", ha="left",
+                bbox=dict(boxstyle="round,pad=0.25", fc="white", ec=AXIS, lw=0.5),
+                arrowprops=dict(arrowstyle="-", color=INK2, lw=0.6), zorder=5)
     ax.set_xlim(-0.04, cap + 0.02)
     ax.set_ylim(-0.04, cap + 0.02)
     ax.set_xlabel("Credit portfolio / total assets (institution median)")
@@ -353,8 +355,8 @@ def fig_capital(l2, txt):
     b.set_xlabel("Basel capital ratio (%), log scale")
     b.set_ylabel("Percent of quarters")
     b.set_title("(b) The two distributions")
-    b.text(33, top * 0.88, "Cooperatives", fontsize=7, color=COOP, fontweight="bold")
-    b.text(5.6, top * 0.66, "Banks", fontsize=7, color=BANK, fontweight="bold", ha="left")
+    b.text(33, top * 0.66, "Cooperatives", fontsize=7, color=COOP, fontweight="bold")
+    b.text(4.4, top * 0.66, "Banks", fontsize=7, color=BANK, fontweight="bold", ha="left")
     ygrid(b)
     fig.tight_layout(w_pad=1.5)
     save(fig, "fig12_capital_quantiles.png")
