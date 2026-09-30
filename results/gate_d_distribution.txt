@@ -127,4 +127,4 @@ Provisioning (provisions/gross credit)	0.25	0.029927	0.026084	0.033866	199
 Provisioning (provisions/gross credit)	0.50	0.023587	0.015897	0.028831	199
 Provisioning (provisions/gross credit)	0.75	0.000811	-0.017009	0.017898	199
 Provisioning (provisions/gross credit)	0.90	-0.053874	-0.093400	-0.015372	199
-wrote C:\Users\arthur.nery\AppData\Local\Temp\claude\c--coops-basel-regulation\80e2b707-d654-4b02-919b-b01ce3738557\scratchpad\repro\tables\t7_quantiles.tex
+wrote C:\coops-basel-regulation\tables\t7_quantiles.tex
