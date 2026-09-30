@@ -311,7 +311,7 @@ def fig_capital(l2, txt):
     cross = next((qs[i] + (qs[i + 1] - qs[i]) * q["q"][i] / (q["q"][i] - q["q"][i + 1])
                   for i in range(len(qs) - 1) if q["q"][i] > 0 >= q["q"][i + 1]), None)
     if cross:
-        a.annotate(f"positive below about\nthe {round(cross / 10) * 10}th percentile",
+        a.annotate(f"positive below\n~{round(cross / 10) * 10}th percentile",
                    (cross, 0), xytext=(cross + 4, 5.5), fontsize=7, color=INK, va="bottom",
                    arrowprops=dict(arrowstyle="-", color=INK2, lw=0.6))
     lo90 = band.get(0.9, (None, None))[1] if band else None
@@ -356,7 +356,8 @@ def fig_capital(l2, txt):
     b.set_ylabel("Percent of quarters")
     b.set_title("(b) The two distributions")
     b.text(33, top * 0.66, "Cooperatives", fontsize=7, color=COOP, fontweight="bold")
-    b.text(4.4, top * 0.66, "Banks", fontsize=7, color=BANK, fontweight="bold", ha="left")
+    b.set_xlim(3.2, b.get_xlim()[1])
+    b.text(3.3, top * 0.66, "Banks", fontsize=7, color=BANK, fontweight="bold", ha="left")
     ygrid(b)
     fig.tight_layout(w_pad=1.5)
     save(fig, "fig12_capital_quantiles.png")
