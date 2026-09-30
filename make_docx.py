@@ -45,9 +45,9 @@ SHORT_TITLE = "Institutional Profiles Under a Common Prudential Framework"
 AUTHORS = [("Arthur Gomes Nery", "a"), ("Thiago de Oliveira Victorino", "b"), ("Rodrigo Lima Rangel", "c")]
 AUTHORS_SHORT = "Nery, Victorino and Rangel"
 AFFILIATIONS = [
-    ("a", "Organization of Brazilian Cooperatives (OCB System), Brasília, Brazil, ORCID [0000-0000-0000-0000], arthurgomesqq@gmail.com"),
-    ("b", "Organization of Brazilian Cooperatives (OCB System), Brasília, Brazil, ORCID [0000-0000-0000-0000], [email]"),
-    ("c", "Organization of Brazilian Cooperatives (OCB System), Brasília, Brazil, ORCID [0000-0000-0000-0000], [email]"),
+    ("a", "Organization of Brazilian Cooperatives (OCB System), Brasília, Brazil, ORCID 0000-0001-6844-807X, arthur.nery@ocb.coop.br"),
+    ("b", "Organization of Brazilian Cooperatives (OCB System), Brasília, Brazil, ORCID 0000-0003-0110-762X, thiago.victorino@sescoop.coop.br"),
+    ("c", "Organization of Brazilian Cooperatives (OCB System), Brasília, Brazil, rodrigo.rangel@sescoop.coop.br"),
 ]
 AWARD = "Best Young and Emerging Scholar Paper"
 
