@@ -1177,20 +1177,20 @@ def build_paper(bib):
 
 
 # ============================================================================ the whitepaper
-PT_OUTCOME = {  # labels of tables/t2_main.tex -> Portuguese
+PT_OUTCOME = {  # labels of tables/t2_main.tex -> Portuguese (same wording as make_whitepaper_figures.PT)
     "Basel capital ratio (pp)": "Índice de Basileia (p.p.)",
     "Leverage": "Alavancagem",
-    "Return on assets": "Retorno sobre ativos",
-    "Cost-to-income ratio": "Custo / receita",
-    "Credit portfolio / assets": "Crédito / ativos",
-    "Provisioning ratio": "Provisão / crédito",
+    "Return on assets": "Retorno sobre o ativo",
+    "Cost-to-income ratio": "Índice de eficiência",
+    "Credit portfolio / assets": "Operações de crédito / ativo",
+    "Provisioning ratio": "Provisão / carteira",
     "Intermediation margin": "Margem de intermediação",
-    "Funding ratio": "Captações / ativos",
-    "Return on assets volatility": "Volatilidade do retorno",
+    "Funding ratio": "Captações / ativo",
+    "Return on assets volatility": "Volatilidade do ROA",
     "Z-score": "Z-score",
 }
 PT_TIER = {"stable": "estável", "stable in sign": "estável no sinal", "null": "nulo"}
-PT_HEADER = ["Indicador", "(1) Bruta", "(2) Controles", "(3) Pareada", "(4) Suporte comum",
+PT_HEADER = ["Indicador", "(1) Sem controles", "(2) Porte e trimestre", "(3) Pareado", "(4) Suporte comum",
              "Mediana (2)", "Classificação"]
 
 

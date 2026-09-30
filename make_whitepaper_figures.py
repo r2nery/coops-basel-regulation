@@ -28,17 +28,17 @@ W = 6.5   # inches: A4 with the template's 2 cm side margins is 17 cm
 PT = {  # results-file label -> Portuguese label
     "Basel Capital Ratio (%)": "Índice de Basileia (p.p.)",
     "Leverage (liabilities/assets)": "Alavancagem",
-    "Return on Assets": "Retorno sobre ativos",
-    "Cost-to-Income Ratio": "Custo / receita",
-    "Credit Portfolio / Assets": "Crédito / ativos",
-    "Provisioning (provisions/gross credit)": "Provisão / crédito",
+    "Return on Assets": "Retorno sobre o ativo",
+    "Cost-to-Income Ratio": "Índice de eficiência",
+    "Credit Portfolio / Assets": "Operações de crédito / ativo",
+    "Provisioning (provisions/gross credit)": "Provisão / carteira",
     "Net Interest Margin": "Margem de intermediação",
-    "Funding Ratio (captacoes/assets)": "Captações / ativos",
-    "Return on assets volatility": "Volatilidade do retorno",
+    "Funding Ratio (captacoes/assets)": "Captações / ativo",
+    "Return on assets volatility": "Volatilidade do ROA",
     "Z-score": "Z-score",
 }
 RUNGS = [("Todas as não cooperativas", "broad", "ctrl"), ("Bancos", "primary", "ctrl"),
-         ("Bancos, mesma região", "within", "cem"), ("Bancos comerciais", "commercial", "ctrl"),
+         ("Bancos da mesma região", "within", "cem"), ("Bancos comerciais", "commercial", "ctrl"),
          ("Bancos com depósitos", "structural", "ctrl")]
 
 
