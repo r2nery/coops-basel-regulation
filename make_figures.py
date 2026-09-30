@@ -431,7 +431,7 @@ def slide_profile(l2):
 # ------------------------------------------------------------------ R2: figure 4
 def fig_series(l2):
     outs = [("basileia_num", "Basel capital ratio (%)"), ("leverage", "Leverage"),
-            ("roa", "Return on assets (annualised)"), ("cti", "Cost-to-income ratio")]
+            ("roa", "Return on assets, after tax (annualised)"), ("cti", "Cost-to-income ratio")]
     fig, axes = plt.subplots(2, 2, figsize=(TEXTWIDTH, 4.2), sharex=True)
     for a, (o, title) in zip(axes.flatten(), outs):
         for v, col, lab in [(0, BANK, "Banks"), (1, COOP, "Cooperatives")]:

@@ -48,8 +48,10 @@ full-methodology institution from 2017 to 2024, 130 singular credit cooperatives
 banks, we relate eleven balance-sheet and performance measures to a cooperative dummy. The estimates control for size and time and are
 repeated on a matched sample and across five comparison groups. Three results emerge. First, cooperatives of comparable size allocate more of
 their assets to credit than banks nationally, operate at lower cost and show steadier
-returns; before tax they earn about what banks earn, and after tax they retain about two
-percentage points more, in substantial part because cooperative acts are untaxed.
+returns; before tax the typical cooperative earns more than a comparable bank, although
+the mean gap does not hold across specifications, and after tax cooperatives retain about
+two percentage points more, of which the tax exemption of cooperative acts accounts for
+about two fifths.
 Second, capital differs modestly in level and markedly in dispersion. The mean gap comes
 from small banks with capital ratios above fifty percent and roughly halves against
 deposit-funded banks. Among thinly capitalised institutions, cooperatives hold more
@@ -394,8 +396,10 @@ right-skewed, so we report the conditional median alongside the conditional mean
 We classify each outcome by an explicit rule, reported in the last column of
 Table~\ref{tab:main} and stated in full in the online appendix. An outcome is
 \textit{null} unless it is significant at five percent, with one sign, in all four
-specifications; it is \textit{stable} if it also survives every winsorisation rule with
-a magnitude that holds across the distribution, and \textit{stable in sign} otherwise.
+specifications; it is \textit{stable} if it also survives every winsorisation rule
+within a factor of two and its average quantile coefficient between the twentieth and
+eightieth percentiles is at least half the conditional mean, and \textit{stable in
+sign} otherwise.
 
 % =============================================================================
 \section{Results}
@@ -451,14 +455,20 @@ winsorisation rules.
 
 Profitability splits into the two channels of Section~1. Before tax, the cooperative
 differential is positive in every specification but significant only in the first two,
-so by the rule it is null: on operating performance the largest cooperatives earn about
-what banks of the same size earn, on an intermediation margin indistinguishable from
-the banks'. After tax the differential is about two percentage points under controls,
-significant everywhere and stable. The distance between the two rows is the tax
-exemption: among quarters with a positive pre-tax result, the median effective rate of
-income tax and social contribution is about a third for banks and close to zero for
-cooperatives, and the pre-tax differential under controls is about three fifths of the
-after-tax one. We read the after-tax row as what a cooperative retains, the return that
+so by the rule it is null. The null comes from the mean. The conditional median
+differential before tax is 1.4 percentage points, with a bootstrap interval that
+excludes zero, and the quantile coefficient is positive through the median and
+significantly negative only in the top decile (Table~\ref{tab:quantiles}), so a
+high-earning bank upper tail pulls the mean towards zero, as it does for capital below.
+The typical cooperative thus earns more than a comparable bank before tax, on an
+intermediation margin indistinguishable from the banks', while the mean gap is not
+established across specifications. After tax the differential is about two percentage
+points under controls, significant everywhere and stable. The distance between the two
+rows is the tax exemption: among quarters with a positive pre-tax result, the median
+effective rate of income tax and social contribution is about a third for banks and
+close to zero for cooperatives, and the pre-tax differential under controls is about
+three fifths of the after-tax one, so tax accounts for about two fifths of the after-tax
+gap. We read the after-tax row as what a cooperative retains, the return that
 accumulates as capital, and the pre-tax row as the operating comparison.
 
 Cooperatives operate at lower cost, although the size of the difference is fragile. The
@@ -660,20 +670,21 @@ estimates differ by less than the sampling error.
 \section{Discussion}
 % =============================================================================
 
-\noindent\fbox{\parbox{0.97\textwidth}{\small\textbf{In plain terms.} Under the same
+Under the same
 prudential rules, the largest credit cooperatives lend a larger share of their assets
 than banks of the same size, run at lower cost and post steadier returns. Before tax
-they earn about what banks earn; after tax they keep more, because cooperative acts are
-untaxed, and what they keep is the only capital they can build. Their capital ratios sit
+the typical cooperative earns somewhat more than a comparable bank, although the average
+gap depends on the specification; after tax it keeps about two percentage points more,
+of which the tax exemption explains about two fifths, and what it keeps is the only
+capital it can build. Their capital ratios sit
 in a narrow band: below the bank average, which a few small
 and heavily capitalised banks pull up, and above comparable banks at the thin end of the
 distribution, where supervisors look. Two often-cited differences, lower provisioning
 and thinner margins, vanish once cooperatives are compared with banks alone. For
 supervisors, this argues for a benchmark calibrated on lending institutions and for
-reading the whole distribution as well as the mean.}}
+reading the whole distribution as well as the mean.
 
-\medskip
-\noindent The surviving results describe a focused retail lender, consistent with a
+The surviving results describe a focused retail lender, consistent with a
 member-service orientation in which capital accumulation is a means to member credit
 \citep{fonteyne2007}.
 
@@ -692,10 +703,11 @@ Our results agree with \citet{hesse2007} on two of the three bank-level differen
 they report, lower capitalisation at comparable size and lower return volatility. They
 differ on the third.
 In their sample cooperative stability came with lower profitability, whereas in this
-population cooperatives earn about what banks earn before tax, retain more after tax
-because cooperative acts are untaxed, and are less volatile on both measures. On
-operating profitability the two studies therefore agree more than the after-tax figures
-suggest; the rest may reflect our population of the largest cooperatives.
+population the typical cooperative earns more than a comparable bank before tax, retains
+more after it, and is less volatile on both measures. Part of the after-tax difference
+is the tax exemption and the pre-tax mean gap is not established, so the disagreement
+is narrower than the after-tax figures suggest; the rest may reflect our population of
+the largest cooperatives.
 
 For supervision, the relevant combination is capital and provisioning taken together. At
 the thin end of the capital distribution, where prudential concern would attach,
@@ -720,10 +732,9 @@ quarter effects. Most systems are too thinly represented for separate inference,
 network backstop hypothesis needs consolidated network data that IF.data does not carry.
 The mediator question in Section~\ref{sec:region} also needs a market measure finer than
 macro-region, and IF.data's credit-modality modules, which carry rural credit, are the
-natural next step. Finally, a within-institution design around the adoption of the full
-methodology fails to identify a regime effect: adoption follows growth, which moves every
-balance-sheet ratio continuously, and pre-adoption trends run through the adoption date
-without a break.
+natural next step. Finally, a within-institution design around adoption of the full
+methodology fails to identify a regime effect, because adoption follows growth and
+pre-adoption trends run through the adoption date without a break.
 
 % =============================================================================
 \section{Contributions and Implications}
@@ -757,19 +768,22 @@ thinner capital may call for closer supervisory attention as well as for relief.
 
 The fiscal treatment of cooperative acts is the rule difference the common methodology
 leaves in place, and the results locate its effect. It appears in the retained return,
-the only capital a cooperative can build, and in neither the intermediation margin nor
-the pre-tax return, which match those of banks of the same size. At the banks' median
-effective rate the cooperatives' median after-tax return would fall from about 2.9 to
-about 2 percent, and their capital would accumulate about three tenths more slowly. Read
-with the self-funded FGCoop, the exemption belongs to the same architecture as the
-guarantee: the sector finances its own cushion and its own safety net.
+the only capital a cooperative can build, and accounts for about two fifths of the
+after-tax differential; the rest is earned before tax, on an intermediation margin that
+matches the banks'. At the banks' median effective rate the cooperatives' median
+after-tax return would fall from about 2.9 to about 2 percent, and their capital would
+accumulate about three tenths more slowly, assuming an unchanged payout of surplus to
+members. Whether the exemption is a subsidy, since it is forgone public revenue, or the
+recognition of mutual self-help, since the sector also funds its own guarantee through
+the FGCoop, is a question these data do not settle.
 
 For the cooperative movement, the difference between the two forms persists under a
 common prudential methodology, in a narrower form than a loose comparison suggests. Our
 evidence does not support a case resting on cooperatives provisioning more conservatively
 than banks. A case resting on cost at the median and on return stability holds against
 every definition of a bank we tried; one resting on profitability holds for the retained
-return and fails for the operating return. One resting on credit
+return and, for the operating return, at the median rather than at the mean. One resting
+on credit
 intensity holds against the national bank population and remains unshown within
 regional markets; the territorial claim is the one these data leave open.
 
