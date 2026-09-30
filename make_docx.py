@@ -1162,10 +1162,16 @@ def build_paper(bib):
                 note_segs = parse_tex(norm(notes.group(1)), {}, ctx) if notes else None
                 if len(aligns) == 2:
                     widths, sz = [2000, TEXT_WIDTH - 2000], 18
-                else:
+                elif len(aligns) == 8:                       # the main table
                     widths = [1960] + [770] * 4 + [800, 560]
                     widths.append(TEXT_WIDTH - sum(widths))
                     sz = 16
+                else:                                        # any other table: even columns
+                    first = 1500
+                    rest = (TEXT_WIDTH - first) // (len(aligns) - 1)
+                    widths = [first] + [rest] * (len(aligns) - 1)
+                    widths[-1] += TEXT_WIDTH - sum(widths)
+                    sz = 15
                 d.table(tab_no, parse_tex(norm(cap), {}, ctx), rows, widths, aligns, rules, note_segs, sz)
             continue
         par_lines.append(ln)

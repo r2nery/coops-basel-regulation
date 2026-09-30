@@ -58,6 +58,7 @@ gate_f_reporting_level.py reporting level (conglomerate vs individual banks) -> 
 gate_g_peers.py           peer rungs, cooperative-owned banks, provisioning by capital tercile, cost-to-income trim -> results/peer_rungs.txt, tables/t12
 make_tables.py            parses results/*.txt into tables/t1..t6 and t9 (no recomputation)
 make_figures.py           draws every figure from results/*.txt and the panel (no regressions), plus figures/slides/
+gate_h_pretax.py          return on assets before taxes (line g) through the four specifications; results/pretax_roa.txt, feeds t13
 make_docx.py              fills the ICA CCR Word template (paper/FINAL ABSTRACT-*.docx) with the proceedings
                           abstract (from expanded_abstract.md) and the full paper (from paper/paper.tex), APA 7 references;
                           also fills the Sistema OCB briefing template with the Portuguese whitepaper (from whitepaper_ocb.md)

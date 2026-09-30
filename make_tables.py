@@ -548,6 +548,42 @@ def t9(SP):
 
 
 # ------------------------------------------------------------------ main
+def t13(path):
+    """Return on assets before and after taxes (gate_h_pretax.py -> results/pretax_roa.txt)."""
+    txt = path.read_text(encoding="utf-8")
+
+    def block(tag):
+        return [ln for ln in txt.split(f"[{tag}]")[1].split("\n\n")[0].splitlines()[1:] if ln.strip()]
+
+    reg = {}
+    for ln in block("PRETAX_VS_AFTERTAX"):
+        sl, o, coef, lo, hi, p, n, nt = ln.split("\t")
+        reg[(sl, o)] = (float(coef), float(p))
+    med = {}
+    for ln in block("MEDIAN"):
+        sl, o, v = ln.split("\t")
+        med[(sl, o)] = float(v)
+    tax = {}
+    for ln in block("TAX_BURDEN")[1:]:
+        g, q, zero, rate, p75, net = ln.split("\t")
+        tax[g] = rate
+    pboot = re.search(r"'p_boot': ([\d.]+)", txt).group(1)
+    rows = [("After tax, line (j)", "roa"), ("Before tax, line (g)", "roa_pretax")]
+    body = "\\begin{tabular}{lrrrrr}\n\\toprule\nMeasure & " + " & ".join(SPEC_HEAD[s] for s in SPECS) + \
+           " & Median (2) \\\\\n\\midrule\n"
+    for label, o in rows:
+        cells = [f"{reg[(s, o)][0]:.4f}{st(reg[(s, o)][1])}" for s in SPECS]
+        body += f"{label} & " + " & ".join(cells) + f" & {med[('ctrl', o)]:.4f} \\\\\n"
+    body += "\\bottomrule\n\\end{tabular}"
+    emit("t13_pretax", body, small="footnotesize", note=
+         "Cooperative differential in the return on assets against banks, primary sample; line (j) "
+         "is net income after income tax, social contribution and profit sharing, line (g) the result "
+         "before them. Median effective tax rate among quarters with a positive pre-tax result: banks "
+         f"{float(tax['banks']):.2f}, cooperatives {float(tax['cooperatives']):.2f}. Wild cluster bootstrap "
+         f"p for the pre-tax coefficient in (2): {pboot}. * p<0.05, ** p<0.01, *** p<0.001, clustered "
+         "by institution.")
+
+
 def main():
     missing = [str(p) for k, p in FILES.items()
                if not p.exists() and k not in OPTIONAL]
@@ -575,6 +611,8 @@ def main():
         guard(t6, P, S)
     if FILES["subperiod"].exists():
         guard(t9, parse(FILES["subperiod"]))
+    if (RESULTS / "pretax_roa.txt").exists():
+        guard(t13, RESULTS / "pretax_roa.txt")
 
     ov = kv(P.get("OVERLAP", []))
     cw = kv(P.get("CEM_WEIGHTING", []))

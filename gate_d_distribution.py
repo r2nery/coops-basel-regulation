@@ -262,10 +262,9 @@ def render_t7(vals, ci, olss, B_):
             + "\n" + r"\midrule" + "\n" + "\n".join(rows) + "\n"
             + r"\bottomrule" + "\n" + r"\end{tabular}" + "\n"
             + r"\begin{tablenotes}[flushleft]\footnotesize" + "\n"
-            + r"\item Cooperative coefficient from quantile regressions of each outcome "
-              r"on the cooperative dummy, log assets and quarter fixed effects; OLS is the "
-              r"conditional mean. In brackets, 95 percent intervals from a bootstrap over "
-              f"institutions ({B_} draws per cell) and the clustered interval for the mean."
+            + r"\item Quantile regressions on the cooperative dummy, log assets and quarter "
+              r"effects; the last column is OLS. Brackets: 95 percent institution-bootstrap "
+              f"intervals ({B_} draws) and the clustered interval for the mean."
             + "\n"
             + r"\end{tablenotes}" + "\n")
     (tab / "t7_quantiles.tex").write_text(body, encoding="utf-8")

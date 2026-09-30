@@ -13,7 +13,7 @@
 
 - Desde 2017, a cooperativa de crédito cujo porte supera 0,1% do PIB, ou que opta por deixar o regime simplificado, apura capital, riscos e provisões pelas mesmas regras aplicadas a um banco comercial.
 - Este estudo compara 130 cooperativas singulares e 144 bancos nessa situação, com dados públicos do IF.data de 2017 a 2024, controlando o porte das instituições.
-- Em relação a bancos de porte semelhante, as cooperativas destinam parcela maior do ativo ao crédito, obtêm retorno sobre o ativo mais alto, operam com custo menor e apresentam retornos mais estáveis.
+- Em relação a bancos de porte semelhante, as cooperativas destinam parcela maior do ativo ao crédito, operam com custo menor, apresentam retornos mais estáveis e obtêm retorno sobre o ativo mais alto após impostos. A isenção tributária do ato cooperativo explica parte dessa última diferença.
 - A diferença de capital é moderada em nível e grande em dispersão: as cooperativas se concentram em uma faixa estreita do índice de Basileia e não apresentam a cauda de bancos pequenos com índices acima de 50%.
 - Duas diferenças citadas com frequência, o menor provisionamento e a margem mais estreita, desaparecem quando a comparação se restringe aos bancos.
 - Para a regulação proporcional, os resultados indicam duas dimensões além do porte: o tratamento dos sistemas cooperativos e a calibragem do referencial prudencial. Um alívio regulatório não decorre automaticamente desses resultados.
@@ -72,7 +72,9 @@ Cada indicador recebe uma classificação segundo regra explícita. O resultado 
 
 Cinco dos oito indicadores trimestrais mantêm sinal e significância nas quatro especificações e em todas as regras de tratamento de valores extremos. Em porte comparável, as cooperativas destinam às operações de crédito uma parcela do ativo cerca de um quinto maior que a dos bancos, e a diferença é ainda maior na mediana. O retorno sobre o ativo supera o dos bancos em cerca de dois pontos percentuais, diferença expressiva para os padrões da literatura bancária. A margem de intermediação não difere da dos bancos, de modo que o retorno maior decorre do volume de crédito e do menor custo operacional. As cooperativas operam com custo menor, embora a magnitude dessa diferença dependa dos valores extremos, já que o denominador do índice se aproxima de zero em bancos com pouca intermediação. A mediana condicional, cujo intervalo de confiança exclui zero, é a medida mais confiável.
 
-Os retornos das cooperativas também oscilam menos. Em porte comparável, o desvio-padrão do ROA é menor e o z-score é maior, nas quatro especificações e em todos os grupos nacionais de comparação. O quadro é de retorno mais alto e mais estável, obtido sobre a mesma margem de intermediação.
+Parte da diferença de retorno é tributária. O lucro líquido informado no IF.data é apurado após o imposto de renda e a contribuição social, dos quais o ato cooperativo é isento. Entre os trimestres com resultado positivo antes dos tributos, a alíquota efetiva mediana é de cerca de um terço para os bancos e próxima de zero para as cooperativas. Reestimada sobre o resultado antes da tributação, a diferença com controle de porte cai para cerca de três quintos do valor após impostos e continua significativa; na mediana condicional, conserva cerca de cinco sextos. Na faixa de porte comum aos dois grupos, porém, a diferença antes dos tributos não se distingue de zero. O retorno após impostos é o que se acumula como capital, e é ele que a Tabela 1 apresenta; a leitura correta é a de uma diferença de rentabilidade líquida de tributos.
+
+Os retornos das cooperativas também oscilam menos. Em porte comparável, o desvio-padrão do ROA é menor e o z-score é maior, nas quatro especificações e em todos os grupos nacionais de comparação. O quadro é de retorno líquido mais alto e mais estável, obtido sobre a mesma margem de intermediação.
 
 {{table:t2|Tabela 1. Diferença entre cooperativas e bancos em quatro especificações|Erros-padrão agrupados por instituição (HC3 nas duas últimas linhas); * p<0,05, ** p<0,01, *** p<0,001, confirmados por bootstrap. Mediana (2): mediana condicional da especificação (2). Classificação: regra da seção 2.3. Fonte: elaboração dos autores com dados do IF.data.}}
 
@@ -124,7 +126,7 @@ Para a supervisão, a leitura relevante combina capital e provisão. Na faixa in
 
 ### 4.3 Para o Sistema OCB e as cooperativas
 
-As diferenças entre as duas formas de organização persistem sob a metodologia prudencial comum, ainda que em versão mais restrita do que sugere uma comparação menos criteriosa. O posicionamento institucional ganha precisão quando se apoia nos resultados que resistiram a todas as definições de banco testadas: menor custo na mediana, maior retorno sobre o ativo e retorno mais estável. O argumento de que as cooperativas provisionam de forma mais conservadora que os bancos não encontra apoio nos dados. O argumento da maior participação do crédito no ativo vale em relação ao conjunto dos bancos do país, mas ainda não foi demonstrado dentro dos mercados regionais.
+As diferenças entre as duas formas de organização persistem sob a metodologia prudencial comum, ainda que em versão mais restrita do que sugere uma comparação menos criteriosa. O posicionamento institucional ganha precisão quando se apoia nos resultados que resistiram a todas as definições de banco testadas: menor custo na mediana e retorno mais estável. O argumento do maior retorno sobre o ativo vale após impostos; antes da tributação, a diferença é menor e não está estabelecida. O argumento de que as cooperativas provisionam de forma mais conservadora que os bancos não encontra apoio nos dados. O argumento da maior participação do crédito no ativo vale em relação ao conjunto dos bancos do país, mas ainda não foi demonstrado dentro dos mercados regionais.
 
 Três decisões de análise determinaram a existência ou não dos resultados de destaque: a escolha do grupo de comparação, a leitura das contas de resultado como fluxos trimestrais e a estimação sem ponderação na amostra pareada. Cada uma delas é uma leitura natural dos dados originais, e parte das divergências encontradas na literatura pode refletir grupos de comparação distintos.
 
@@ -140,7 +142,7 @@ Três decisões de análise determinaram a existência ou não dos resultados de
 ## 6. Recomendações
 
 1. Levar ao Banco Central a discussão sobre o tratamento dos sistemas cooperativos e de seus mecanismos de proteção na avaliação de capital e de liquidez, tendo a experiência francesa como referência.
-2. Apoiar o posicionamento institucional nos resultados que resistiram a todas as comparações: custo, retorno e estabilidade.
+2. Apoiar o posicionamento institucional nos resultados que resistiram a todas as comparações: custo e estabilidade dos retornos, com a rentabilidade apresentada como resultado após impostos.
 3. Evitar o argumento de provisionamento mais conservador que o dos bancos, que os dados não sustentam.
 4. Ampliar a análise com os relatórios de carteira de crédito por modalidade do IF.data, para testar a diferença de participação do crédito dentro dos mercados regionais.
 5. Reunir dados consolidados dos sistemas cooperativos para testar a hipótese do suporte do sistema.

@@ -1,0 +1,45 @@
+GATE H: return on assets before taxes (line g) against the after-tax measure (line j)
+Primary configuration: singular cooperatives vs banks, full-methodology quarters, winsorised 1/99 on the analysis sample, size-quintile coarsening.
+
+[PRETAX_VS_AFTERTAX]  spec	outcome	coef	cl_lo	cl_hi	cl_p	N	n_treated
+raw	roa	0.01805	0.01319	0.02291	0.0000	7229	128
+raw	roa_pretax	0.01185	0.00544	0.01826	0.0003	7229	128
+ctrl	roa	0.02146	0.01435	0.02856	0.0000	7229	128
+ctrl	roa_pretax	0.01320	0.00359	0.02281	0.0071	7229	128
+cem	roa	0.01791	0.01170	0.02412	0.0000	5809	128
+cem	roa_pretax	0.00880	-0.00000	0.01759	0.0501	5809	128
+trim	roa	0.01589	0.00900	0.02278	0.0000	4765	119
+trim	roa_pretax	0.00619	-0.00361	0.01600	0.2158	4765	119
+
+[RATIO] pre-tax coefficient over after-tax coefficient, by specification
+raw	0.656
+ctrl	0.615
+cem	0.491
+trim	0.390
+
+[MEDIAN] conditional median of the cooperative coefficient (spec, outcome, value)
+raw	roa	0.016747358805292007
+raw	roa_pretax	0.014249333960865125
+ctrl	roa	0.01711127179767591
+ctrl	roa_pretax	0.014384397837690077
+cem	roa	0.016341951790608822
+cem	roa_pretax	0.012394414146256416
+trim	roa	0.015270213297881585
+trim	roa_pretax	0.0107901685378064
+
+[BOOTSTRAP] controlled specification, pre-tax outcome, restricted wild cluster bootstrap
+{'coef': 0.013196307779786306, 't': 2.691518316045665, 'p_boot': 0.0065, 'G': 271, 'G_treated': 128, 'B': 1999}
+
+[TAX_BURDEN] institution-quarters of the analysis sample with a positive pre-tax result
+group	quarters	share_tax_zero	median_effective_rate	p75_effective_rate	mean_net_over_pretax
+cooperatives	2956	0.096	0.009	0.039	0.887
+banks	3319	0.015	0.355	0.445	0.669
+
+[JUROS_CAPITAL] line (k) among cooperative quarters with a positive pre-tax result
+quarters	2956	share_nonzero	0.222	median_k_over_g_when_nonzero	0.345
+
+[UNCONDITIONAL] mean and median of the two measures by group, analysis sample after winsorisation
+roa	cooperatives	0.02882	0.02837	3048
+roa	banks	0.01077	0.01163	4181
+roa_pretax	cooperatives	0.03202	0.03153	3048
+roa_pretax	banks	0.02018	0.01728	4181
