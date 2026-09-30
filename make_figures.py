@@ -456,33 +456,36 @@ def fig_ladder():
             ("Structural", load("structural"), "ctrl")]
     srcs = [(n, MT.coefs(s), sp) for n, s, sp in srcs if s is not None]
     keys = [k for k, _ in MT.ORDER + MT.STAB_ORDER]
-    fig, axes = plt.subplots(2, 5, figsize=(TEXTWIDTH, 3.6), sharey=True)
+    fig, axes = plt.subplots(5, 2, figsize=(TEXTWIDTH, 6.4), sharey=True)
     ypos = np.arange(len(srcs))[::-1]
     for a, key in zip(axes.flatten(), keys):
         stab = key in MT.STAB_LABELS
         a.axvline(0, color=AXIS, lw=0.8)
+        reach = 0.0
         for y, (name, c, sp) in zip(ypos, srcs):
             v = c.get(key, {}).get(sp)
             if not v:
                 continue
             lo, hi = (v["hc_lo"], v["hc_hi"]) if stab else (v["cl_lo"], v["cl_hi"])
             p = v["hc_p"] if stab else v["p"]
+            reach = max(reach, abs(lo), abs(hi))
             a.plot([lo, hi], [y, y], color=COOP, lw=1.2, solid_capstyle="round")
             a.plot(v["coef"], y, "o", ms=4.2, mew=1.1, mec=COOP,
                    mfc=COOP if p < 0.05 else "white", zorder=3)
             if name == "Banks":
                 a.axhspan(y - 0.42, y + 0.42, color=BAND, lw=0, zorder=0)
+        a.set_xlim(-1.08 * reach, 1.08 * reach)      # zero at the centre of every panel
         a.set_title(SHORT[key], fontsize=7.5, loc="center")
         a.tick_params(axis="x", labelsize=6.5)
-        a.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(nbins=2, min_n_ticks=2))
+        a.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(nbins=4, symmetric=True))
         a.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: f"{v:g}"))
         xgrid(a)
     axes[0, 0].set_yticks(ypos)
-    axes[0, 0].set_yticklabels([n for n, *_ in srcs])
-    axes[1, 0].set_yticklabels([n for n, *_ in srcs])
+    for r in range(axes.shape[0]):
+        axes[r, 0].set_yticklabels([n for n, *_ in srcs])
     for a in axes.flatten():
         a.set_ylim(-0.6, len(srcs) - 0.4)
-    fig.tight_layout(w_pad=0.6, h_pad=1.0)
+    fig.tight_layout(w_pad=1.5, h_pad=0.8)
     save(fig, "fig13_ladder.png")
 
 
