@@ -19,6 +19,7 @@
 \usepackage{amsmath}
 \usepackage{threeparttable}
 \usepackage{microtype}
+\PassOptionsToPackage{hyphens}{url}
 \usepackage[hidelinks]{hyperref}
 \usepackage[numbers,square,sort&compress]{natbib}
 \usepackage{setspace}
@@ -43,7 +44,7 @@ Rodrigo Lima Rangel$^{a}$\\[0.6em]
 \noindent In Brazil, a credit cooperative that grows past a size threshold computes
 capital, leverage and risk under the same prudential methodology as a commercial bank. We
 use this setting, which no previous study has exploited, to ask whether the cooperative
-form still shows distinct balance-sheet characteristics. Using a quarterly panel of every
+form retains distinct balance-sheet characteristics. Using a quarterly panel of every
 full-methodology institution from 2017 to 2024, 130 singular credit cooperatives and 144
 banks, we relate ten measures of capital, performance, stability and balance-sheet
 structure to a cooperative dummy. The estimates control for size and time and are
@@ -75,13 +76,13 @@ proportionality; Brazil.\\
 Prudential regulation has converged on a common template. Basel III supplies the
 architecture for capital, leverage and risk measurement, and national supervisors adapt
 it to local conditions \citep{bcbs2011}. Brazil sorts authorised institutions into five
-segments for the proportional application of prudential rules \citep{cmn4553}, and
-Figure~\ref{fig:regulatory} shows how the two populations divide between methodologies.
-Segments 1 to 4 apply the full methodology, while Segment~5 comprises institutions below
-0.1~percent of GDP in size that opt for a simplified method of computing minimum capital,
-under Resolution 4.194/2013 until February 2018 and Resolution 4.606/2017 thereafter
-\citep{cmn4194, cmn4606}. Commercial, multiple, investment and exchange banks are
-excluded from S5 whatever their size. Membership of S5 therefore follows from the choice
+segments for the proportional application of prudential rules \citep{cmn4553};
+Figure~\ref{fig:regulatory} shows how cooperatives and other institutions divide between
+the two methodologies. Segments 1 to 4 apply the full methodology, while Segment~5
+comprises institutions with assets below 0.1~percent of GDP that opt for a simplified
+method of computing minimum capital, under Resolution 4.194/2013 until February 2018 and
+Resolution 4.606/2017 thereafter \citep{cmn4194, cmn4606}. Commercial, multiple,
+investment and exchange banks are excluded from S5 at any size. Membership of S5 therefore follows from the choice
 of methodology, and an institution that stops using the simplified method is reassigned
 to S4.\footnote{The segment label is revised semiannually, so five full-methodology
 cooperative-quarters still carry the S5 label in transition. The sample follows the
@@ -121,11 +122,11 @@ end of 2024 and 6.3 percent a year later, and their share has risen in every yea
 systems in which central cooperatives supply liquidity facilities, consolidated risk
 management and a single supervisory interface to their affiliates.
 
-Cooperatives are the part of the regulated system that lends locally, and they have grown
+Cooperatives are the part of the regulated system that lends locally and has grown
 fastest. If the prudential benchmark reflects an average institution that does not lend,
 it measures cooperatives against a standard drawn from a different kind of institution.
-Whether it does bears on institutional resilience and on the territorial role of
-cooperative lenders.
+Whether it does is the question we ask, and the answer bears on institutional resilience
+and on the territorial role of cooperative lenders.
 
 \subsection{Theoretical framework and predictions}
 \label{sec:theory}
@@ -163,8 +164,9 @@ adapted to their legal form \citep{bcbs2011}. However, the shares remain redeema
 claims of members and cannot be placed with outside investors. The member's claim carries
 the five property-rights problems that \citet{cook1995} sets out: free-rider, horizon,
 portfolio, control and influence costs, which together weaken the incentive to build
-capital beyond what member service requires. In Hansmann's terms the claim is tied to use of the institution, so capital accumulation
-is instrumental to member credit \citep{hansmann1996}.
+capital beyond what member service requires. In Hansmann's terms the claim is tied to use
+of the institution, so capital accumulation is instrumental to member credit
+\citep{hansmann1996}.
 
 \subsection{Comparison groups in the cooperative banking literature}
 
@@ -237,14 +239,14 @@ All tables and figures are the authors' calculations from the IF.data files.
 
 The panel is IF.data's prudential-conglomerate report, and every row carries its
 reporting level. Of the banks, 87 report as consolidations and 57 individually, and some
-switch within the window. All cooperatives report individually, while each bank is
-assigned its modal level for use as a comparison-group parameter.
+switch within the window. All cooperatives report individually; each bank takes its modal
+level, which is used below as a comparison-group parameter.
 
 We classify institutions on the Central Bank's consolidation type, \textit{tipo de
 consolidado banc\'ario} (\texttt{tcb}). The code \texttt{b3S} marks a singular credit
 cooperative and \texttt{b3C} a central cooperative or confederation. Consolidation type
-is a regulatory attribute and is stable over time, and assigning each institution its
-modal \texttt{tcb} makes cooperative status time-invariant by construction. Central
+is a regulatory attribute and is stable over time; assigning each institution its modal
+\texttt{tcb} makes cooperative status time-invariant by construction. Central
 cooperatives are excluded, since they are wholesale entities that supply liquidity and
 risk management to affiliated singulars and carry high capital for structural reasons. By
 contrast, classification by name would place the sector's own banks, Banco Cooperativo
@@ -434,9 +436,9 @@ points away from that explanation. However, trimming also narrows the control se
 the ratio is not a formal test. By the rule of Section~\ref{sec:inference}, credit
 intensity, return on assets and return volatility are stable. Capital, leverage and
 cost-to-income are stable in sign, while provisioning, the margin and funding are null.
-The capital coefficient needs care. Under controls its conditional mean is about seven
-times its conditional median, and the mean mostly reflects the upper tail of the bank
-distribution, as we show below.
+The capital coefficient should not be read at face value: under controls its conditional
+mean is about seven times its conditional median, because the mean mostly reflects the
+upper tail of the bank distribution, as we show below.
 
 Cooperatives allocate a larger share of the balance sheet to credit, by nearly a fifth of
 total assets under controls and by more at the conditional median. The differential moves
@@ -464,8 +466,8 @@ crosses zero near the fortieth percentile. Its bootstrap interval lies above zer
 twenty-fifth percentile, includes zero at the median and lies well below zero at the
 seventy-fifth. Averaged over the twentieth to eightieth percentiles, the differential is
 about a third of the conditional mean (quantile coefficients for the six main outcomes
-are in the online appendix). Unconditionally, 14 percent of bank-quarters exceed a Basel ratio of 50
-percent, against 1 percent of cooperative-quarters. At equal size, what mainly separates
+are in the online appendix). Unconditionally, 14 percent of bank-quarters exceed a Basel
+ratio of 50 percent, against 1 percent of cooperative-quarters. At equal size, what mainly separates
 the two groups is dispersion: residualised on size and quarter, the standard deviation of
 the capital ratio among cooperatives is about a third of the bank figure (online
 appendix), and the shaded bands of Figure~\ref{fig:series} show the same contrast in
@@ -621,7 +623,7 @@ quarters only and conditioning on size and quarter. The two groups show no diffe
 leverage, but adopters were less credit-intensive ($-0.068$, $p=0.002$) and marginally
 less profitable, which runs against our findings. They were also marginally leaner, which
 runs with them. As a result, selection likely biases the credit and profitability
-estimates toward zero and, if anything, the efficiency estimate marginally away from it.
+estimates towards zero and, if anything, the efficiency estimate marginally away from it.
 
 \subsection{Sensitivity checks}
 \label{sec:robustness}
