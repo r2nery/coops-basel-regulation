@@ -20,8 +20,8 @@ institutions under the full methodology, the rulebook is constant by constructio
 because cooperative status is time-invariant, the estimates are conditional correlations
 rather than causal effects of form.
 
-The analysis sample is the population of full-methodology institutions from 2017Q1 to
-2024Q4: **130 singular credit cooperatives** and **144 banks** (commercial and multiple
+The analysis sample is the population of cooperatives and banks under the full methodology
+from 2017Q1 to 2024Q4: **130 singular credit cooperatives** and **144 banks** (commercial and multiple
 banks `b1` plus investment banks `b2`), **7,234 institution-quarters**. The panel is built
 from the Central Bank of Brazil's public IF.data bulk files.
 
