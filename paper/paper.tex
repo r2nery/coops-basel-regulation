@@ -57,9 +57,9 @@ intermediate and hold capital ratios above fifty percent, and it roughly halves 
 deposit-funded banks. Among thinly capitalised institutions, cooperatives hold more
 capital than banks and provision no less. Third, lower provisioning and narrower margins,
 two differences often reported, disappear once the comparison group is restricted to
-banks. A benchmark calibrated on the average institution may therefore describe the
-locally lending cooperative poorly. Whether that bears on the territorial role of
-cooperative lenders is the claim these data cannot yet settle.
+banks. Whether the differences bear on the territorial role of cooperative lenders is
+the claim these data cannot yet settle. What they do show is that a benchmark calibrated
+on the average institution may describe the locally lending cooperative poorly.
 
 \medskip
 \noindent\textbf{Keywords:} credit cooperatives; prudential regulation; Basel;
@@ -80,15 +80,15 @@ segments for the proportional application of prudential rules \citep{cmn4553};
 Figure~\ref{fig:regulatory} shows how cooperatives and other institutions divide between
 the two methodologies. Segments 1 to 4 apply the full methodology, while Segment~5
 comprises institutions with total exposure below 0.1~percent of GDP that opt for a
-simplified method of computing minimum capital, under Resolution 4.194/2013 until February 2018 and
-Resolution 4.606/2017 thereafter \citep{cmn4606}. Commercial, multiple,
+simplified method of computing minimum capital, governed since February 2018 by
+Resolution 4.606/2017 \citep{cmn4606}. Commercial, multiple,
 investment and exchange banks are excluded from S5 at any size.\footnote{The segment
 label is revised semiannually, so five full-methodology
 cooperative-quarters still carry the S5 label in transition. The sample follows the
 reported methodology.} Institutions outside S5 apply the \textit{Patrim\^onio de
 Refer\^encia} capital definition, minimum requirements and risk-weighted-asset
-computation of Resolutions 4.192 and 4.193 of 2013 and, from 3 January 2022, of
-Resolutions 4.955 and 4.958 \citep{cmn4955, cmn4958}. Loan
+computation of Resolutions 4.955 and 4.958, in force since 3 January 2022, and of their
+2013 predecessors before that \citep{cmn4955, cmn4958}. Loan
 classification and minimum provisioning follow Resolution 2.682/1999 throughout the
 window, since its expected-loss successor took effect only in 2025 \citep{cmn2682,
 cmn4966}.
@@ -118,7 +118,7 @@ systems in which central cooperatives supply liquidity facilities, consolidated 
 management and a single supervisory interface to their affiliates.
 
 Cooperatives are the part of the regulated system that lends locally and has grown
-fastest. If the prudential benchmark reflects an average institution that does not lend,
+fastest. If the prudential benchmark reflects an average institution that barely lends,
 it measures cooperatives against a standard drawn from a different kind of institution.
 Whether it does is the question we ask, and the answer bears on institutional resilience
 and on the territorial role of cooperative lenders.
@@ -131,9 +131,10 @@ institution's failure imposes on depositors, on the payment system and on the sa
 net \citep{bcbs2011}. It also offsets the moral hazard that a deposit guarantee
 introduces into the institution's choice of leverage \citep{diamonddybvig1983}. In
 Brazil the guarantee is mutual and split by form: bank deposits are covered by the FGC
-and cooperative deposits by the FGCoop, a private fund created in 2013, capitalised by
-the cooperatives at a flat rate that ignores each member's risk, with no central bank
-lender of last resort behind it \citep{coelho2019}. One reading of the prudential rationale is a
+and cooperative deposits by the FGCoop, a private fund created in 2013 to which every
+singular cooperative must adhere, capitalised by its members at a flat rate on their
+deposits and able to extend them liquidity assistance \citep{cmn4284, coelho2019}. One
+reading of the prudential rationale is a
 representation argument, in which the supervisor acts on behalf of small, dispersed
 depositors who cannot monitor a leveraged intermediary. In a credit cooperative the
 depositor is also a member with a residual claim and a governance right, and in the
@@ -259,7 +260,7 @@ Sicredi and Banco Sicoob, both \texttt{b1} commercial banks, in the cooperative 
 
 The cooperative side is always the singular retail cooperatives under the full
 methodology. The comparison side is a reported parameter, defined on the regulator's
-consolidation type and never on an outcome. The ladder has four rungs, and a fifth
+consolidation type alone. The ladder has four rungs, and a fifth
 comparison keeps the bank group but matches on macro-region as well as size
 (Section~\ref{sec:region}).
 \begin{itemize}\setlength{\itemsep}{0pt}
@@ -360,14 +361,13 @@ income, (d3) personnel expense, (d4) administrative expense, (j) net income.
 For each outcome we estimate the coefficient on a cooperative dummy under four
 specifications: the unconditional difference in means, log total assets and quarter fixed
 effects, coarsened exact matching \citep{iacus2012} with the same controls, and the same
-controls on the region of common support in log assets. Cooperative status does not vary
+controls on the region of common support in log assets. Cooperative status is fixed
 within an institution, so it is collinear with any institution fixed effect. The
-estimates are conditional correlations, and we do not present them as causal effects of
-organisational form.
+estimates are therefore conditional correlations.
 
 The coarsened-exact-matching estimand weights control units so that the
 treated-to-control ratio is equal within every stratum \citep{iacus2012}; an unweighted
-regression on the matched sample does not recover it, so we report both. We coarsen on
+regression on the matched sample recovers a different estimand, so we report both. We coarsen on
 size quintile and control for region. Region-exact matching would leave too few
 controls, since cooperatives concentrate in the South and banks in the Southeast: once
 unequal weights are discounted, the effective control sample is about eighteen
@@ -383,8 +383,10 @@ the null and compares the observed statistic with that distribution \citep{camer
 In simulations on our design with six treated clusters, the clustered test rejects a true
 null 16 percent of the time at a nominal 5 percent level and 10 percent at a nominal 1
 percent; the bootstrap rejects 10 percent and half of one percent, so its rejections at
-one percent are conservative while those at five percent still over-reject.
-System-level estimates report the number of treated clusters, and quantile
+one percent are conservative while those at five percent still over-reject. The
+few-cluster problem concerns the system splits, which report their treated cluster
+counts; the main comparison rests on about 130 treated clusters, where clustered and
+bootstrap inference agree. Quantile
 coefficients carry intervals from an institution bootstrap. Several outcomes are
 right-skewed, so we report the conditional median alongside the conditional mean.
 
@@ -437,10 +439,10 @@ Five of the eight quarterly outcomes keep their sign and significance across all
 specifications and every winsorisation rule, including no winsorisation. Their retention
 ratios are above one, except for return on assets, which keeps most of its raw value; a
 size-composition artefact would shrink as size is held more tightly, although the ratio
-is not a formal test. By the rule of Section~\ref{sec:inference}, credit
+is only descriptive. By the rule of Section~\ref{sec:inference}, credit
 intensity, return on assets and return volatility are stable. Capital, leverage and
 cost-to-income are stable in sign, while provisioning, the margin and funding are null.
-The capital coefficient should not be read at face value: under controls its conditional
+The capital coefficient calls for care: under controls its conditional
 mean is about seven times its conditional median, because the mean mostly reflects the
 upper tail of the bank distribution, as we show below.
 
@@ -458,11 +460,15 @@ effective rate of income tax and social contribution is about a third for banks 
 close to zero for cooperatives. Re-estimated on the pre-tax result, the controlled
 differential is about three fifths of the after-tax figure and remains significant under
 the bootstrap, and the conditional median keeps about five sixths of its value, but the
-coefficient is marginal on the matched sample and not distinguishable from zero on
+coefficient is marginal on the matched sample and indistinguishable from zero on
 common support (Table~A11 of the online appendix). By the rule of
 Section~\ref{sec:inference} the pre-tax differential is not established. Table~\ref{tab:main}
 keeps the after-tax measure, the return that accumulates as capital, and we read the
-profitability result as a difference after tax.
+profitability result as a difference after tax. Taxes also compress the after-tax
+volatility of bank returns, so the after-tax comparison probably understates the
+stability gap. Before tax, the z-score differential is larger and the median gap
+in return volatility nearly doubles; the mean volatility differential is smaller, and
+both keep their sign and significance (Table~A12 of the online appendix).
 
 Cooperatives operate at lower cost, although the size of the difference is fragile. The
 controlled coefficient roughly triples between tight winsorisation and none, because the
@@ -500,8 +506,8 @@ is far above that of the consolidations. The controlled gap against them is abou
 times the gap against the consolidations (online appendix). The second is business model. Requiring a bank to be deposit-funded in every
 quarter, the structural rung, roughly halves both the share of bank-quarters above 50
 percent and the estimated mean gap, which remains significant (Figure~\ref{fig:ladder}).
-The evidence is consistent with the bank upper tail being concentrated among small
-standalone banks with little risk-weighted exposure. Against banks that lend and take
+The evidence suggests that the bank upper tail is concentrated among small standalone
+banks with little risk-weighted exposure. Against banks that lend and take
 deposits, the capital difference consists of a modest gap in level and a large gap in
 dispersion.
 
@@ -536,9 +542,7 @@ group, and Figure~\ref{fig:ladder} shows their size and precision on the same fi
 rungs: the broad group, banks, banks within macro-region, commercial banks and
 structural banks. Return on assets, cost-to-income and return volatility survive on
 every rung; credit intensity survives on the four national rungs and not within region
-(Section~\ref{sec:region}). Dropping the sector's
-two cooperative-owned banks changes every coefficient by 1.3 percent or less, apart from
-the provisioning coefficient, which stays within 0.0002 of zero. Two results that appear
+(Section~\ref{sec:region}). Two results that appear
 against the broad group disappear against banks.
 
 \begin{table}[htbp]
@@ -588,16 +592,16 @@ times those of banks and cooperatives relative to assets. Against banks it is sm
 insignificant, and against structural banks it turns positive and significant. Its sign
 depends on the comparison group, so we keep it as a null. The funding ratio is
 significant in one of four specifications and reverses sign at the conditional median, so
-we do not report it as a finding.
+we leave it out of the findings.
 
 \subsection{Credit intensity within and across regional markets}
 \label{sec:region}
 
 Matched on size alone, cooperatives allocate a substantially larger share of assets to
 credit than comparable banks, significant at one percent in every specification. Matched
-also on macro-region, the differential is small and not distinguishable from zero under
+also on macro-region, the differential is small and indistinguishable from zero under
 any coarsening scheme. Cooperatives thus lend more than the national bank population,
-while within regional markets the difference cannot be told apart from zero. However,
+while within regional markets the difference is indistinguishable from zero. However,
 which estimate is the parameter of interest depends on an assumption we cannot test. If
 cooperatives concentrate where they do for reasons internal to member-based finance,
 region is a mediator and the size-only estimate is the parameter. If regional market
@@ -614,18 +618,18 @@ uncertain.
 \subsection{Network-level heterogeneity}
 
 The online appendix splits the cooperative side by system. Sicredi and Sicoob account for
-all but seven of the cooperatives, so the split describes those two networks and cannot
-test network affiliation as such. Cooperatives in both networks hold less regulatory
+all but seven of the cooperatives, so the split describes those two networks; a test of
+network affiliation as such is beyond it. Cooperatives in both networks hold less regulatory
 capital than comparable banks, significant under the bootstrap in each. The six
 independents rest on five treated clusters, and their capital estimate is positive and
-cannot be separated from noise.
+indistinguishable from noise.
 
 The split locates the pooled capital differential in the two large networks without
 explaining it. A network backstop is one candidate explanation,
 since a cooperative with centralised liquidity and consolidated risk management behind it
 may run a thinner individual cushion. The networks also differ in the size, geography,
-business mix and governance of their affiliates, and the split cannot separate the
-backstop from these. Provisioning is insignificant in every system.
+business mix and governance of their affiliates, and the split leaves the backstop
+entangled with these. Provisioning is insignificant in every system.
 
 \subsection{Selection into the analysis sample}
 \label{sec:selection}
@@ -653,8 +657,9 @@ In addition, it reports a split at the January 2022 replacement of the 2013 capi
 rules. Every surviving result keeps its sign and significance in both subperiods, and
 provisioning and the margin remain null in both. Magnitudes are roughly a fifth smaller
 after 2022. Four winsorisation rules, re-estimation on the rows where provisioning is
-observed, and dropping the six cooperatives that revert to the simplified methodology
-leave every surviving sign unchanged. The weighted and unweighted matched-sample
+observed, dropping the sector's two cooperative-owned banks, and dropping the six
+cooperatives that revert to the simplified methodology leave every surviving sign
+unchanged. The weighted and unweighted matched-sample
 estimates differ by less than the sampling error. All results
 come from one script run on the public IF.data files, with every comparison group,
 coarsening, winsorisation rule and check as a parameter, and the tables are generated
@@ -679,8 +684,8 @@ property-rights problems bear on capital raised from members, which a cooperativ
 expand at will; the reserves it retains are indivisible and accumulate across member
 generations \citep{fonteyne2007}. What the argument rules out is the upper tail, since a
 cooperative has no reason to hold capital far above what its lending requires and no
-outside investor to supply it. The narrow band is the profile that endowment capital
-predicts, and the mean gap is the absence of that tail.
+outside investor to supply it. The narrow band appears to be the profile that endowment
+capital predicts, and the mean gap the absence of that tail.
 
 Our results agree with \citet{hesse2007} on two of the three bank-level differences
 they report, lower capitalisation at comparable size and lower return volatility. They
@@ -705,8 +710,8 @@ Three analyst choices determined whether headline results existed. The first is 
 comparison group, which as ``all non-cooperatives'' imports some 160 institutions that
 neither lend nor raise funds. The second and third are reading IF.data income fields as
 quarterly flows and estimating the matched comparison by unweighted OLS on the matched
-sample. Each is a natural reading of the source material. Some of the disagreements in
-the literature may reflect different comparison groups.
+sample. Some of the disagreements in the literature may reflect different comparison
+groups.
 
 \subsection{Limitations}
 
@@ -720,7 +725,7 @@ network backstop hypothesis needs consolidated network data that IF.data does no
 The mediator question in Section~\ref{sec:region} also needs a market measure finer than
 macro-region, and IF.data's credit-modality modules, which carry rural credit, are the
 natural next step. Finally, a within-institution design around the adoption of the full
-methodology does not identify a regime effect: adoption follows growth, which moves every
+methodology fails to identify a regime effect: adoption follows growth, which moves every
 balance-sheet ratio continuously, and pre-adoption trends run through the adoption date
 without a break.
 
@@ -746,8 +751,8 @@ FGCoop. If the backstop hypothesis is right, a proportional framework might also
 an integrated network and its backstop as the unit for parts of the capital and
 liquidity assessment, as \citet{coelho2019} report for the French cooperative groups. If
 the differential
-reflects the affiliates' size, geography or business mix, that suggestion does not
-follow. The second is the calibration of the benchmark itself. A benchmark set against
+reflects the affiliates' size, geography or business mix, that suggestion loses its
+basis. The second is the calibration of the benchmark itself. A benchmark set against
 the average full-methodology institution may describe the cooperative configuration
 poorly, because that average comes from a distribution whose upper region cooperatives do
 not inhabit. Section~\ref{sec:theory} indicates why a lighter requirement does not follow
@@ -761,9 +766,9 @@ common prudential methodology, in a narrower form than a loose comparison sugges
 evidence does not support a case resting on cooperatives provisioning more conservatively
 than banks. A case resting on cost at the median and on return stability holds against
 every definition of a bank we tried; one resting on the return on assets holds after
-tax, and before tax the gap is smaller and not established. One resting on credit
-intensity holds against the national bank population but has not been shown within
-regional markets; the territorial claim is the one these data cannot yet settle, and the
+tax, and before tax the gap is smaller and unestablished. One resting on credit
+intensity holds against the national bank population and remains unshown within
+regional markets; the territorial claim is the one these data leave open, and the
 rural-credit modules of IF.data are the next step.
 
 \subsection*{Declaration}

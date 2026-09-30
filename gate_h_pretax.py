@@ -98,6 +98,21 @@ def main():
     w(f"quarters\t{len(d)}\tshare_nonzero\t{(k > 0).mean():.3f}\tmedian_k_over_g_when_nonzero\t"
       f"{(k[k > 0] / d.loc[k > 0, 'pretax_q']).median() if (k > 0).any() else float('nan'):.3f}")
     w("")
+    # ---- stability outcomes on the pre-tax measure: taxes scale bank returns by (1 - t),
+    # which also scales their after-tax volatility, so the after-tax comparison understates
+    # the volatility gap if cooperatives are the less volatile group
+    w("[PRETAX_VOLATILITY] institution-level stability outcomes, controlled on mean log assets, HC3")
+    w("measure\toutcome\tcoef\thc_lo\thc_hi\thc_p\tn_inst\tcoop_median\tbank_median")
+    for measure, col in (("after_tax", "roa_ann"), ("pre_tax", "roa_pretax")):
+        fr = l2w.copy()
+        fr["roa"] = fr[col]
+        inst, _, _ = P.collapse_stability(fr)
+        for o in ("roa_vol", "zscore"):
+            r = P.fit(inst, o, "{o} ~ is_coop + log_assets")
+            cm, bm = inst.loc[inst.is_coop == 1, o].median(), inst.loc[inst.is_coop == 0, o].median()
+            if r:
+                w(f"{measure}\t{o}\t{r['coef']:.5f}\t{r['hc_lo']:.5f}\t{r['hc_hi']:.5f}\t{r['hc_p']:.4f}\t{r['N']}\t{cm:.5f}\t{bm:.5f}")
+    w("")
     w("[UNCONDITIONAL] mean and median of the two measures by group, analysis sample after winsorisation")
     for o in ("roa", "roa_pretax"):
         for g, name in ((1, "cooperatives"), (0, "banks")):

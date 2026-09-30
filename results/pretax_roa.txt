@@ -38,6 +38,13 @@ banks	3319	0.015	0.355	0.445	0.669
 [JUROS_CAPITAL] line (k) among cooperative quarters with a positive pre-tax result
 quarters	2956	share_nonzero	0.222	median_k_over_g_when_nonzero	0.345
 
+[PRETAX_VOLATILITY] institution-level stability outcomes, controlled on mean log assets, HC3
+measure	outcome	coef	hc_lo	hc_hi	hc_p	n_inst	coop_median	bank_median
+after_tax	roa_vol	-0.04622	-0.06197	-0.03047	0.0000	242	0.01070	0.01648
+after_tax	zscore	7.58132	5.43345	9.72920	0.0000	242	17.72593	11.09403
+pre_tax	roa_vol	-0.02678	-0.03198	-0.02158	0.0000	242	0.01129	0.02198
+pre_tax	zscore	8.79315	6.95376	10.63255	0.0000	241	17.18662	8.62550
+
 [UNCONDITIONAL] mean and median of the two measures by group, analysis sample after winsorisation
 roa	cooperatives	0.02882	0.02837	3048
 roa	banks	0.01077	0.01163	4181

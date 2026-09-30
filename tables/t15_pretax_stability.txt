@@ -1,0 +1,13 @@
+\begin{tabular}{llrlrr}
+\toprule
+Outcome & Measure & Coefficient & 95\% interval & Median, coop. & Median, banks \\
+\midrule
+Return volatility & after tax & -0.0462$^{***}$ & [-0.0620, -0.0305] & 0.0107 & 0.0165 \\
+ & before tax & -0.0268$^{***}$ & [-0.0320, -0.0216] & 0.0113 & 0.0220 \\
+\midrule
+Z-score & after tax & 7.58$^{***}$ & [5.43, 9.73] & 17.73 & 11.09 \\
+ & before tax & 8.79$^{***}$ & [6.95, 10.63] & 17.19 & 8.63 \\
+\bottomrule
+\end{tabular}
+
+NOTE: Cooperative coefficient on one row per institution, controlling for mean log assets, HC3 standard errors; after tax uses line (j), before tax line (g), both de-cumulated and annualised. * p<0.05, ** p<0.01, *** p<0.001.

@@ -64,7 +64,8 @@ make_docx.py              fills the ICA CCR Word template (paper/FINAL ABSTRACT-
                           also fills the Sistema OCB briefing template with the Portuguese whitepaper (from whitepaper_ocb.md)
 make_whitepaper_figures.py  Portuguese versions of four figures for the whitepaper (figures/wp*.png), same loaders as make_figures.py
 expanded_abstract.md      source text of the proceedings abstract (800 to 1,500 words including references)
-whitepaper_ocb.md         source text of the Sistema OCB whitepaper (Portuguese)
+whitepaper_ocb.md         source text of the first draft of the Sistema OCB whitepaper (Portuguese); the current
+                          whitepaper is the hand-edited paper/Coops vs Bancos (Basileia) - White Paper 2026 (1).docx
 cleanup_outputs.py        empties figures/, results/, tables/ before a fresh run
 
 results/                  machine-written result files (see below)

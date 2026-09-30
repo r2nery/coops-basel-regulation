@@ -613,6 +613,33 @@ def t13(path):
          "by institution.")
 
 
+def t15(path):
+    """Stability outcomes before and after taxes (gate_h_pretax.py, [PRETAX_VOLATILITY])."""
+    txt = path.read_text(encoding="utf-8")
+    lines = [ln for ln in txt.split("[PRETAX_VOLATILITY]")[1].split("\n\n")[0].splitlines()[2:] if ln.strip()]
+    rows = {}
+    for ln in lines:
+        measure, o, coef, lo, hi, p, n, cm, bm = ln.split("\t")
+        rows[(measure, o)] = (float(coef), float(lo), float(hi), float(p), float(cm), float(bm))
+    labels = {("after_tax", "roa_vol"): ("Return volatility", "after tax"),
+              ("pre_tax", "roa_vol"): ("", "before tax"),
+              ("after_tax", "zscore"): ("Z-score", "after tax"),
+              ("pre_tax", "zscore"): ("", "before tax")}
+    body = ("\\begin{tabular}{llrlrr}\n\\toprule\nOutcome & Measure & Coefficient & 95\\% interval & "
+            "Median, coop. & Median, banks \\\\\n\\midrule\n")
+    for key, (name, meas) in labels.items():
+        c, lo, hi, p, cm, bm = rows[key]
+        d = 4 if key[1] == "roa_vol" else 2
+        body += (f"{name} & {meas} & {c:.{d}f}{st(p)} & [{lo:.{d}f}, {hi:.{d}f}] & {cm:.{d}f} & {bm:.{d}f} \\\\\n")
+        if key == ("pre_tax", "roa_vol"):
+            body += "\\midrule\n"
+    body += "\\bottomrule\n\\end{tabular}"
+    emit("t15_pretax_stability", body, small="footnotesize", note=
+         "Cooperative coefficient on one row per institution, controlling for mean log assets, HC3 "
+         "standard errors; after tax uses line (j), before tax line (g), both de-cumulated and annualised. "
+         "* p<0.05, ** p<0.01, *** p<0.001.")
+
+
 def main():
     missing = [str(p) for k, p in FILES.items()
                if not p.exists() and k not in OPTIONAL]
@@ -643,6 +670,7 @@ def main():
         guard(t9, parse(FILES["subperiod"]))
     if (RESULTS / "pretax_roa.txt").exists():
         guard(t13, RESULTS / "pretax_roa.txt")
+        guard(t15, RESULTS / "pretax_roa.txt")
 
     ov = kv(P.get("OVERLAP", []))
     cw = kv(P.get("CEM_WEIGHTING", []))
