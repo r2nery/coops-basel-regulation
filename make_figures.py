@@ -81,7 +81,8 @@ plt.rcParams.update({
 LABEL = {  # results-file label -> short plot label
     "Basel Capital Ratio (%)": "Basel capital ratio (pp)",
     "Leverage (liabilities/assets)": "Leverage",
-    "Return on Assets": "Return on assets",
+    "Return on Assets": "Return on assets, after tax",
+    "Return on Assets, pre-tax": "Return on assets, before tax",
     "Cost-to-Income Ratio": "Cost-to-income",
     "Credit Portfolio / Assets": "Credit / assets",
     "Provisioning (provisions/gross credit)": "Provisioning ratio",
@@ -93,7 +94,8 @@ LABEL = {  # results-file label -> short plot label
 SHORT = {  # panel titles in the ladder figure
     "Basel Capital Ratio (%)": "Capital (pp)",
     "Leverage (liabilities/assets)": "Leverage",
-    "Return on Assets": "ROA",
+    "Return on Assets": "ROA, after tax",
+    "Return on Assets, pre-tax": "ROA, before tax",
     "Cost-to-Income Ratio": "Cost-to-income",
     "Credit Portfolio / Assets": "Credit / assets",
     "Provisioning (provisions/gross credit)": "Provisioning",
@@ -390,7 +392,8 @@ def slide_profile(l2):
     sd = {k: l2[KEY[k]].std() for k, _ in MT.ORDER}
     sd["Return on assets volatility"] = inst["roa_vol"].std()
     sd["Z-score"] = inst["zscore"].std()
-    order = ["Credit Portfolio / Assets", "Return on Assets", "Return on assets volatility",
+    order = ["Credit Portfolio / Assets", "Return on Assets", "Return on Assets, pre-tax",
+             "Return on assets volatility",
              "Z-score", "Cost-to-Income Ratio", "Basel Capital Ratio (%)",
              "Leverage (liabilities/assets)", "Provisioning (provisions/gross credit)",
              "Net Interest Margin", "Funding Ratio (captacoes/assets)"]
@@ -458,7 +461,10 @@ def fig_ladder():
             ("Structural", load("structural"), "ctrl")]
     srcs = [(n, MT.coefs(s), sp) for n, s, sp in srcs if s is not None]
     keys = [k for k, _ in MT.ORDER + MT.STAB_ORDER]
-    fig, axes = plt.subplots(5, 2, figsize=(TEXTWIDTH, 6.4), sharey=True)
+    nrows = (len(keys) + 1) // 2
+    fig, axes = plt.subplots(nrows, 2, figsize=(TEXTWIDTH, 1.28 * nrows), sharey=True)
+    for a in axes.flatten()[len(keys):]:
+        a.set_visible(False)                      # an odd number of panels leaves one slot empty
     ypos = np.arange(len(srcs))[::-1]
     for a, key in zip(axes.flatten(), keys):
         stab = key in MT.STAB_LABELS

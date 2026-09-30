@@ -29,7 +29,8 @@ W = 6.5   # inches: A4 with the template's 2 cm side margins is 17 cm
 PT = {  # results-file label -> Portuguese label
     "Basel Capital Ratio (%)": "Índice de Basileia (p.p.)",
     "Leverage (liabilities/assets)": "Alavancagem",
-    "Return on Assets": "Retorno sobre o ativo",
+    "Return on Assets": "Retorno sobre o ativo, após tributos",
+    "Return on Assets, pre-tax": "Retorno sobre o ativo, antes dos tributos",
     "Cost-to-Income Ratio": "Índice de eficiência",
     "Credit Portfolio / Assets": "Operações de crédito / ativo",
     "Provisioning (provisions/gross credit)": "Provisão / carteira",
@@ -161,13 +162,14 @@ def fig_perfil(l2):
     sd = {k: l2[MF.KEY[k]].std() for k, _ in MT.ORDER}
     sd["Return on assets volatility"] = inst["roa_vol"].std()
     sd["Z-score"] = inst["zscore"].std()
-    order = ["Credit Portfolio / Assets", "Return on Assets", "Return on assets volatility",
+    order = ["Credit Portfolio / Assets", "Return on Assets", "Return on Assets, pre-tax",
+             "Return on assets volatility",
              "Z-score", "Cost-to-Income Ratio", "Basel Capital Ratio (%)",
              "Leverage (liabilities/assets)", "Provisioning (provisions/gross credit)",
              "Net Interest Margin", "Funding Ratio (captacoes/assets)"]
     style = {"stable": dict(mfc=COOP, mec=COOP), "stable in sign": dict(mfc="white", mec=COOP),
              "null": dict(mfc="white", mec=MUTED)}
-    fig, ax = plt.subplots(figsize=(W, 3.4))
+    fig, ax = plt.subplots(figsize=(W, 3.7))
     ax.axvline(0, color=INK2, lw=1)
     y = np.arange(len(order))[::-1]
     for yy, k in zip(y, order):

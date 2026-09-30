@@ -15,6 +15,9 @@ resultado_pcld	ok	61068	60863	205
 tarifas	ok	61068	60863	205
 despesas_pessoal	ok	61068	60863	205
 despesas_admin	ok	61068	60863	205
+resultado_pretax	ok	61068	60863	205
+tributos	ok	61068	60863	205
+juros_capital	ok	31717	31570	147
 pcld_line_b5_available	True
 
 [SEASONAL_ACCEPTANCE_TEST]  median by calendar quarter
@@ -80,6 +83,7 @@ singular_full_method	130
 Basel Capital Ratio (%)	-0.3393	-0.5172	-0.5127
 Leverage (liabilities/assets)	0.3409	0.6138	0.5384
 Return on Assets	0.5529	0.4721	0.4178
+Return on Assets, pre-tax	0.2861	0.1931	0.1125
 Net Interest Margin	-0.0035	-0.1950	-0.1847
 Cost-to-Income Ratio	-0.5606	-0.6394	-0.6340
 Credit Portfolio / Assets	0.7027	0.6250	0.7158

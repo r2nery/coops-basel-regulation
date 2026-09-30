@@ -1187,7 +1187,8 @@ def build_paper(bib):
 PT_OUTCOME = {  # labels of tables/t2_main.tex -> Portuguese (same wording as make_whitepaper_figures.PT)
     "Basel capital ratio (pp)": "Índice de Basileia (p.p.)",
     "Leverage": "Alavancagem",
-    "Return on assets": "Retorno sobre o ativo",
+    "Return on assets, after tax": "Retorno sobre o ativo, após tributos",
+    "Return on assets, before tax": "Retorno sobre o ativo, antes dos tributos",
     "Cost-to-income ratio": "Índice de eficiência",
     "Credit portfolio / assets": "Operações de crédito / ativo",
     "Provisioning ratio": "Provisão / carteira",

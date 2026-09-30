@@ -21,6 +21,7 @@ structural_individual	27	762	36.151	21.860	83.042	0.1739	0.5534	89.9	68.4
 banks	Basel Capital Ratio (%)	-15.773642	3.139573	5.057e-07	0.0005	128	7218	144
 banks	Leverage (liabilities/assets)	0.122019	0.020412	2.261e-09	0.0005	128	7232	144
 banks	Return on Assets	0.021456	0.003626	3.272e-09	0.0005	128	7229	143
+banks	Return on Assets, pre-tax	0.013196	0.004903	7.113e-03	0.0065	128	7229	143
 banks	Net Interest Margin	-0.018980	0.013278	1.529e-01	0.1640	128	7229	143
 banks	Cost-to-Income Ratio	-0.792256	0.129805	1.038e-09	0.0005	128	6901	141
 banks	Credit Portfolio / Assets	0.188130	0.030373	5.865e-10	0.0005	128	7232	144
@@ -31,6 +32,7 @@ banks	Z-score	6.318393	1.084847	5.738e-09	0.0020	105	241	136
 banks_individual	Basel Capital Ratio (%)	-21.421736	4.813852	8.586e-06	0.0005	128	4625	57
 banks_individual	Leverage (liabilities/assets)	0.120392	0.025321	1.988e-06	0.0005	128	4628	57
 banks_individual	Return on Assets	0.026916	0.004023	2.222e-11	0.0005	128	4627	57
+banks_individual	Return on Assets, pre-tax	0.021012	0.004766	1.041e-05	0.0005	128	4627	57
 banks_individual	Net Interest Margin	-0.002186	0.012822	8.646e-01	0.8910	128	4627	57
 banks_individual	Cost-to-Income Ratio	-0.457864	0.096697	2.190e-06	0.0005	128	4510	56
 banks_individual	Credit Portfolio / Assets	0.111094	0.042322	8.665e-03	0.0180	128	4628	57
@@ -41,6 +43,7 @@ banks_individual	Z-score	5.556391	1.455049	1.342e-04	0.0020	105	158	53
 commercial	Basel Capital Ratio (%)	-16.771614	4.432080	1.542e-04	0.0005	128	6082	105
 commercial	Leverage (liabilities/assets)	0.089640	0.023459	1.328e-04	0.0005	128	6096	105
 commercial	Return on Assets	0.027628	0.004622	2.258e-09	0.0005	128	6095	104
+commercial	Return on Assets, pre-tax	0.022789	0.005775	7.934e-05	0.0005	128	6095	104
 commercial	Net Interest Margin	0.000146	0.014144	9.918e-01	0.9950	128	6095	104
 commercial	Cost-to-Income Ratio	-0.988147	0.173911	1.332e-08	0.0005	128	5805	102
 commercial	Credit Portfolio / Assets	0.259869	0.029025	3.454e-19	0.0005	128	6096	105
@@ -51,6 +54,7 @@ commercial	Z-score	7.692942	1.141527	1.593e-11	0.0020	105	203	98
 commercial_individual	Basel Capital Ratio (%)	-26.877362	7.325099	2.433e-04	0.0005	128	4004	35
 commercial_individual	Leverage (liabilities/assets)	0.086125	0.030006	4.102e-03	0.0090	128	4007	35
 commercial_individual	Return on Assets	0.033665	0.005856	9.014e-09	0.0005	128	4007	35
+commercial_individual	Return on Assets, pre-tax	0.029949	0.006625	6.161e-06	0.0005	128	4007	35
 commercial_individual	Net Interest Margin	0.021144	0.008877	1.722e-02	0.0225	128	4007	35
 commercial_individual	Cost-to-Income Ratio	-0.689408	0.151471	5.329e-06	0.0005	128	3914	34
 commercial_individual	Credit Portfolio / Assets	0.222158	0.042737	2.011e-07	0.0005	128	4007	35
@@ -61,6 +65,7 @@ commercial_individual	Z-score	6.796789	1.522955	8.086e-06	0.0020	105	136	31
 structural	Basel Capital Ratio (%)	-8.885264	3.301932	7.125e-03	0.0115	128	5799	94
 structural	Leverage (liabilities/assets)	0.039446	0.019685	4.509e-02	0.0645	128	5813	94
 structural	Return on Assets	0.029202	0.004383	2.702e-11	0.0005	128	5812	93
+structural	Return on Assets, pre-tax	0.025892	0.005202	6.436e-07	0.0005	128	5812	93
 structural	Net Interest Margin	0.015858	0.008853	7.324e-02	0.0745	128	5812	93
 structural	Cost-to-Income Ratio	-1.035325	0.202126	3.020e-07	0.0005	128	5542	91
 structural	Credit Portfolio / Assets	0.241045	0.031542	2.138e-14	0.0005	128	5813	94
@@ -71,6 +76,7 @@ structural	Z-score	8.173565	1.231543	3.205e-11	0.0020	105	193	88
 structural_individual	Basel Capital Ratio (%)	-14.960319	5.435729	5.919e-03	0.0060	128	3807	27
 structural_individual	Leverage (liabilities/assets)	0.027458	0.025504	2.816e-01	0.3700	128	3810	27
 structural_individual	Return on Assets	0.033411	0.005870	1.254e-08	0.0005	128	3810	27
+structural_individual	Return on Assets, pre-tax	0.029901	0.006517	4.476e-06	0.0005	128	3810	27
 structural_individual	Net Interest Margin	0.022550	0.010745	3.586e-02	0.0545	128	3810	27
 structural_individual	Cost-to-Income Ratio	-0.620547	0.179213	5.349e-04	0.0005	128	3730	26
 structural_individual	Credit Portfolio / Assets	0.184938	0.046066	5.954e-05	0.0020	128	3810	27
@@ -89,6 +95,7 @@ B — dropping the cooperative sector's own banks from the bank comparison group
 Basel Capital Ratio (%)	-15.773642	-15.760608	0.013035	-0.08	3.139064	5.146e-07	0.0005	7154
 Leverage (liabilities/assets)	0.122019	0.122275	0.000256	0.21	0.020416	2.109e-09	0.0005	7168
 Return on Assets	0.021456	0.021373	-0.000083	-0.39	0.003619	3.493e-09	0.0005	7165
+Return on Assets, pre-tax	0.013196	0.013096	-0.000100	-0.76	0.004895	7.463e-03	0.0110	7165
 Net Interest Margin	-0.018980	-0.019161	-0.000181	0.95	0.013273	1.489e-01	0.1570	7165
 Cost-to-Income Ratio	-0.792256	-0.790140	0.002116	-0.27	0.129792	1.145e-09	0.0005	6838
 Credit Portfolio / Assets	0.188130	0.186575	-0.001554	-0.83	0.030380	8.176e-10	0.0005	7168

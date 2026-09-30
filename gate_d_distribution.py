@@ -64,7 +64,7 @@ def _qboot_cell(o, q, sub, B, seed):
     if len(out) < 30:
         return o, q, float("nan"), float("nan"), len(out)
     return o, q, float(np.percentile(out, 2.5)), float(np.percentile(out, 97.5)), len(out)
-CORE = ["basileia_num", "leverage", "roa", "cti", "credit_ratio", "prov_ratio"]
+CORE = ["basileia_num", "leverage", "roa", "roa_pretax", "cti", "credit_ratio", "prov_ratio"]
 BASE = dict(coop_def="singular", winsor_scope="analysis", use_cluster=True,
             cti_col="cti_new", roa_col="roa_ann", nim_col="nim_ann",
             peer_set="banks", coarsen="size_q5")
@@ -237,7 +237,8 @@ def write_quantile_table(store, l2):
 
 
 SHORT_T7 = {"basileia_num": "Basel ratio (pp)", "leverage": "Leverage",
-            "roa": "Return on assets", "cti": "Cost-to-income",
+            "roa": "Return on assets, after tax", "roa_pretax": "Return on assets, before tax",
+            "cti": "Cost-to-income",
             "credit_ratio": "Credit / assets", "prov_ratio": "Provisioning ratio"}
 SHOW_T7 = [0.10, 0.25, 0.50, 0.75, 0.90]
 

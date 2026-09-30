@@ -51,6 +51,10 @@ Return on Assets	raw	0.005530	0.018050	+0.012520
 Return on Assets	ctrl	0.003404	0.021456	+0.018052
 Return on Assets	cem	0.000478	0.017910	+0.017432
 Return on Assets	trim	0.001253	0.015886	+0.014634
+Return on Assets, pre-tax	raw	-0.009035	0.011847	+0.020882
+Return on Assets, pre-tax	ctrl	-0.008181	0.013196	+0.021377
+Return on Assets, pre-tax	cem	-0.010970	0.008795	+0.019766
+Return on Assets, pre-tax	trim	-0.012867	0.006193	+0.019060
 Net Interest Margin	raw	-0.066464	-0.000308	+0.066156
 Net Interest Margin	ctrl	-0.034548	-0.018980	+0.015569
 Net Interest Margin	cem	-0.022831	-0.010685	+0.012146

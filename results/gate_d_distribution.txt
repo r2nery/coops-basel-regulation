@@ -21,6 +21,11 @@ Return on Assets
      0.0440   0.0281   0.0232   0.0200   0.0171   0.0143   0.0114   0.0067  -0.0057     0.0215
   mean of q20-q80 is 0.0173, 80% of the OLS coefficient
 
+Return on Assets, pre-tax
+        q10      q20      q30      q40      q50      q60      q70      q80      q90        OLS
+     0.0519   0.0329   0.0251   0.0193   0.0144   0.0078   0.0016  -0.0089  -0.0288     0.0132
+  mean of q20-q80 is 0.0132, 100% of the OLS coefficient
+
 Cost-to-Income Ratio
         q10      q20      q30      q40      q50      q60      q70      q80      q90        OLS
      0.1096   0.0374  -0.0257  -0.0934  -0.1796  -0.3091  -0.5074  -0.8520  -1.7561    -0.7923
@@ -46,6 +51,7 @@ outcome                        coop sd   bank sd   ratio   coop IQR   bank IQR  
 Basel Capital Ratio (%)           9.24     29.74    0.31       8.37      18.33       0.46
 Leverage (liabilities/assets)    0.0759    0.1788    0.42     0.0793     0.1429       0.56
 Return on Assets                0.0180    0.0420    0.43     0.0174     0.0225       0.77
+Return on Assets, pre-tax       0.0185    0.0553    0.33     0.0179     0.0340       0.53
 Cost-to-Income Ratio            0.1491    1.4751    0.10     0.1859     0.7334       0.25
 Credit Portfolio / Assets       0.1208    0.3088    0.39     0.1486     0.5459       0.27
 Provisioning (provisions/gross credit)    0.0243    0.0701    0.35     0.0213     0.0507       0.42
@@ -95,7 +101,7 @@ size_q10_region               -6.88       -16.07             21.6      0.0136   
 Reported so the reader can see that the choice of coarsening, not only its
 existence, is an analyst decision with consequences.
 
-bootstrap intervals for the quantile table: B=199 resamples of institutions per cell, 30 cells
+bootstrap intervals for the quantile table: B=199 resamples of institutions per cell, 35 cells
 [QUANTILE_CI]  outcome	q	coef	ci_lo	ci_hi	draws
 Basel Capital Ratio (%)	0.10	2.809235	2.061210	3.754448	199
 Basel Capital Ratio (%)	0.25	1.608546	0.186378	2.761605	199
@@ -112,19 +118,24 @@ Return on Assets	0.25	0.025543	0.019917	0.030250	199
 Return on Assets	0.50	0.017111	0.013510	0.021332	199
 Return on Assets	0.75	0.009751	0.004932	0.014645	199
 Return on Assets	0.90	-0.005667	-0.016935	0.003940	199
-Cost-to-Income Ratio	0.10	0.109610	0.032360	0.152206	199
-Cost-to-Income Ratio	0.25	0.006224	-0.057368	0.053367	199
-Cost-to-Income Ratio	0.50	-0.179565	-0.276918	-0.098659	199
-Cost-to-Income Ratio	0.75	-0.646913	-0.881734	-0.475970	199
-Cost-to-Income Ratio	0.90	-1.756052	-2.609303	-1.147241	199
-Credit Portfolio / Assets	0.10	0.382707	0.342063	0.429131	199
-Credit Portfolio / Assets	0.25	0.424191	0.360837	0.466530	199
-Credit Portfolio / Assets	0.50	0.244846	0.136589	0.352605	199
-Credit Portfolio / Assets	0.75	-0.018532	-0.100422	0.067793	199
-Credit Portfolio / Assets	0.90	-0.170165	-0.219408	-0.108240	199
-Provisioning (provisions/gross credit)	0.10	0.030073	0.026207	0.033483	199
-Provisioning (provisions/gross credit)	0.25	0.029927	0.026084	0.033866	199
-Provisioning (provisions/gross credit)	0.50	0.023587	0.015897	0.028831	199
-Provisioning (provisions/gross credit)	0.75	0.000811	-0.017009	0.017898	199
-Provisioning (provisions/gross credit)	0.90	-0.053874	-0.093400	-0.015372	199
+Return on Assets, pre-tax	0.10	0.051917	0.038073	0.066404	199
+Return on Assets, pre-tax	0.25	0.028379	0.022876	0.035025	199
+Return on Assets, pre-tax	0.50	0.014384	0.009186	0.019369	199
+Return on Assets, pre-tax	0.75	-0.002902	-0.010965	0.004634	199
+Return on Assets, pre-tax	0.90	-0.028829	-0.046283	-0.016472	199
+Cost-to-Income Ratio	0.10	0.109610	0.009480	0.151379	199
+Cost-to-Income Ratio	0.25	0.006224	-0.050646	0.067434	199
+Cost-to-Income Ratio	0.50	-0.179565	-0.276503	-0.106986	199
+Cost-to-Income Ratio	0.75	-0.646913	-0.870059	-0.438133	199
+Cost-to-Income Ratio	0.90	-1.756052	-2.821996	-1.157787	199
+Credit Portfolio / Assets	0.10	0.382707	0.343088	0.428004	199
+Credit Portfolio / Assets	0.25	0.424191	0.369607	0.466333	199
+Credit Portfolio / Assets	0.50	0.244846	0.146255	0.362847	199
+Credit Portfolio / Assets	0.75	-0.018532	-0.084578	0.069142	199
+Credit Portfolio / Assets	0.90	-0.170165	-0.218518	-0.111168	199
+Provisioning (provisions/gross credit)	0.10	0.030073	0.025881	0.033384	199
+Provisioning (provisions/gross credit)	0.25	0.029927	0.025525	0.034101	199
+Provisioning (provisions/gross credit)	0.50	0.023587	0.018088	0.028868	199
+Provisioning (provisions/gross credit)	0.75	0.000811	-0.015511	0.014842	199
+Provisioning (provisions/gross credit)	0.90	-0.053874	-0.092726	-0.016788	199
 wrote C:\coops-basel-regulation\tables\t7_quantiles.tex

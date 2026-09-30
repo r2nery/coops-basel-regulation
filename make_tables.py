@@ -44,7 +44,8 @@ SPEC_HEAD = {"raw": "(1) Raw", "ctrl": "(2) Controls", "cem": "(3) CEM", "trim":
 ORDER = [
     ("Basel Capital Ratio (%)", "Basel capital ratio (pp)"),
     ("Leverage (liabilities/assets)", "Leverage"),
-    ("Return on Assets", "Return on assets"),
+    ("Return on Assets", "Return on assets, after tax"),
+    ("Return on Assets, pre-tax", "Return on assets, before tax"),
     ("Cost-to-Income Ratio", "Cost-to-income ratio"),
     ("Credit Portfolio / Assets", "Credit portfolio / assets"),
     ("Provisioning (provisions/gross credit)", "Provisioning ratio"),
@@ -669,8 +670,7 @@ def main():
     if FILES["subperiod"].exists():
         guard(t9, parse(FILES["subperiod"]))
     if (RESULTS / "pretax_roa.txt").exists():
-        guard(t13, RESULTS / "pretax_roa.txt")
-        guard(t15, RESULTS / "pretax_roa.txt")
+        guard(t15, RESULTS / "pretax_roa.txt")      # t13 is superseded by the pre-tax row of t2
 
     ov = kv(P.get("OVERLAP", []))
     cw = kv(P.get("CEM_WEIGHTING", []))

@@ -13,6 +13,7 @@ date_range	2017-03-01..2024-12-01
 Basel Capital Ratio (%)	22.765116	34.751295	20.460000	20.010000	3048	10317
 Leverage (liabilities/assets)	0.833737	0.611730	0.849271	0.736095	3048	10783
 Return on Assets	0.028738	0.005557	0.028368	0.013714	3048	10735
+Return on Assets, pre-tax	0.031942	0.035200	0.031532	0.021731	3048	10735
 Net Interest Margin	0.083932	0.264993	0.080871	0.086757	3048	10735
 Cost-to-Income Ratio	0.553639	3.267788	0.551620	0.909319	3048	10103
 Credit Portfolio / Assets	0.567323	0.314116	0.589942	0.162108	3048	10783
@@ -35,6 +36,10 @@ Return on Assets	raw	0.023181	0.013869	0.032492	1.066e-06	0.019574	0.026788	2.21
 Return on Assets	ctrl	0.017150	0.010880	0.023420	8.270e-08	0.014897	0.019404	2.539e-50	13783	598	na	na	0.003199	0.001150
 Return on Assets	cem	0.014563	0.008674	0.020452	1.256e-06	0.012419	0.016706	1.861e-40	13783	598	na	na	0.003005	0.001094
 Return on Assets	trim	0.009221	0.003002	0.015439	3.659e-03	0.006891	0.011551	8.745e-15	6748	345	na	na	0.003173	0.001189
+Return on Assets, pre-tax	raw	-0.003258	-0.016004	0.009489	6.164e-01	-0.007645	0.001130	1.456e-01	13783	598	na	na	0.006503	0.002238
+Return on Assets, pre-tax	ctrl	-0.001695	-0.010462	0.007073	7.048e-01	-0.004503	0.001114	2.370e-01	13783	598	na	na	0.004474	0.001433
+Return on Assets, pre-tax	cem	-0.000004	-0.008503	0.008495	9.993e-01	-0.002693	0.002685	9.977e-01	13783	598	na	na	0.004336	0.001372
+Return on Assets, pre-tax	trim	-0.007214	-0.016591	0.002163	1.316e-01	-0.010283	-0.004145	4.070e-06	6748	345	na	na	0.004785	0.001566
 Net Interest Margin	raw	-0.181061	-0.219732	-0.142391	4.440e-20	-0.189585	-0.172538	0.000e+00	13783	598	na	na	0.019730	0.004349
 Net Interest Margin	ctrl	-0.090990	-0.114695	-0.067284	5.355e-14	-0.096388	-0.085591	2.743e-239	13783	598	na	na	0.012095	0.002755
 Net Interest Margin	cem	-0.043249	-0.064280	-0.022217	5.568e-05	-0.047978	-0.038519	7.819e-72	13783	598	na	na	0.010731	0.002413
@@ -70,6 +75,7 @@ Z-score	trim	8.200830	5.992926	10.408735	3.341e-13	5.973921	10.427740	5.285e-13	
 Basel Capital Ratio (%)	-12.003509	-9.473189	0.7892	0.2108	robust	4/4	False	-12.003509	-8.271798
 Leverage (liabilities/assets)	0.222006	0.085644	0.3858	0.6142	attenuated	4/4	False	0.085644	0.222006
 Return on Assets	0.023181	0.009221	0.3978	0.6022	attenuated	4/4	False	0.009221	0.023181
+Return on Assets, pre-tax	-0.003258	-0.007214	na	na	null	0/4	False	-0.007214	-0.000004
 Net Interest Margin	-0.181061	-0.040170	0.2219	0.7781	attenuated	4/4	False	-0.181061	-0.040170
 Cost-to-Income Ratio	-2.714149	-1.019091	0.3755	0.6245	attenuated	4/4	False	-2.714149	-1.019091
 Credit Portfolio / Assets	0.253206	0.126693	0.5004	0.4996	robust	4/4	False	0.121880	0.253206
@@ -92,6 +98,10 @@ Return on Assets	raw	0.023181	0.014672	0.633	-1.50
 Return on Assets	ctrl	0.017150	0.013843	0.807	-1.50
 Return on Assets	cem	0.014563	0.013843	0.951	-1.50
 Return on Assets	trim	0.009221	0.011973	1.299	-1.38
+Return on Assets, pre-tax	raw	-0.003258	0.009785	-3.004	0.23
+Return on Assets, pre-tax	ctrl	-0.001695	0.009264	-5.467	0.23
+Return on Assets, pre-tax	cem	-0.000004	0.009264	-2313.679	0.23
+Return on Assets, pre-tax	trim	-0.007214	0.003673	-0.509	1.77
 Net Interest Margin	raw	-0.181061	-0.005885	0.033	3.35
 Net Interest Margin	ctrl	-0.090990	-0.003251	0.036	3.35
 Net Interest Margin	cem	-0.043249	-0.003251	0.075	3.35
@@ -129,6 +139,7 @@ outcome	cem_weighted	cem_unweighted	difference
 Basel Capital Ratio (%)	-10.286239	-8.271798	-2.014440
 Leverage (liabilities/assets)	0.103331	0.128004	-0.024673
 Return on Assets	0.014563	0.017150	-0.002588
+Return on Assets, pre-tax	-0.000004	-0.001695	+0.001691
 Net Interest Margin	-0.043249	-0.090990	+0.047741
 Cost-to-Income Ratio	-1.126828	-1.827692	+0.700864
 Credit Portfolio / Assets	0.121880	0.203006	-0.081126
@@ -172,6 +183,7 @@ analysis_nc	-0.5112
 Basel Capital Ratio (%)	0.602800	226.648400
 Leverage (liabilities/assets)	0.010413	0.979217
 Return on Assets	-0.822590	0.590302
+Return on Assets, pre-tax	-0.805849	0.906253
 Net Interest Margin	-0.077286	2.395101
 Cost-to-Income Ratio	0.117237	56.806894
 Credit Portfolio / Assets	0.000000	1.017060

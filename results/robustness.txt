@@ -6,6 +6,7 @@
 pooled_1_99	Basel Capital Ratio (%)	-15.773642	-21.927091	-9.620193	5.057e-07	7218
 pooled_1_99	Leverage (liabilities/assets)	0.122019	0.082012	0.162025	2.261e-09	7232
 pooled_1_99	Return on Assets	0.021456	0.014349	0.028563	3.272e-09	7229
+pooled_1_99	Return on Assets, pre-tax	0.013196	0.003587	0.022806	7.113e-03	7229
 pooled_1_99	Net Interest Margin	-0.018980	-0.045005	0.007045	1.529e-01	7229
 pooled_1_99	Cost-to-Income Ratio	-0.792256	-1.046669	-0.537842	1.038e-09	6901
 pooled_1_99	Credit Portfolio / Assets	0.188130	0.128600	0.247659	5.865e-10	7232
@@ -14,6 +15,7 @@ pooled_1_99	Funding Ratio (captacoes/assets)	0.088659	0.034405	0.142914	1.361e-0
 pooled_5_95	Basel Capital Ratio (%)	-9.393394	-12.969832	-5.816957	2.636e-07	7218
 pooled_5_95	Leverage (liabilities/assets)	0.093631	0.064350	0.122913	3.673e-10	7232
 pooled_5_95	Return on Assets	0.016632	0.012799	0.020465	1.824e-17	7229
+pooled_5_95	Return on Assets, pre-tax	0.012859	0.007691	0.018026	1.075e-06	7229
 pooled_5_95	Net Interest Margin	0.005261	-0.005332	0.015854	3.304e-01	7229
 pooled_5_95	Cost-to-Income Ratio	-0.457583	-0.567687	-0.347479	3.779e-16	6901
 pooled_5_95	Credit Portfolio / Assets	0.193279	0.135050	0.251508	7.735e-11	7232
@@ -22,6 +24,7 @@ pooled_5_95	Funding Ratio (captacoes/assets)	0.085221	0.032719	0.137724	1.466e-0
 by_group_1_99	Basel Capital Ratio (%)	-17.912474	-25.658135	-10.166813	5.827e-06	7218
 by_group_1_99	Leverage (liabilities/assets)	0.123593	0.083407	0.163779	1.660e-09	7232
 by_group_1_99	Return on Assets	0.023015	0.015006	0.031025	1.780e-08	7229
+by_group_1_99	Return on Assets, pre-tax	0.014270	0.003599	0.024941	8.766e-03	7229
 by_group_1_99	Net Interest Margin	-0.022337	-0.051366	0.006693	1.315e-01	7229
 by_group_1_99	Cost-to-Income Ratio	-0.866714	-1.144754	-0.588673	9.985e-10	6901
 by_group_1_99	Credit Portfolio / Assets	0.188024	0.128485	0.247562	6.031e-10	7232
@@ -30,6 +33,7 @@ by_group_1_99	Funding Ratio (captacoes/assets)	0.088957	0.034706	0.143208	1.310e
 none	Basel Capital Ratio (%)	-19.494825	-29.059433	-9.930218	6.474e-05	7218
 none	Leverage (liabilities/assets)	0.122516	0.082243	0.162789	2.485e-09	7232
 none	Return on Assets	0.024237	0.012871	0.035602	2.921e-05	7229
+none	Return on Assets, pre-tax	0.013724	0.000196	0.027251	4.677e-02	7229
 none	Net Interest Margin	-0.030298	-0.068546	0.007950	1.205e-01	7229
 none	Cost-to-Income Ratio	-1.403153	-2.123464	-0.682842	1.346e-04	6901
 none	Credit Portfolio / Assets	0.187443	0.127714	0.247172	7.708e-10	7232
@@ -53,6 +57,7 @@ outcome	coef	cl_lo	cl_hi	cl_p	N	n_clusters
 Basel Capital Ratio (%)	-1.711792	-9.116838	5.693253	6.505e-01	24121	932
 Leverage (liabilities/assets)	0.029971	-0.025927	0.085869	2.933e-01	24169	932
 Return on Assets	-0.003030	-0.006657	0.000598	1.017e-01	24157	932
+Return on Assets, pre-tax	-0.003238	-0.006886	0.000410	8.195e-02	24157	932
 Net Interest Margin	0.003135	-0.006240	0.012510	5.122e-01	24157	932
 Cost-to-Income Ratio	-0.029525	-0.062249	0.003198	7.699e-02	24123	932
 Credit Portfolio / Assets	-0.068050	-0.112147	-0.023952	2.490e-03	24169	932
@@ -69,6 +74,7 @@ outcome	coef	cl_lo	cl_hi	cl_p	N	n_clusters
 Basel Capital Ratio (%)	1.758474	-5.412508	8.929456	6.308e-01	24252	937
 Leverage (liabilities/assets)	0.004505	-0.050480	0.059490	8.724e-01	24300	937
 Return on Assets	-0.004652	-0.009687	0.000384	7.019e-02	24288	937
+Return on Assets, pre-tax	-0.004899	-0.009962	0.000164	5.790e-02	24288	937
 Net Interest Margin	0.004972	-0.004511	0.014455	3.042e-01	24288	937
 Cost-to-Income Ratio	-0.006312	-0.049751	0.037126	7.758e-01	24254	937
 Credit Portfolio / Assets	-0.065767	-0.109368	-0.022166	3.113e-03	24300	937
@@ -85,6 +91,7 @@ outcome	full_coef	dropped_coef	pct_change	dropped_p
 Basel Capital Ratio (%)	-15.773642	-15.968041	-1.23	3.664e-07
 Leverage (liabilities/assets)	0.122019	0.123778	+1.44	1.358e-09
 Return on Assets	0.021456	0.021664	+0.97	2.088e-09
+Return on Assets, pre-tax	0.013196	0.013443	+1.87	5.986e-03
 Net Interest Margin	-0.018980	-0.019100	-0.63	1.498e-01
 Cost-to-Income Ratio	-0.792256	-0.793690	-0.18	9.396e-10
 Credit Portfolio / Assets	0.188130	0.188240	+0.06	5.722e-10
@@ -100,6 +107,7 @@ outcome	full_coef	covered_coef	pct_change	covered_p	N_full	N_covered
 Basel Capital Ratio (%)	-15.773642	-11.197093	+29.01	1.036e-05	7218	6451
 Leverage (liabilities/assets)	0.122019	0.097332	-20.23	6.590e-06	7232	6465
 Return on Assets	0.021456	0.026674	+24.32	1.993e-12	7229	6462
+Return on Assets, pre-tax	0.013196	0.022082	+67.33	6.631e-07	7229	6462
 Net Interest Margin	-0.018980	0.003363	+117.72	6.565e-01	7229	6462
 Cost-to-Income Ratio	-0.792256	-0.612098	+22.74	2.950e-11	6901	6177
 Credit Portfolio / Assets	0.188130	0.102813	-45.35	6.147e-04	7232	6465

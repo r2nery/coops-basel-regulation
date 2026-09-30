@@ -6,7 +6,8 @@ Outcome & Mean & Median & Mean & Median & Coop. & Banks \\
 \midrule
 Basel capital ratio (pp) & 22.77 & 20.46 & 30.96 & 18.41 & 3,048 & 4,170 \\
 Leverage & 0.8337 & 0.8493 & 0.7777 & 0.8644 & 3,048 & 4,184 \\
-Return on assets & 0.0288 & 0.0284 & 0.0108 & 0.0116 & 3,048 & 4,181 \\
+Return on assets, after tax & 0.0288 & 0.0284 & 0.0108 & 0.0116 & 3,048 & 4,181 \\
+Return on assets, before tax & 0.0320 & 0.0315 & 0.0202 & 0.0173 & 3,048 & 4,181 \\
 Cost-to-income ratio & 0.5536 & 0.5516 & 1.1561 & 0.6455 & 3,048 & 3,853 \\
 Credit portfolio / assets & 0.5673 & 0.5899 & 0.4020 & 0.3956 & 3,048 & 4,184 \\
 Provisioning ratio & 0.0546 & 0.0503 & 0.0527 & 0.0322 & 2,945 & 3,520 \\

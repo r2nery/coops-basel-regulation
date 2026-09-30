@@ -28,9 +28,12 @@ bootstrap.
 
 - **Credit intensity.** Cooperatives allocate about **19 percentage points** more of assets
   to credit than banks of comparable size. The most stable result in the study.
-- **Return on assets.** Cooperatives earn about **2.1 percentage points** more on assets, on
-  an intermediation margin indistinguishable from that of banks, so the return comes from
-  volume and cost rather than spread.
+- **Return on assets.** Measured twice. After tax (IF.data line j) cooperatives retain about
+  **2.1 percentage points** more on assets, stable across specifications. Before tax (line g)
+  the gap is about 1.3 points under controls and is not significant on the matched and
+  common-support samples, so it is null by the classification rule: operating profitability
+  is about the same, on an intermediation margin indistinguishable from that of banks, and the
+  difference is the tax exemption of cooperative acts (`gate_h_pretax.py`).
 - **Cost efficiency.** Cooperatives run markedly leaner cost-to-income ratios.
 - **Capital.** The size-adjusted mean gap is large and negative (about −15.8 pp), but this
   is a statement about the bank upper tail, not a shift of the cooperative distribution. The
@@ -58,7 +61,8 @@ gate_f_reporting_level.py reporting level (conglomerate vs individual banks) -> 
 gate_g_peers.py           peer rungs, cooperative-owned banks, provisioning by capital tercile, cost-to-income trim -> results/peer_rungs.txt, tables/t12
 make_tables.py            parses results/*.txt into tables/t1..t6 and t9 (no recomputation)
 make_figures.py           draws every figure from results/*.txt and the panel (no regressions), plus figures/slides/
-gate_h_pretax.py          return on assets before taxes (line g) through the four specifications; results/pretax_roa.txt, feeds t13, t15
+gate_h_pretax.py          return on assets before taxes (line g) through the four specifications, tax burden by group
+                          and the stability outcomes before tax; results/pretax_roa.txt, feeds t15
 gate_i_levels.py          centrals vs singulars (network boundary) and median cooperative ROA by year; results/network_levels.txt
 make_docx.py              fills the ICA CCR Word template (paper/FINAL ABSTRACT-*.docx) with the proceedings
                           abstract (from expanded_abstract.md) and the full paper (from paper/paper.tex), APA 7 references;
@@ -143,11 +147,14 @@ python gate_d_distribution.py     # writes results/gate_d_distribution.txt, capi
 python gate_e_dispersion.py       # writes tables/t8
 python gate_f_reporting_level.py  # writes results/reporting_level.txt and tables/t11
 python gate_g_peers.py            # writes results/peer_rungs.txt and tables/t12
-python make_tables.py             # writes tables/t1..t6 and t9 from results/
+python gate_h_pretax.py           # writes results/pretax_roa.txt
+python gate_i_levels.py           # writes results/network_levels.txt
+python make_tables.py             # writes tables/t1..t6, t9, t14 and t15 from results/
 python make_figures.py            # writes figures/ from results/ and the panel
-python make_whitepaper_figures.py # writes figures/wp1..wp4 (Portuguese) for the whitepaper
-python make_docx.py               # writes paper/ICACCR2026_abstract_*.docx, paper/ICACCR2026_paper_*.docx and
-                                  # paper/Whitepaper_SistemaOCB_*.docx (the OCB template comes from the sistemaocb-docx skill)
+python make_whitepaper_figures.py # writes figures/wp1..wp5 (Portuguese) for the whitepaper
+python make_docx.py both          # writes paper/ICACCR2026_abstract_*.docx and paper/ICACCR2026_paper_*.docx
+                                  # (`make_docx.py whitepaper` rebuilds only the first draft from whitepaper_ocb.md;
+                                  # the current whitepaper is the hand-edited docx named above)
 ```
 
 Then compile `paper/paper.tex` and `paper/supplement.tex` with the usual

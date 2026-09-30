@@ -43,7 +43,8 @@ import paper as P
 
 BUF = io.StringIO()
 B_BOOT = int(sys.argv[1]) if len(sys.argv) > 1 else 400
-CORE = ["basileia_num", "leverage", "roa", "cti", "credit_ratio", "prov_ratio"]
+CORE = ["basileia_num", "leverage", "roa", "roa_pretax", "cti", "credit_ratio", "prov_ratio"]
+NUM_WORD = {5: "five", 6: "six", 7: "seven", 8: "eight"}
 BASE = dict(coop_def="singular", winsor_scope="analysis", use_cluster=True,
             cti_col="cti_new", roa_col="roa_ann", nim_col="nim_ann",
             peer_set="banks", coarsen="size_q5")
@@ -236,7 +237,7 @@ def write_table(keep, gv):
               r"fixed effects. Ratio: cooperative over bank residual standard deviation; "
               r"below one, cooperatives are the tighter group. The z-score is "
               r"institution-level, residualised on mean log assets."
-            + (f" Over the six outcomes jointly, the generalised variance ratio is "
+            + (f" Over the {NUM_WORD.get(len(CORE), len(CORE))} outcomes jointly, the generalised variance ratio is "
                f"{gv['cooperatives']['gv']/gv['banks']['gv']:.2f}."
                if gv and all(np.isfinite(gv[l]['gv']) for l in gv) else "")
             + "\n" + r"\end{tablenotes}" + "\n")

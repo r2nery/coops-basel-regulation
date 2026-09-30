@@ -52,6 +52,7 @@ OUTCOMES = {
     "basileia_num": "Basel Capital Ratio (%)",
     "leverage": "Leverage (liabilities/assets)",
     "roa": "Return on Assets",
+    "roa_pretax": "Return on Assets, pre-tax",
     "nim": "Net Interest Margin",
     "cti": "Cost-to-Income Ratio",
     "credit_ratio": "Credit Portfolio / Assets",
@@ -111,9 +112,14 @@ INCOME_MAP = {
     "Outras Receitas/Despesas Operacionais - Rendas de Tarifas Bancárias (d2)": "tarifas",
     "Outras Receitas/Despesas Operacionais - Despesas de Pessoal (d3)": "despesas_pessoal",
     "Outras Receitas/Despesas Operacionais - Despesas Administrativas (d4)": "despesas_admin",
+    # result before taxes and profit sharing, the taxes themselves, and interest on member capital
+    "Resultado antes da Tributação, Lucro e Participação (g) = (e) + (f)": "resultado_pretax",
+    "Imposto de Renda e Contribuição Social (h)": "tributos",
+    "Juros Sobre Capital Social de Cooperativas (k)": "juros_capital",
 }
 INCOME_NUM = ["receitas_intermediacao", "resultado_intermediacao", "resultado_pcld",
-              "tarifas", "despesas_pessoal", "despesas_admin"]
+              "tarifas", "despesas_pessoal", "despesas_admin",
+              "resultado_pretax", "tributos", "juros_capital"]
 
 # Income-statement fields accumulate WITHIN THE SEMESTER in IF.data (Brazilian
 # balanco semestral convention): Q1 is a one-quarter flow, Q2 is Jan-Jun, Q3 resets
@@ -121,7 +127,8 @@ INCOME_NUM = ["receitas_intermediacao", "resultado_intermediacao", "resultado_pc
 # diagnostic: median Q2/Q1 = 2.11 and Q4/Q3 = 2.07 while Q3/Q1 = 1.14, against
 # 1.09-1.11 for balance-sheet stocks over the same institution-years.
 FLOW_COLS = ["lucro_liquido", "receitas_intermediacao", "resultado_intermediacao",
-             "resultado_pcld", "tarifas", "despesas_pessoal", "despesas_admin"]
+             "resultado_pcld", "tarifas", "despesas_pessoal", "despesas_admin",
+             "resultado_pretax", "tributos", "juros_capital"]
 
 # Comparison-group ladder. The cooperative side is always b3S; this selects which
 # non-cooperative institutions it is compared against, on the regulator's own
@@ -362,6 +369,10 @@ def build_panel():
     # profitability: annualized de-cumulated flow over assets
     panel["roa_ann"] = panel["lucro_liquido_q"] / A
     panel["roa_legacy"] = panel["lucro_liquido"] / A          # semester-cumulative (original)
+    # return before income tax, social contribution and profit sharing (line g). Cooperative
+    # acts are exempt from both taxes, so this is the like-for-like operating measure and
+    # roa_ann (line j) the after-tax measure that accumulates as capital.
+    panel["roa_pretax"] = panel["resultado_pretax_q"] / A
 
     # intermediation margin. (c) = (a) + (b) and (b) INCLUDES the loan-loss line (b5),
     # so (c) is net of credit provisions and is not a net interest margin. The primary

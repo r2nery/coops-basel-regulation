@@ -4,7 +4,8 @@ Outcome & All segments & Excluding S1 and S2 \\
 \midrule
 Basel capital ratio (pp) & -15.77$^{***}$ & -16.02$^{***}$ \\
 Leverage & 0.1220$^{***}$ & 0.1230$^{***}$ \\
-Return on assets & 0.0215$^{***}$ & 0.0216$^{***}$ \\
+Return on assets, after tax & 0.0215$^{***}$ & 0.0216$^{***}$ \\
+Return on assets, before tax & 0.0132$^{**}$ & 0.0133$^{**}$ \\
 Cost-to-income ratio & -0.7923$^{***}$ & -0.7988$^{***}$ \\
 Credit portfolio / assets & 0.1881$^{***}$ & 0.1873$^{***}$ \\
 Provisioning ratio & -0.0012 & -0.0025 \\
