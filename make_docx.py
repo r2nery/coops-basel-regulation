@@ -672,6 +672,9 @@ class Doc:
     # ---- blocks ------------------------------------------------------------------------
     def title_block(self, award=None):
         self.add(para(run(TITLE, b=True, sz=24), jc="center", spacing='<w:spacing w:after="120"/>'))
+        if award:   # the call asks for the award category directly below the title
+            self.add(para(run("Award category: ", i=True) + run(award), jc="center",
+                          spacing='<w:spacing w:after="120"/>'))
         rs = ""
         for k, (name, letter) in enumerate(AUTHORS):
             if k == len(AUTHORS) - 1:
@@ -687,9 +690,6 @@ class Doc:
             rs += run(letter, rstyle="Autor2", sup=True) + run(text, rstyle="Autor2")
         self.add(para(rs, pbdr='<w:pBdr><w:bottom w:val="single" w:sz="12" w:space="1" w:color="auto"/></w:pBdr>',
                       spacing='<w:spacing w:after="240"/>'))
-        if award:
-            self.add(para(run("Award category: ", i=True) + run(award), jc="center",
-                          spacing='<w:spacing w:after="240"/>'))
 
     def heading_template(self, text):
         """The template's 11-point bold heading (its 'Abstract' and 'References' lines)."""
@@ -1065,7 +1065,7 @@ def build_paper(bib):
 
     d = Doc()
     d.ensure_bullets()
-    d.title_block()                      # the award line comes from the tex's own center block
+    d.title_block(award=AWARD)           # directly below the title, as the call asks
 
     lines = body.split("\n")
     i, n = 0, len(lines)

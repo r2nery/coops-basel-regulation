@@ -26,7 +26,8 @@
 \onehalfspacing
 
 \title{\textbf{Institutional Profiles Under a Common Prudential Framework:}\\[0.3em]
-\large Evidence from Brazilian Credit Cooperatives and Banks}
+\large Evidence from Brazilian Credit Cooperatives and Banks\\[0.8em]
+\normalsize\normalfont\textit{Award category:} Best Young and Emerging Scholar Paper}
 \author{Arthur Gomes Nery, Thiago de Oliveira Victorino and
 Rodrigo Lima Rangel\\[0.6em]
 \small Organization of Brazilian Cooperatives (OCB System), Brazil}
@@ -34,10 +35,6 @@ Rodrigo Lima Rangel\\[0.6em]
 
 \begin{document}
 \maketitle
-\vspace{-2em}
-\begin{center}
-\textit{Award category:} Best Young and Emerging Scholar Paper
-\end{center}
 
 \begin{abstract}
 \noindent In Brazil, a credit cooperative that grows past a size threshold computes
@@ -54,9 +51,8 @@ matching within region. Before tax the typical cooperative earns more than a com
 gap is not established; after tax it retains about two percentage points more, of which
 the tax exemption explains about two fifths. Second, capital differs modestly in level
 and markedly in dispersion. The mean gap comes from small banks with capital ratios
-above fifty percent and roughly halves against deposit-funded banks; among thinly
-capitalised institutions, cooperatives hold more capital than banks and provision no
-less. Third, two differences often reported, lower provisioning and narrower margins,
+above fifty percent and roughly halves against deposit-funded banks; in the lower part of the capital distribution, cooperatives hold
+more capital than banks at the same quantile and provision no less. Third, two differences often reported, lower provisioning and narrower margins,
 disappear once the comparison group is restricted to banks. Whether these differences
 bear on the territorial role of cooperative lenders is the claim the data cannot yet
 settle. What they do show is that a benchmark calibrated on the average institution may
@@ -176,7 +172,9 @@ Besides the proportionality work above, two strands of the literature reviewed b
 stability. \citet{hesse2007} find in a cross-country panel that cooperative banks are
 more stable than commercial banks. They attribute the result to the lower volatility of
 cooperative returns, which more than offsets lower profitability and capitalisation.
-\citet{ayadi2010} document the performance and role of cooperative banks across Europe,
+\citet{beck2009} reach a similar conclusion for German banks under one supervisory
+regime, where cooperative banks are farther from insolvency than both privately owned
+and savings banks. \citet{ayadi2010} document the performance and role of cooperative banks across Europe,
 \citet{iannotta2007} find that ownership structure predicts risk and performance across
 European banks, and \citet{becchetti2016} and
 \citet{ferri2014} show that it shapes lending. \citet{groeneveld2020} weighs the
@@ -385,17 +383,16 @@ Clustered inference is unreliable when few clusters are treated \citep{mackinnon
 as in the system-by-system estimates, so every coefficient also carries a restricted
 wild cluster bootstrap, which re-draws the sign of each institution's residuals under
 the null and compares the observed statistic with that distribution \citep{cameron2008}.
-In simulations with six treated clusters (online appendix) the clustered test
-over-rejects and the bootstrap is conservative at one percent; the problem concerns the
-system splits, while the main comparison rests on about 130 treated clusters, where the
-two agree. Quantile
+In simulations with six treated clusters, the size of the smallest system split (online
+appendix), the clustered test over-rejects and the bootstrap is conservative at one
+percent; the problem concerns the system splits, while the main comparison rests on
+about 130 treated clusters, where the two agree. Quantile
 coefficients carry intervals from an institution bootstrap. Several outcomes are
 right-skewed, so we report the conditional median alongside the conditional mean, under
-one rule for every outcome: the tiers below are assigned on the conditional means alone,
-and where mean and median disagree the quantile profile decides which describes the
-typical institution, so that when one tail drives the mean, as for capital,
-cost-to-income and the pre-tax return, we read the magnitude at the median while the
-tier still records the mean result.
+one rule for every outcome: tiers are assigned on the conditional means alone, and when
+the quantile profile shows one tail driving the mean, as for capital, cost-to-income and
+the pre-tax return, the magnitude is read at the median while the tier records the mean
+result.
 
 We classify each outcome by an explicit rule, reported in the last column of
 Table~\ref{tab:main} and stated in full in the online appendix. An outcome is
@@ -417,6 +414,17 @@ forty-eight percent of bank observations. Matching and trimming bring the standa
 difference in log assets from $-0.72$ to close to zero. Unconditional means and medians
 are in the online appendix.\footnote{The online appendix (supplement.pdf) is at
 \url{https://github.com/r2nery/coops-basel-regulation}.}
+
+Three statements summarise what follows. First, under the same prudential rules the
+largest credit cooperatives run at lower cost and post steadier returns than banks of
+the same size, lend a larger share of their assets than banks nationally, and keep about
+two percentage points more of their return after tax, of which the tax exemption
+explains about two fifths; what they keep is the only capital they can build. Second,
+their capital ratios sit in a narrow band: below the bank average, which a few small and
+heavily capitalised banks pull up, and above banks at the same quantile at the thin end
+of the distribution, where supervisors look. Third, two often-cited differences, lower
+provisioning and thinner margins, vanish once cooperatives are compared with banks
+alone.
 
 \begin{figure}[htbp]
 \centering
@@ -454,14 +462,13 @@ total assets under controls and by more at the conditional median.
 
 Profitability splits into the two channels of Section~1. Before tax, the cooperative
 differential is positive in every specification but significant only in the first two,
-so by the rule it is null. The null comes from the mean. The conditional median
-differential before tax is 1.4 percentage points, with a bootstrap interval that
-excludes zero, and the quantile coefficient is positive through the median and
-significantly negative only in the top decile (Table~\ref{tab:quantiles}), so a
-high-earning bank upper tail pulls the mean towards zero, as it does for capital below.
+so by the rule it is null. The null comes from the mean: the conditional median
+differential before tax is 1.4 percentage points with a bootstrap interval that excludes
+zero, and the quantile coefficient turns negative only in the top decile
+(Table~\ref{tab:quantiles}), where a high-earning bank tail pulls the mean towards zero.
 The typical cooperative thus earns more than a comparable bank before tax, on an
-intermediation margin indistinguishable from the banks', while the mean gap is not
-established across specifications. After tax the differential is about two percentage
+indistinguishable intermediation margin, while the mean gap is not established. After
+tax the differential is about two percentage
 points under controls, significant everywhere and stable. The distance between the two
 rows is the tax exemption: among quarters with a positive pre-tax result, the median
 effective rate of income tax and social contribution is about a third for banks and
@@ -534,11 +541,9 @@ cooperatives, and we treat the two as a single result.
 Cooperative returns are also less volatile. At comparable size cooperatives show a lower
 standard deviation of return on assets and a higher z-score, in all four designs and on
 every national bank rung. The two measures share the standard deviation of return on
-assets, so we treat them as one result. Taxes
-compress the after-tax volatility of bank returns, so this comparison probably
-understates the gap: before tax, the z-score differential is larger and the median gap
-in return volatility nearly doubles, while the mean volatility differential is smaller,
-and both keep their sign and significance (Table~A11 of the online appendix).
+assets, so we treat them as one result. Taxes compress the after-tax volatility of bank
+returns, and before tax both measures keep their sign and significance, with the median
+volatility gap nearly doubling (Table~A11 of the online appendix).
 
 \subsection{Comparison-group dependence}
 
@@ -572,18 +577,14 @@ percent in all four specifications, while against banks the coefficient is close
 The broad-group gap comes from the non-banking lenders, whose provisioning ratios are
 nearly three times those of banks and cooperatives. At the
 conditional median the sign reverses, with cooperatives provisioning more.
-Split into terciles of the Basel ratio, where supervisory concern attaches, no tercile
-shows cooperatives provisioning less: the differential is positive and significant only
-in the middle tercile on the unconditional ratio, and no tercile differs on the
-residualised ratio. The result most likely describes how the two groups classify their
-books.
+Split into terciles of the Basel ratio, no tercile shows cooperatives provisioning
+less.
 
 The intermediation margin behaves in the same way: large and highly significant against
 the broad group, small and insignificant against banks, and positive and significant
 against structural banks, so its sign depends on the comparison group and we keep it as
-a null. The funding ratio is
-significant in one of four specifications and reverses sign at the conditional median, so
-we leave it out of the findings.
+a null. The funding ratio is significant in one specification only and is left out of
+the findings.
 
 \subsection{Credit intensity within and across regional markets}
 \label{sec:region}
@@ -595,8 +596,7 @@ any coarsening scheme. Which estimate is the parameter depends on an untestable 
 concentrate where they do for reasons internal to member-based finance, region is a
 mediator and the size-only estimate is the parameter; if regional market structure is
 unrelated to form, region is a confounder and credit intensity is a null. We report
-both, sector-wide and within-market, and label every claim by the comparison it rests
-on.
+both and label every claim by the comparison it rests on.
 
 With an effective control sample of eighteen, the within-market
 null may reflect low power as much as the parameter itself. Return volatility survives the within-region comparison, and the z-score does not; we read the pair as one result whose within-market status is
@@ -604,11 +604,12 @@ uncertain.
 
 \subsection{Network-level heterogeneity}
 
-The online appendix splits the cooperative side by system. Sicredi and Sicoob account for
-all but seven of the cooperatives, so the split describes those two networks; a test of
-network affiliation as such is beyond it. Cooperatives in both networks hold less regulatory
-capital than comparable banks, significant under the bootstrap in each. The six
-independents rest on five treated clusters, and their capital estimate is positive and
+The online appendix splits the cooperative side by system. Sicredi and Sicoob account
+for all but seven of the cooperatives, one of which belongs to Cresol, so the split
+describes those two networks; a test of network affiliation as such is beyond it.
+Cooperatives in both networks hold less regulatory capital than comparable banks,
+significant under the bootstrap in each. The six independents contribute five treated
+clusters, since one lacks the outcome, and their capital estimate is positive and
 indistinguishable from noise.
 
 The split locates the pooled capital differential in the two large networks without
@@ -657,18 +658,8 @@ estimates differ by less than the sampling error.
 \section{Discussion}
 % =============================================================================
 
-Three statements summarise the findings. First, under the same prudential rules the
-largest credit cooperatives run at lower cost and post steadier returns than banks of
-the same size, lend a larger share of their assets than banks nationally, and keep about
-two percentage points more of their return after tax, of which the tax exemption
-explains about two fifths; what they keep is the only capital they can build. Second,
-their capital ratios sit in a narrow band: below the bank average, which a few small and
-heavily capitalised banks pull up, and above comparable banks at the thin end of the
-distribution, where supervisors look. Third, two often-cited differences, lower
-provisioning and thinner margins, vanish once cooperatives are compared with banks
-alone. For supervisors, this argues for a benchmark calibrated on lending institutions
-and for reading the whole distribution as well as the mean.
-
+For supervisors, the findings suggest a benchmark calibrated on lending institutions and
+a reading of the whole distribution as well as the mean.
 The surviving results describe a focused retail lender, consistent with a
 member-service orientation in which capital accumulation is a means to member credit
 \citep{fonteyne2007}.
