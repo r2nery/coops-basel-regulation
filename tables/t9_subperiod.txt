@@ -4,11 +4,11 @@ Outcome & Full sample & 2017Q1--2021Q4 & 2022Q1--2024Q4 \\
 \midrule
 Basel capital ratio (pp) & -15.77$^{***}$ & -16.90$^{***}$ & -13.96$^{***}$ \\
 Leverage & 0.1220$^{***}$ & 0.1337$^{***}$ & 0.1033$^{***}$ \\
-Return on assets (ann.) & 0.0215$^{***}$ & 0.0242$^{***}$ & 0.0173$^{***}$ \\
+Return on assets & 0.0215$^{***}$ & 0.0242$^{***}$ & 0.0173$^{***}$ \\
 Cost-to-income ratio & -0.7923$^{***}$ & -0.8533$^{***}$ & -0.6927$^{***}$ \\
 Credit portfolio / assets & 0.1881$^{***}$ & 0.2046$^{***}$ & 0.1629$^{***}$ \\
 Provisioning ratio & -0.0012 & -0.0082 & 0.0104 \\
-Intermediation margin (ann.) & -0.0190 & -0.0251 & -0.0093 \\
+Intermediation margin & -0.0190 & -0.0251 & -0.0093 \\
 Funding ratio & 0.0887$^{**}$ & 0.1128$^{***}$ & 0.0508 \\
 \midrule
 Observations & 7,234 & 4,436 & 2,798 \\

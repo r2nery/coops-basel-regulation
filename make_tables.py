@@ -44,11 +44,11 @@ SPEC_HEAD = {"raw": "(1) Raw", "ctrl": "(2) Controls", "cem": "(3) CEM", "trim":
 ORDER = [
     ("Basel Capital Ratio (%)", "Basel capital ratio (pp)"),
     ("Leverage (liabilities/assets)", "Leverage"),
-    ("Return on Assets", "Return on assets (ann.)"),
+    ("Return on Assets", "Return on assets"),
     ("Cost-to-Income Ratio", "Cost-to-income ratio"),
     ("Credit Portfolio / Assets", "Credit portfolio / assets"),
     ("Provisioning (provisions/gross credit)", "Provisioning ratio"),
-    ("Net Interest Margin", "Intermediation margin (ann.)"),
+    ("Net Interest Margin", "Intermediation margin"),
     ("Funding Ratio (captacoes/assets)", "Funding ratio"),
 ]
 
@@ -247,7 +247,7 @@ def texesc(s):
     return out
 
 
-def emit(name, body, note, small=False):
+def emit(name, body, note, small=False, colsep="4pt"):
     r"""Write the tabular plus a threeparttable note block.
 
     The note goes in the .tex file, not only the .txt mirror: the paper wraps each
@@ -256,7 +256,7 @@ def emit(name, body, note, small=False):
     right margin.
     """
     size = {True: "small", False: None}.get(small, small)
-    pre = (f"\\{size}\n\\setlength{{\\tabcolsep}}{{4pt}}\n" if size else "")
+    pre = (f"\\{size}\n\\setlength{{\\tabcolsep}}{{{colsep}}}\n" if size else "")
     notes = ("\\begin{tablenotes}[flushleft]\\footnotesize\n"
              f"\\item {texesc(note)}\n\\end{{tablenotes}}\n")
     (TAB / f"{name}.tex").write_text(pre + body + "\n" + notes, encoding="utf-8")
@@ -320,7 +320,7 @@ def t2(P):
             "Outcome & " + " & ".join(SPEC_HEAD[x] for x in SPECS)
             + " & Median (2) & $\\rho$ & Tier \\\\\n\\midrule\n"
             + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}")
-    emit("t2_main", body, small="footnotesize", note=
+    emit("t2_main", body, small="footnotesize", colsep="3pt", note=
          "Standard errors clustered by institution, HC3 for the last two rows; "
          "* p<0.05, ** p<0.01, *** p<0.001, confirmed by a wild cluster bootstrap. "
          "Median (2): conditional median of column (2). rho = |b_trim|/|b_raw|. "
