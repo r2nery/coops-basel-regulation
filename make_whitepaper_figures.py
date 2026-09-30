@@ -9,6 +9,7 @@ its own loaders, so nothing here can drift from the paper's tables. No regressio
     figures/wp2_capital.png       índice de Basileia: coeficiente por quantil e as duas distribuições
     figures/wp3_perfil.png        todos os indicadores contra bancos, em desvios-padrão, com a classificação
     figures/wp4_grupos.png        quatro indicadores ao longo dos cinco grupos de comparação
+    figures/wp5_grupo_amplo.png   composição do grupo amplo: crédito e captações por instituição
 """
 from __future__ import annotations
 import numpy as np
@@ -226,6 +227,42 @@ def fig_grupos():
     save(fig, "wp4_grupos.png")
 
 
+# ------------------------------------------------------------------ figura 5
+def fig_grupo_amplo(panel):
+    """Quem compõe o grupo amplo de comparação: crédito e captações por instituição."""
+    sub, _ = MF.analysis_sample(panel, peer_set="all")
+    fm = sub[sub["full_method"] == 1]
+    med = fm.groupby("codigo").agg(credit=("credit_ratio", "median"),
+                                   funding=("deposit_ratio", "median"),
+                                   is_coop=("is_coop", "first"),
+                                   tcb=("tcb_stable", "first"))
+    med["grp"] = np.where(med.is_coop == 1, "coop",
+                          np.where(med.tcb.astype(str).isin(P.PEER_SETS["banks"]), "bank", "other"))
+    zero = med[(med.is_coop == 0) & (med.credit == 0) & (med.funding == 0)]
+    n_zero = len(zero)
+    fig, ax = plt.subplots(figsize=(W * 0.72, 3.1))
+    cap = 1.2
+    for grp, c, lab in [("other", MF.OTHER, "Outras não cooperativas"), ("bank", BANK, "Bancos"),
+                        ("coop", COOP, "Cooperativas")]:
+        m = med[(med.grp == grp) & ~med.index.isin(zero.index)]
+        ax.scatter(m.credit.clip(upper=cap), m.funding.clip(upper=cap), s=14, color=c,
+                   alpha=0.75, lw=0.5, edgecolor="white",
+                   label=f"{lab} ({int((med.grp == grp).sum())})")
+    ax.scatter([0], [0], s=90, facecolor=MF.OTHER, edgecolor="white", lw=1.2, zorder=3)
+    ax.annotate(f"{n_zero} instituições", (0, 0), xytext=(0.10, 0.10), textcoords="data",
+                fontsize=7, color=INK, va="center", ha="left",
+                bbox=dict(boxstyle="round,pad=0.25", fc="white", ec=AXIS, lw=0.5),
+                arrowprops=dict(arrowstyle="-", color=INK2, lw=0.6), zorder=5)
+    ax.set_xlim(-0.04, cap + 0.02)
+    ax.set_ylim(-0.04, cap + 0.02)
+    ax.set_xlabel("Operações de crédito / ativo total (mediana por instituição)")
+    ax.set_ylabel("Captações / ativo total (mediana por instituição)")
+    ax.legend(loc="upper left", handletextpad=0.2)
+    xgrid(ax); ygrid(ax)
+    fig.tight_layout()
+    save(fig, "wp5_grupo_amplo.png")
+
+
 def main():
     print("building the panel (no regressions)...")
     panel, _, _ = P.build_panel()
@@ -236,6 +273,7 @@ def main():
     fig_capital(l2, txt)
     fig_perfil(l2)
     fig_grupos()
+    fig_grupo_amplo(panel)
 
 
 if __name__ == "__main__":
