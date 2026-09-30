@@ -2,7 +2,13 @@
 
 **Evidence from Brazilian Credit Cooperatives and Banks**
 
-Replication materials for the paper of the same name (`paper.tex`), prepared for ICA CCR 2026.
+**Authors:** Arthur Gomes Nery, Thiago de Oliveira Victorino and Rodrigo Lima Rangel
+(Organization of Brazilian Cooperatives, OCB System)
+
+Replication materials for the paper of the same name (`paper/paper.tex`, with the online
+appendix in `paper/supplement.tex`), submitted to the ICA CCR 2026 conference. The
+comparison group is the 144 banks under the full prudential methodology; the broad group
+of all non-cooperatives is reported only as one rung of the comparison-group ladder.
 
 ## What the paper does
 
