@@ -85,12 +85,12 @@ distribution. Report the deciles, not only the mean.
 D — matched estimate under alternative coarsening schemes
 ============================================================================================
 
-coarsening             weighted CEM   unweighted  eff. n controls
-size_q5_region                -7.02       -15.64             18.1
-size_q5                      -17.50       -15.49             75.8
-size_q10                     -17.46       -15.49             71.9
-size_q3_region                -8.12       -15.99             20.8
-size_q10_region               -6.88       -16.07             21.6
+coarsening             weighted CEM   unweighted  eff. n controls  credit CEM  credit p
+size_q5_region                -7.02       -15.64             18.1     -0.0254     0.689
+size_q5                      -17.50       -15.49             75.8      0.1701     0.000
+size_q10                     -17.46       -15.49             71.9      0.1682     0.000
+size_q3_region                -8.12       -15.99             20.8      0.0668     0.209
+size_q10_region               -6.88       -16.07             21.6      0.0136     0.812
 
 Reported so the reader can see that the choice of coarsening, not only its
 existence, is an analyst decision with consequences.
@@ -127,6 +127,4 @@ Provisioning (provisions/gross credit)	0.25	0.029927	0.026084	0.033866	199
 Provisioning (provisions/gross credit)	0.50	0.023587	0.015897	0.028831	199
 Provisioning (provisions/gross credit)	0.75	0.000811	-0.017009	0.017898	199
 Provisioning (provisions/gross credit)	0.90	-0.053874	-0.093400	-0.015372	199
-wrote C:\coops-basel-regulation\tables\t7_quantiles.tex
-
-wrote C:\coops-basel-regulation\figures\fig12_capital_quantiles.png
+wrote C:\Users\arthur.nery\AppData\Local\Temp\claude\c--coops-basel-regulation\80e2b707-d654-4b02-919b-b01ce3738557\scratchpad\repro\tables\t7_quantiles.tex
