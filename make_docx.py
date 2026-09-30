@@ -28,7 +28,15 @@ MD = os.path.join(ROOT, "expanded_abstract.md")
 OUT_ABSTRACT = os.path.join(ROOT, "paper", "ICACCR2026_abstract_Nery_Victorino_Rangel.docx")
 OUT_PAPER = os.path.join(ROOT, "paper", "ICACCR2026_paper_Nery_Victorino_Rangel.docx")
 
-TEXT_WIDTH = 9639 - 907 - 1134          # twips between the template's margins
+# Sistema OCB briefing template (sistemaocb-docx skill) for the Portuguese whitepaper
+OCB_TEMPLATE = os.path.join(os.path.expanduser("~"), ".claude", "skills", "synced",
+                            "0d35f030-a660-4c9b-9582-7e0135aeeae4_a2eb86ab-4846-4165-8dc9-cac4dc817246",
+                            "sistemaocb-docx", "assets", "Modelo_Briefing.docx")
+WP_MD = os.path.join(ROOT, "whitepaper_ocb.md")
+OUT_WP = os.path.join(ROOT, "paper", "Whitepaper_SistemaOCB_Cooperativas_e_Bancos_Basileia.docx")
+OCB_TEXT_WIDTH = 11906 - 1134 - 1134    # twips, A4 with the briefing template's margins
+
+TEXT_WIDTH = 9639 - 907 - 1134          # twips between the conference template's margins
 EMU_PER_TWIP = 635
 
 TITLE = ("Institutional Profiles Under a Common Prudential Framework: "
@@ -230,6 +238,8 @@ def parse_tex(s, fmt=None, ctx=None):
                 j = i + 2
                 if j < n and s[j] == "{":
                     arg, j = read_group(s, j)
+                elif s.startswith(("\\i", "\\j"), j):          # dotless i, as in m{\'\i}nimo
+                    arg, j = s[j + 1], j + 2
                 else:
                     arg, j = s[j:j + 1], j + 1
                 buf.append(accent(nxt, arg))
@@ -555,7 +565,8 @@ def esc(s):
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def run(text, b=False, i=False, sz=None, sup=False, sub=False, rstyle=None, font=None, i_off=False):
+def run(text, b=False, i=False, sz=None, sup=False, sub=False, rstyle=None, font=None, i_off=False,
+        color=None, caps=False):
     rpr = ""
     if rstyle:
         rpr += f'<w:rStyle w:val="{rstyle}"/>'
@@ -567,6 +578,10 @@ def run(text, b=False, i=False, sz=None, sup=False, sub=False, rstyle=None, font
         rpr += "<w:i/><w:iCs/>"
     elif i_off:
         rpr += '<w:i w:val="0"/><w:iCs w:val="0"/>'
+    if caps:
+        rpr += "<w:caps/>"
+    if color:
+        rpr += f'<w:color w:val="{color}"/>'
     if sz:
         rpr += f'<w:sz w:val="{sz}"/><w:szCs w:val="{sz}"/>'
     if sup:
@@ -578,24 +593,28 @@ def run(text, b=False, i=False, sz=None, sup=False, sub=False, rstyle=None, font
 
 
 def para(runs, style=None, jc=None, ind=None, spacing=None, keep_next=False, pbdr=None, numpr=None,
-         page_break_before=False):
+         page_break_before=False, outline=None, shd=None):
     ppr = ""
     if style:
         ppr += f'<w:pStyle w:val="{style}"/>'
     if keep_next:
-        ppr += "<w:keepNext/>"
+        ppr += "<w:keepNext/><w:keepLines/>"
     if page_break_before:
         ppr += "<w:pageBreakBefore/>"
     if numpr:
         ppr += numpr
     if pbdr:
         ppr += pbdr
+    if shd:
+        ppr += shd
     if spacing:
         ppr += spacing
     if ind:
         ppr += ind
     if jc:
         ppr += f'<w:jc w:val="{jc}"/>'
+    if outline is not None:
+        ppr += f'<w:outlineLvl w:val="{outline}"/>'
     ppr = f"<w:pPr>{ppr}</w:pPr>" if ppr else ""
     return f"<w:p>{ppr}{runs}</w:p>"
 
@@ -603,12 +622,15 @@ def para(runs, style=None, jc=None, ind=None, spacing=None, keep_next=False, pbd
 class Doc:
     """Collects body XML, footnotes and images, then writes them into the template."""
 
-    def __init__(self):
+    def __init__(self, template=TEMPLATE):
+        self.template = template
+        self.text_width = OCB_TEXT_WIDTH if template == OCB_TEMPLATE else TEXT_WIDTH
         self.body = []
         self.footnotes = []          # (id, xml)
         self.images = []             # (rid, filename, bytes)
         self.docpr = 100
         self.bullet_num = None
+        self.number_num = None
 
     # ---- inline content -------------------------------------------------------------
     def runs(self, segs, sz=None, font=None):
@@ -688,16 +710,18 @@ class Doc:
         self.add(para(self.runs(self.trim(segs)), numpr=f'<w:numPr><w:ilvl w:val="0"/><w:numId w:val="{self.bullet_num}"/></w:numPr>',
                       ind='<w:ind w:left="567" w:hanging="283"/>', spacing='<w:spacing w:after="40"/>'))
 
-    def figure(self, path, frac, number, caption_segs, note_segs):
+    def drawing(self, path, frac):
+        """An inline picture run, sized to a fraction of the text width."""
         with Image.open(path) as im:
             w, h = im.size
-        cx = int(TEXT_WIDTH * frac) * EMU_PER_TWIP
+        cx = int(self.text_width * frac) * EMU_PER_TWIP
         cy = int(cx * h / w)
         rid = f"rIdImg{len(self.images) + 1}"
-        self.images.append((rid, f"image{len(self.images) + 1}.png", open(path, "rb").read()))
+        # unique names: the OCB template's own header and footer images are image1/image2
+        self.images.append((rid, f"generated{len(self.images) + 1}.png", open(path, "rb").read()))
         self.docpr += 1
         name = os.path.basename(path)
-        drawing = (
+        return (
             f'<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="{cx}" cy="{cy}"/>'
             f'<wp:docPr id="{self.docpr}" name="{name}"/><wp:cNvGraphicFramePr>'
             f'<a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/>'
@@ -708,6 +732,9 @@ class Doc:
             f'<a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/>'
             f'<a:ext cx="{cx}" cy="{cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr>'
             f'</pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>')
+
+    def figure(self, path, frac, number, caption_segs, note_segs):
+        drawing = self.drawing(path, frac)
         self.add(para(drawing, jc="center", keep_next=True, spacing='<w:spacing w:before="120" w:after="60"/>'))
         self.add(para(run(f"Figure {number}. ", b=True) + self.runs(caption_segs), style="TablaImagen-Ttulo",
                       keep_next=bool(note_segs), spacing='<w:spacing w:before="0" w:after="60"/>'))
@@ -750,9 +777,102 @@ class Doc:
     def page_break(self):
         self.add('<w:p><w:r><w:br w:type="page"/></w:r></w:p>')
 
+    # ---- Sistema OCB briefing template ----------------------------------------------------
+    # Patterns copied from the template's own skeleton page: title in Tahoma 14 bold navy,
+    # subtitle in Verdana bold caps, body in Verdana 11 with 1.5 spacing and a first-line
+    # indent, lists on the template's numbering definitions (1 bullets, 3 decimal).
+    OCB_NAVY = "003974"
+
+    def ocb_title(self, text, sz=36):
+        self.add(para(run(text, b=True, sz=sz, font="Tahoma", color=self.OCB_NAVY), keep_next=True,
+                      spacing='<w:spacing w:before="120" w:after="120" w:line="276" w:lineRule="auto"/>',
+                      ind='<w:ind w:firstLine="0"/>', jc="left", outline=0))
+
+    def ocb_byline(self, text, italic=False):
+        self.add(para(run(text, i=italic, sz=20, color="52514E"),
+                      spacing='<w:spacing w:after="60" w:line="276" w:lineRule="auto"/>',
+                      ind='<w:ind w:firstLine="0"/>', jc="left"))
+
+    def ocb_h1(self, text):
+        self.add(para(run(text, b=True, sz=28, font="Tahoma", color=self.OCB_NAVY), keep_next=True,
+                      spacing='<w:spacing w:before="360" w:after="120"/>', ind='<w:ind w:firstLine="0"/>',
+                      jc="left", outline=0))
+
+    def ocb_h2(self, text):
+        self.add(para(run(text, b=True, sz=24, caps=True), keep_next=True,
+                      spacing='<w:spacing w:before="240" w:after="120"/>', ind='<w:ind w:firstLine="0"/>',
+                      jc="left", outline=1))
+
+    def ocb_para(self, segs):
+        self.add(para(self.runs(self.trim(segs)), jc="both",
+                      spacing='<w:spacing w:after="120" w:line="360" w:lineRule="auto"/>',
+                      ind='<w:ind w:firstLine="720"/>'))
+
+    def ocb_item(self, segs, numbered=False):
+        num = self.number_num if numbered else self.bullet_num
+        self.add(para(self.runs(self.trim(segs)), style="PargrafodaLista",
+                      numpr=f'<w:numPr><w:ilvl w:val="0"/><w:numId w:val="{num}"/></w:numPr>',
+                      spacing='<w:spacing w:after="80" w:line="336" w:lineRule="auto"/>', jc="both"))
+
+    def ocb_caption(self, text, keep_next=False):
+        """'Figura 1. Título' with the label in bold."""
+        m = re.match(r"((?:Figura|Tabela) \d+\.)\s*(.*)", text)
+        runs = (run(m.group(1) + " ", b=True, sz=18) + run(m.group(2), sz=18)) if m else run(text, sz=18)
+        self.add(para(runs, jc="center", keep_next=keep_next, ind='<w:ind w:firstLine="0"/>',
+                      spacing='<w:spacing w:before="60" w:after="60" w:line="264" w:lineRule="auto"/>'))
+
+    def ocb_note(self, segs):
+        self.add(para(self.runs(self.trim(segs), sz=16), jc="both", ind='<w:ind w:firstLine="0"/>',
+                      spacing='<w:spacing w:before="0" w:after="240" w:line="264" w:lineRule="auto"/>'))
+
+    def ocb_figure(self, path, frac, caption, source_segs):
+        self.add(para(self.drawing(path, frac), jc="center", keep_next=True, ind='<w:ind w:firstLine="0"/>',
+                      spacing='<w:spacing w:before="120" w:after="0"/>'))
+        self.ocb_caption(caption, keep_next=bool(source_segs))
+        if source_segs:
+            self.ocb_note(source_segs)
+
+    def ocb_table(self, caption, rows, widths, aligns, rule_below, note_segs):
+        self.ocb_caption(caption, keep_next=True)
+        total = sum(widths)
+        line = '<w:%s w:val="single" w:sz="4" w:space="0" w:color="A6A6A6"/>'
+        xml = (f'<w:tbl><w:tblPr><w:tblW w:w="{total}" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders>'
+               + line % "top" + line % "bottom" + line % "insideH" +
+               '<w:left w:val="nil"/><w:right w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders>'
+               f'<w:tblLayout w:type="fixed"/><w:tblCellMar><w:left w:w="57" w:type="dxa"/>'
+               f'<w:right w:w="57" w:type="dxa"/></w:tblCellMar>'
+               f'<w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0" w:noVBand="0"/>'
+               f'</w:tblPr><w:tblGrid>' + "".join(f'<w:gridCol w:w="{w}"/>' for w in widths) + "</w:tblGrid>")
+        for r, cells in enumerate(rows):
+            xml += "<w:tr>" + ('<w:trPr><w:tblHeader/></w:trPr>' if r == 0 else "<w:trPr><w:cantSplit/></w:trPr>")
+            for c, segs in enumerate(cells):
+                tcpr = f'<w:tcPr><w:tcW w:w="{widths[c]}" w:type="dxa"/>'
+                if r == 0:
+                    tcpr += '<w:shd w:val="clear" w:color="auto" w:fill="DCE6F1"/>'
+                elif r in rule_below:
+                    tcpr += '<w:tcBorders><w:bottom w:val="single" w:sz="8" w:space="0" w:color="003974"/></w:tcBorders>'
+                tcpr += '<w:vAlign w:val="center"/></w:tcPr>'
+                jc = {"l": "left", "r": "right", "c": "center"}[aligns[c]]
+                inner = self.runs([Seg(s.text, b=True, sup=s.sup) if r == 0 else s for s in segs], sz=16)
+                xml += f"<w:tc>{tcpr}" + para(inner, jc=jc, ind='<w:ind w:firstLine="0"/>',
+                                             keep_next=(r < len(rows) - 1),     # keep the table on one page
+                                             spacing='<w:spacing w:before="30" w:after="30" w:line="240" w:lineRule="auto"/>') + "</w:tc>"
+            xml += "</w:tr>"
+        xml += "</w:tbl>"
+        self.add(xml)
+        if note_segs:
+            self.ocb_note(note_segs)
+        else:
+            self.add(para("", spacing='<w:spacing w:after="120"/>'))
+
+    def ocb_refs(self, seg_lists):
+        for segs in seg_lists:
+            self.add(para(self.runs(segs, sz=18), jc="left", ind='<w:ind w:left="454" w:hanging="454"/>',
+                          spacing='<w:spacing w:after="80" w:line="264" w:lineRule="auto"/>'))
+
     # ---- writing -----------------------------------------------------------------------
     def write(self, out_path, core_title):
-        zin = zipfile.ZipFile(TEMPLATE)
+        zin = zipfile.ZipFile(self.template)
         parts = {n: zin.read(n) for n in zin.namelist()}
         zin.close()
         doc = parts["word/document.xml"].decode("utf-8")
@@ -763,10 +883,12 @@ class Doc:
         fn = parts["word/footnotes.xml"].decode("utf-8")
         fn = fn.replace("</w:footnotes>", "".join(x for _, x in self.footnotes) + "</w:footnotes>")
         parts["word/footnotes.xml"] = fn.encode("utf-8")
-        # running heads
+        # running heads (conference template) or the header label (Sistema OCB template)
         for name, old, new in (("word/header1.xml", "Title of the presentation – Running Head", SHORT_TITLE),
-                               ("word/header2.xml", "Authors", AUTHORS_SHORT)):
-            parts[name] = parts[name].decode("utf-8").replace(f"<w:t>{old}</w:t>", f"<w:t>{esc(new)}</w:t>").encode("utf-8")
+                               ("word/header2.xml", "Authors", AUTHORS_SHORT),
+                               ("word/header1.xml", "BRIEFING", "WHITEPAPER")):
+            if name in parts:
+                parts[name] = parts[name].decode("utf-8").replace(f">{old}<", f">{esc(new)}<").encode("utf-8")
         # images
         if self.images:
             rels = parts["word/_rels/document.xml.rels"].decode("utf-8")
@@ -793,7 +915,7 @@ class Doc:
 
     def ensure_bullets(self):
         """Find or add a bullet numbering definition in the template's numbering part."""
-        zin = zipfile.ZipFile(TEMPLATE)
+        zin = zipfile.ZipFile(self.template)
         num = zin.read("word/numbering.xml").decode("utf-8")
         zin.close()
         for m in re.finditer(r"<w:abstractNum [^>]*w:abstractNumId=\"(\d+)\".*?</w:abstractNum>", num, re.S):
@@ -1054,10 +1176,109 @@ def build_paper(bib):
           os.path.relpath(OUT_PAPER, ROOT))
 
 
+# ============================================================================ the whitepaper
+PT_OUTCOME = {  # labels of tables/t2_main.tex -> Portuguese
+    "Basel capital ratio (pp)": "Índice de Basileia (p.p.)",
+    "Leverage": "Alavancagem",
+    "Return on assets": "Retorno sobre ativos",
+    "Cost-to-income ratio": "Custo / receita",
+    "Credit portfolio / assets": "Crédito / ativos",
+    "Provisioning ratio": "Provisão / crédito",
+    "Intermediation margin": "Margem de intermediação",
+    "Funding ratio": "Captações / ativos",
+    "Return on assets volatility": "Volatilidade do retorno",
+    "Z-score": "Z-score",
+}
+PT_TIER = {"stable": "estável", "stable in sign": "estável no sinal", "null": "nulo"}
+PT_HEADER = ["Indicador", "(1) Bruta", "(2) Controles", "(3) Pareada", "(4) Suporte comum",
+             "Mediana (2)", "Classificação"]
+
+
+def pt_results_table(bib):
+    """Table 2 of the paper, read from tables/t2_main.tex, with Portuguese labels and decimal
+    commas. The retention-ratio column is left out; the paper's table keeps it."""
+    src = strip_comments(open(os.path.join(ROOT, "tables", "t2_main.tex"), encoding="utf-8").read())
+    tb = src[src.index("\\begin{tabular}") + len("\\begin{tabular}"):src.index("\\end{tabular}")]
+    rows, aligns, rules = parse_tabular(tb, Ctx(bib))
+    out = [[[Seg(h)] for h in PT_HEADER]]
+    for cells in rows[1:]:
+        label = plain(cells[0]).strip()
+        new = [[Seg(PT_OUTCOME.get(label, label))]]
+        for segs in cells[1:-2]:                     # the four specifications and the median
+            # decimal comma and a true minus sign, which Word will not break a line after
+            new.append([Seg(s.text.replace(".", ",").replace("-", "−"), sup=s.sup) if not s.sup else s
+                        for s in segs])
+        tier = plain(cells[-1]).strip()
+        new.append([Seg(PT_TIER.get(tier, tier))])
+        out.append(new)
+    aligns = aligns[:-2] + [aligns[-1]]
+    widths = [1750, 1200, 1200, 1200, 1200, 1000]
+    widths.append(OCB_TEXT_WIDTH - sum(widths))
+    return out, widths, aligns, rules
+
+
+def build_whitepaper(bib):
+    md = open(WP_MD, encoding="utf-8").read()
+    md = re.sub(r"<!--.*?-->", "", md, flags=re.S)
+    d = Doc(OCB_TEMPLATE)
+    d.bullet_num, d.number_num = "1", "3"           # the briefing template's own list definitions
+    title, words, par_lines, refs_done = "", 0, [], False
+
+    def flush():
+        nonlocal par_lines, words
+        text = norm(" ".join(par_lines))
+        par_lines = []
+        if text:
+            words += len(text.split())
+            d.ocb_para(md_inline(text))
+
+    for ln in md.split("\n"):
+        s = ln.strip()
+        if not s:
+            flush(); continue
+        if s.startswith("# "):
+            flush(); title = s[2:].strip(); d.ocb_title(title); continue
+        if s.startswith("> "):
+            flush(); d.ocb_byline(s[2:].strip()); continue
+        if s.startswith("### "):
+            flush(); d.ocb_h2(s[4:].strip()); continue
+        if s.startswith("## "):
+            flush(); d.ocb_h1(s[3:].strip()); continue
+        if s.startswith("- "):
+            flush(); words += len(s.split()); d.ocb_item(md_inline(s[2:].strip())); continue
+        m = re.match(r"(\d+)\. (.*)", s)
+        if m and not par_lines:
+            flush(); words += len(s.split()); d.ocb_item(md_inline(m.group(2)), numbered=True); continue
+        m = re.match(r"\{\{(\w+):(.*)\}\}$", s)
+        if m:
+            flush()
+            kind, arg = m.group(1), m.group(2)
+            if kind == "fig":
+                path, frac, caption, source = arg.split("|")
+                d.ocb_figure(os.path.join(ROOT, path), float(frac), caption, md_inline(source))
+            elif kind == "table":
+                _, caption, note = arg.split("|")
+                rows, widths, aligns, rules = pt_results_table(bib)
+                d.ocb_table(caption, rows, widths, aligns, rules, [Seg(note)])   # plain: the note carries '**'
+            elif kind == "refs":
+                keys = [k.strip() for k in arg.split(",") if k.strip()]
+                bib.assign_suffixes(keys)
+                d.ocb_refs(bib.reference_list(keys))
+            elif kind == "pagebreak":
+                d.page_break()
+            continue
+        par_lines.append(s)
+    flush()
+    d.write(OUT_WP, title)
+    print(f"whitepaper: about {words} words of body text, {len(d.images)} figures; wrote",
+          os.path.relpath(OUT_WP, ROOT))
+
+
 if __name__ == "__main__":
-    what = sys.argv[1] if len(sys.argv) > 1 else "both"
-    bib = Bib(BIB)
-    if what in ("abstract", "both"):
+    what = sys.argv[1] if len(sys.argv) > 1 else "all"
+    if what in ("abstract", "both", "all"):
         build_abstract(Bib(BIB))
-    if what in ("paper", "both"):
+    if what in ("paper", "both", "all"):
         build_paper(Bib(BIB))
+    if what in ("whitepaper", "all"):
+        build_whitepaper(Bib(BIB))

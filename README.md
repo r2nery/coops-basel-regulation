@@ -59,8 +59,11 @@ gate_g_peers.py           peer rungs, cooperative-owned banks, provisioning by c
 make_tables.py            parses results/*.txt into tables/t1..t6 and t9 (no recomputation)
 make_figures.py           draws every figure from results/*.txt and the panel (no regressions), plus figures/slides/
 make_docx.py              fills the ICA CCR Word template (paper/FINAL ABSTRACT-*.docx) with the proceedings
-                          abstract (from expanded_abstract.md) and the full paper (from paper/paper.tex), APA 7 references
+                          abstract (from expanded_abstract.md) and the full paper (from paper/paper.tex), APA 7 references;
+                          also fills the Sistema OCB briefing template with the Portuguese whitepaper (from whitepaper_ocb.md)
+make_whitepaper_figures.py  Portuguese versions of four figures for the whitepaper (figures/wp*.png), same loaders as make_figures.py
 expanded_abstract.md      source text of the proceedings abstract (800 to 1,500 words including references)
+whitepaper_ocb.md         source text of the Sistema OCB whitepaper (Portuguese)
 cleanup_outputs.py        empties figures/, results/, tables/ before a fresh run
 
 results/                  machine-written result files (see below)
@@ -139,7 +142,9 @@ python gate_f_reporting_level.py  # writes results/reporting_level.txt and table
 python gate_g_peers.py            # writes results/peer_rungs.txt and tables/t12
 python make_tables.py             # writes tables/t1..t6 and t9 from results/
 python make_figures.py            # writes figures/ from results/ and the panel
-python make_docx.py               # writes paper/ICACCR2026_abstract_*.docx and paper/ICACCR2026_paper_*.docx
+python make_whitepaper_figures.py # writes figures/wp1..wp4 (Portuguese) for the whitepaper
+python make_docx.py               # writes paper/ICACCR2026_abstract_*.docx, paper/ICACCR2026_paper_*.docx and
+                                  # paper/Whitepaper_SistemaOCB_*.docx (the OCB template comes from the sistemaocb-docx skill)
 ```
 
 Then compile `paper/paper.tex` and `paper/supplement.tex` with the usual
