@@ -442,6 +442,8 @@ def fig_series(l2):
         a.xaxis.set_major_locator(matplotlib.dates.YearLocator(2))
         a.xaxis.set_major_formatter(matplotlib.dates.DateFormatter("%Y"))
     axes[0, 1].legend(loc="lower right")
+    for a in axes[0]:
+        a.tick_params(labelbottom=True)          # year labels on the top row as well
     fig.tight_layout(h_pad=1.2, w_pad=1.5)
     save(fig, "fig11_stable.png")
 

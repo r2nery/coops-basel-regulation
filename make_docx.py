@@ -65,6 +65,7 @@ TITLES = {
     "ayadi2010": "Investigating diversity in the banking sector in Europe: Key developments, performance and role of cooperative banks",
     "fiordelisi2014": "Competition and financial stability in European cooperative banks",
     "becchetti2016": "The cooperative bank difference before and after the global financial crisis",
+    "groeneveld2020": "Reconciling different truths about isomorphic pressure and distinctive behavior at European cooperative banks: Back to the future with Raiffeisen's principles",
     "carvalho2015": "Exit and failure of credit unions in Brazil: A risk analysis",
     "cook1995": "The future of U.S. agricultural cooperatives: A neo-institutional approach",
     "hansmann1996": "The ownership of enterprise",

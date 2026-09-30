@@ -548,6 +548,35 @@ def t9(SP):
 
 
 # ------------------------------------------------------------------ main
+def t14(P, B, W, C=None, S2=None):
+    """What survives against which comparison group: the sign of the cooperative
+    coefficient where it is significant at 5 percent, a dot otherwise. Same sources and
+    specifications as the ladder figure."""
+    srcs = [("All non-coop.", B, "ctrl"), ("Banks", P, "ctrl"), ("Within region", W, "cem"),
+            ("Commercial", C, "ctrl"), ("Structural", S2, "ctrl")]
+    srcs = [(n, coefs(s), sp) for n, s, sp in srcs if s is not None]
+    rows = []
+    for key, label in ORDER + STAB_ORDER:
+        cells = []
+        for _, c, sp in srcs:
+            v = c.get(key, {}).get(sp)
+            if not v:
+                cells.append("")
+                continue
+            p = v["hc_p"] if key in STAB_LABELS else v["p"]
+            cells.append(("$+$" if v["coef"] > 0 else "$-$") if p < 0.05 else r"$\cdot$")
+        rows.append(f"{label} & " + " & ".join(cells) + r" \\")
+        if key == ORDER[-1][0]:
+            rows.append(r"\midrule")
+    body = ("\\begin{tabular}{l" + "c" * len(srcs) + "}\n\\toprule\nOutcome & "
+            + " & ".join(n for n, *_ in srcs) + " \\\\\n\\midrule\n" + "\n".join(rows)
+            + "\n\\bottomrule\n\\end{tabular}")
+    emit("t14_survival", body, note=
+         "Sign of the cooperative coefficient where it is significant at five percent, a dot "
+         "otherwise. Controlled specification; within region uses the matched specification. "
+         "HC3 errors for the last two rows.")
+
+
 def t13(path):
     """Return on assets before and after taxes (gate_h_pretax.py -> results/pretax_roa.txt)."""
     txt = path.read_text(encoding="utf-8")
@@ -605,6 +634,7 @@ def main():
     guard(t2, P)
     guard(t2_ci, P)
     guard(t3, P, B, W, C, S2)
+    guard(t14, P, B, W, C, S2)
     guard(t4, P)
     guard(t5, P)
     if S is not None:
