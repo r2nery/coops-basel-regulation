@@ -46,14 +46,13 @@ capital, leverage and risk under the same prudential methodology as a commercial
 use this setting to ask whether the cooperative form retains distinct balance-sheet
 characteristics. Using a quarterly panel of every
 full-methodology institution from 2017 to 2024, 130 singular credit cooperatives and 144
-banks, we relate ten measures of capital, performance, stability and balance-sheet
-structure to a cooperative dummy. The estimates control for size and time and are
+banks, we relate ten balance-sheet and performance measures to a cooperative dummy. The estimates control for size and time and are
 repeated on a matched sample and across five comparison groups. Three results emerge. First, cooperatives of comparable size allocate more of
 their assets to credit than banks nationally, operate at lower cost, show lower return
 volatility and earn a higher return on assets after tax, a gap that the tax exemption of
-cooperative acts explains in part. Second, capital differs modestly in level and
-markedly in dispersion. The mean gap comes largely from small banks that barely
-intermediate and hold capital ratios above fifty percent, and it roughly halves against
+cooperative acts explains in substantial part and that is unestablished before tax.
+Second, capital differs modestly in level and markedly in dispersion. The mean gap comes
+from small banks with capital ratios above fifty percent and roughly halves against
 deposit-funded banks. Among thinly capitalised institutions, cooperatives hold more
 capital than banks and provision no less. Third, lower provisioning and narrower margins,
 two differences often reported, disappear once the comparison group is restricted to
@@ -110,8 +109,8 @@ little.
 \end{figure}
 
 Credit cooperatives are member-owned deposit-taking institutions that lend mostly to
-their members. They are organised under Complementary Law 130/2009 and Resolution
-4.434/2015 \citep{lc130, cmn4434}. Cooperatives held about six percent of system assets at the
+their members. They are organised under Complementary Law 130/2009 \citep{lc130}.
+Cooperatives held about six percent of system assets at the
 end of 2024 and 6.3 percent a year later, and their share has risen in every year since
 2020 \citep{bcb2025panorama, bcb2026panorama}. Much of the sector belongs to integrated
 systems in which central cooperatives supply liquidity facilities, consolidated risk
@@ -120,8 +119,7 @@ management and a single supervisory interface to their affiliates.
 Cooperatives are the part of the regulated system that lends locally and has grown
 fastest. If the prudential benchmark reflects an average institution that barely lends,
 it measures cooperatives against a standard drawn from a different kind of institution.
-Whether it does is the question we ask, and the answer bears on institutional resilience
-and on the territorial role of cooperative lenders.
+Whether it does is the question we ask.
 
 \subsection{Theoretical framework and expectations}
 \label{sec:theory}
@@ -160,8 +158,7 @@ Ownership offers a reason to expect the two forms to differ under a common metho
 cooperative cannot raise outside voting equity as needed, so its capital is an endowment
 of retained earnings accumulated across member generations \citep{fonteyne2007}. Basel
 III admits the member shares of mutuals and cooperatives as common equity under criteria
-adapted to their legal form \citep{bcbs2011}. However, the shares remain redeemable
-claims of members and cannot be placed with outside investors. The member's claim carries
+adapted to their legal form \citep{bcbs2011}. The member's claim carries
 the five property-rights problems that \citet{cook1995} sets out: free-rider, horizon,
 portfolio, control and influence costs, which together weaken the incentive to build
 capital beyond what member service requires, since the member's claim is a claim on the
@@ -174,6 +171,7 @@ Besides the proportionality work above, two strands of the literature reviewed b
 stability. \citet{hesse2007} find in a cross-country panel that cooperative banks are
 more stable than commercial banks. They attribute the result to the lower volatility of
 cooperative returns, which more than offsets lower profitability and capitalisation.
+\citet{ayadi2010} document the performance and role of cooperative banks across Europe,
 \citet{iannotta2007} find that ownership structure predicts risk and performance across
 European banks, and \citet{becchetti2016} and
 \citet{ferri2014} show that it shapes lending. \citet{groeneveld2020} weighs the
@@ -234,7 +232,7 @@ We construct an institution-level quarterly panel from IF.data, the public stati
 repository of the Central Bank of Brazil. The summary financials, the segmentation file,
 the asset composition file and the income statement are merged on institution code and
 reporting date. Each source is deduplicated on the institution-quarter key before
-merging, keeping the most complete record, and the raw panel runs from 2014Q1 to 2024Q4.
+merging, and the raw panel runs from 2014Q1 to 2024Q4.
 The window includes the pandemic years; quarter fixed effects absorb the common shock,
 and the pre-2022 subperiod that contains them shows every surviving result
 (Section~\ref{sec:robustness}). All tables and figures are the authors' calculations
@@ -272,7 +270,9 @@ commercial portfolio and \texttt{b2} multiple and investment banks.
 \item \textit{Structural}: \texttt{b1} banks with strictly positive deposits in every
 quarter of their presence in the sample, defined ex ante.
 \end{itemize}
-Each rung can further be restricted to banks reporting individually. Of the 339
+Each rung can further be restricted to banks reporting individually. The ladder stops
+short of a rung defined on lending, since credit intensity is an outcome and selecting
+peers on it would build the credit result into the comparison. Of the 339
 institutions in the broad group outside the bank rung, 158 have a median of zero credit
 and zero funds raised (Figure~\ref{fig:broad}), which makes the credit and funding
 differentials mechanical; we still report the broad group because its divergence from
@@ -304,8 +304,12 @@ sheets semiannually, in June and December (Lei 4.595/1964), and the IF.data inco
 reset at each date. The median ratio of the fourth-quarter to the first-quarter value is
 between 2.2 and 2.3 for every income field and close to one for balance-sheet stocks.
 We de-cumulate within each semester and
-annualise, which scales the return on assets coefficient by about 2.7 and leaves every
-stock-based coefficient unchanged. Second, the intermediation result is reported net of
+annualise, which scales the return on assets coefficient by about 2.7 relative to
+reading the cumulative field as a quarterly rate, and leaves every stock-based
+coefficient unchanged. The de-cumulated levels agree with the Central Bank's published
+figures: the median annualised return of the singular cooperatives in our panel is 2.9
+percent in 2023 and 2.5 percent in 2024, against 2.9 and 2.4 in the Panorama
+\citep{bcb2025panorama}. Second, the intermediation result is reported net of
 loan loss provisions, because the expense subtotal $(b)$ contains line $(b5)$,
 \textit{Resultado de Provis\~ao para Cr\'editos de Dif\'icil Liquida\c{c}\~ao}, so $(c) =
 (a) + (b)$ partly reproduces the provisioning result under another name. We compute the
@@ -380,24 +384,19 @@ Clustered inference is unreliable when few clusters are treated \citep{mackinnon
 as in the system-by-system estimates, so every coefficient also carries a restricted
 wild cluster bootstrap, which re-draws the sign of each institution's residuals under
 the null and compares the observed statistic with that distribution \citep{cameron2008}.
-In simulations on our design with six treated clusters, the clustered test rejects a true
-null 16 percent of the time at a nominal 5 percent level and 10 percent at a nominal 1
-percent; the bootstrap rejects 10 percent and half of one percent, so its rejections at
-one percent are conservative while those at five percent still over-reject. The
-few-cluster problem concerns the system splits, which report their treated cluster
-counts; the main comparison rests on about 130 treated clusters, where clustered and
-bootstrap inference agree. Quantile
+In simulations on our design with six treated clusters (online appendix), the clustered
+test over-rejects at both conventional levels, while the bootstrap is conservative at
+one percent and still over-rejects at five. The few-cluster problem concerns the system
+splits, which report their treated cluster counts; the main comparison rests on about
+130 treated clusters, where the two agree. Quantile
 coefficients carry intervals from an institution bootstrap. Several outcomes are
 right-skewed, so we report the conditional median alongside the conditional mean.
 
 We classify each outcome by an explicit rule, reported in the last column of
-Table~\ref{tab:main}. An outcome is \textit{null} unless it is significant at five
-percent, with one sign, in all four specifications. A significant outcome is
-\textit{stable} if it stays significant under every winsorisation rule, varies by less
-than a factor of two across those rules, and has an average quantile coefficient between
-the twentieth and eightieth percentiles of at least half the conditional mean. Otherwise
-it is \textit{stable in sign}: the direction holds, but the tails or the shape of the
-distribution drive the magnitude.
+Table~\ref{tab:main} and stated in full in the online appendix. An outcome is
+\textit{null} unless it is significant at five percent, with one sign, in all four
+specifications; it is \textit{stable} if it also survives every winsorisation rule with
+a magnitude that holds across the distribution, and \textit{stable in sign} otherwise.
 
 % =============================================================================
 \section{Results}
@@ -410,7 +409,8 @@ fall inside the common support region of log assets (Figure~\ref{fig:overlap}), 
 forty-eight percent of bank observations. About half the bank population therefore has no
 cooperative counterpart at any size. Matching and trimming bring the standardised
 difference in log assets from $-0.72$ to close to zero. Unconditional means and medians
-are in the online appendix.
+are in the online appendix.\footnote{The online appendix (supplement.pdf) is at
+\url{https://github.com/r2nery/coops-basel-regulation}.}
 
 \begin{figure}[htbp]
 \centering
@@ -436,12 +436,14 @@ restriction to common support.
 \end{table}
 
 Five of the eight quarterly outcomes keep their sign and significance across all four
-specifications and every winsorisation rule, including no winsorisation. Their retention
-ratios are above one, except for return on assets, which keeps most of its raw value; a
-size-composition artefact would shrink as size is held more tightly, although the ratio
-is only descriptive. By the rule of Section~\ref{sec:inference}, credit
-intensity, return on assets and return volatility are stable. Capital, leverage and
-cost-to-income are stable in sign, while provisioning, the margin and funding are null.
+specifications and every winsorisation rule, including no winsorisation, and so do both
+stability outcomes. Their retention ratios are above one, except for return on assets,
+which keeps most of its raw value; a size-composition artefact would shrink as size is
+held more tightly, although the ratio is only descriptive. By the rule of
+Section~\ref{sec:inference}, credit intensity and return on assets are stable among the
+quarterly outcomes, capital, leverage and cost-to-income are stable in sign, and
+provisioning, the margin and funding are null; return volatility and the z-score are
+both stable.
 The capital coefficient calls for care: under controls its conditional
 mean is about seven times its conditional median, because the mean mostly reflects the
 upper tail of the bank distribution, as we show below.
@@ -500,16 +502,14 @@ every quarter.
 \end{threeparttable}
 \end{table}
 
-We examine two possible explanations of the bank upper tail. The first is reporting
-level. The tail sits among the banks that report individually, whose ninetieth percentile
-is far above that of the consolidations. The controlled gap against them is about four
-times the gap against the consolidations (online appendix). The second is business model. Requiring a bank to be deposit-funded in every
-quarter, the structural rung, roughly halves both the share of bank-quarters above 50
+Two features locate the bank upper tail. It sits among the banks that report
+individually, against which the controlled gap is about four times the gap against the
+consolidations (online appendix), and it thins when banks must be deposit-funded in every
+quarter: the structural rung roughly halves both the share of bank-quarters above 50
 percent and the estimated mean gap, which remains significant (Figure~\ref{fig:ladder}).
-The evidence suggests that the bank upper tail is concentrated among small standalone
-banks with little risk-weighted exposure. Against banks that lend and take
-deposits, the capital difference consists of a modest gap in level and a large gap in
-dispersion.
+The tail is thus concentrated among small standalone banks with little risk-weighted
+exposure, and against deposit-taking banks the capital difference consists of a modest
+gap in level and a large gap in dispersion.
 
 \begin{figure}[htbp]
 \centering
@@ -573,8 +573,7 @@ Against all non-cooperatives, cooperatives appear to provision less, significant
 percent in all four specifications, while against banks the coefficient is close to zero.
 The broad-group gap comes from the non-banking lenders, whose provisioning ratios are
 nearly three times those of banks and cooperatives. At the
-conditional median the sign reverses, with cooperatives provisioning more, and under the
-tightest winsorisation rule the mean coefficient also turns positive and significant.
+conditional median the sign reverses, with cooperatives provisioning more.
 Supervisory concern attaches to capital, so we also split the sample into terciles of the
 Basel ratio. No tercile shows cooperatives provisioning less: on the unconditional ratio
 the differential is positive and significant only in the middle tercile, where most
@@ -631,6 +630,16 @@ may run a thinner individual cushion. The networks also differ in the size, geog
 business mix and governance of their affiliates, and the split leaves the backstop
 entangled with these. Provisioning is insignificant in every system.
 
+The comparison also crosses a boundary. Banks enter partly as prudential conglomerates,
+cooperatives as singulars, and the centrals are excluded. A network-level aggregation is
+beyond IF.data, which ties a singular to its system but not to its central. The
+asymmetry can be bounded. At the end of 2024 the centrals held about a quarter of the
+singulars' assets, mostly the singulars' own centralised deposits, but about six percent
+of their regulatory capital and about a tenth of their administrative and personnel
+expenses, and the fees a singular pays its central are booked as its own administrative
+expenses. Consolidating the centrals would therefore likely move the capital and cost
+differentials by far less than their size.
+
 \subsection{Selection into the analysis sample}
 \label{sec:selection}
 
@@ -638,9 +647,7 @@ The full-methodology restriction equalises the regulatory environment, but it al
 selects the sample. The cooperatives we observe are the largest in the country, about a
 tenth of all cooperatives recorded in the panel. Fifty-one singular cooperatives are
 observed under the simplified methodology before they adopt the full methodology during
-the window.\footnote{Five cooperatives with simplified quarters only after their first
-full quarter are excluded from this comparison. With one adopter that also reverts, they
-are the six reverters of Section~\ref{sec:robustness}; including them changes no sign.} We
+the window. We
 compare those future adopters with cooperatives that never adopt, on pre-adoption
 quarters only and conditioning on size and quarter. The two groups show no difference in
 leverage, but adopters were less credit-intensive ($-0.068$, $p=0.002$) and marginally
@@ -669,12 +676,21 @@ from its output.
 \section{Discussion}
 % =============================================================================
 
-The surviving results suggest a focused retail lender. A cooperative in the
-full-methodology population channels a high share of its assets into member credit and
-runs that operation at low cost. It earns a solid after-tax return on assets on
-intermediation spreads similar to those of banks, and it sits in a narrow band of the capital
-distribution. This profile is consistent with a member-service orientation in which
-capital accumulation is a means to member credit \citep{fonteyne2007}.
+\noindent\fbox{\parbox{0.97\textwidth}{\small\textbf{In plain terms.} Under the same
+prudential rules, the largest credit cooperatives lend a larger share of their assets
+than banks of the same size, run at lower cost and post steadier returns; their
+after-tax return is higher, in substantial part because cooperative acts are untaxed.
+Their capital ratios sit in a narrow band: below the bank average, which a few small
+and heavily capitalised banks pull up, and above comparable banks at the thin end of the
+distribution, where supervisors look. Two often-cited differences, lower provisioning
+and thinner margins, vanish once cooperatives are compared with banks alone. For
+supervisors, this argues for a benchmark calibrated on lending institutions and for
+reading the whole distribution as well as the mean.}}
+
+\medskip
+\noindent The surviving results describe a focused retail lender, consistent with a
+member-service orientation in which capital accumulation is a means to member credit
+\citep{fonteyne2007}.
 
 The capital results also qualify the property-rights argument. \citet{cook1995}
 predicts weak incentives to build capital, yet the median cooperative is better
@@ -701,8 +717,7 @@ For supervision, the relevant combination is capital and provisioning taken toge
 the thin end of the capital distribution, where prudential concern would attach,
 cooperatives hold more capital than comparable banks and provision no less, while the
 finding that they provision more holds only in the middle of the capital distribution.
-The data also show that cooperatives lack the highly capitalised upper tail that banks
-exhibit. Several differentials that look large at the mean are differentials in
+Several differentials that look large at the mean are differentials in
 dispersion, so we give the conditional median and the quantile profile as much weight as
 the conditional mean.
 
@@ -739,9 +754,8 @@ substantive contribution is this profile, together with two nulls that correct c
 same data appear to support under a looser comparison group. The methodological
 contribution is a protocol that defines peers on the regulator's own categories, reports
 a ladder of comparison groups, and separates sector-wide from within-market differences.
-It also states how cumulative flows were converted to rates, reports the matched
-estimand and prints treated cluster counts beside system-level $p$-values; each step is
-inexpensive, and each changed at least one conclusion.
+It also states how cumulative flows were converted to rates and reports the matched
+estimand; each step changed at least one conclusion.
 
 Our results bear on two margins of proportionality beyond size \citep{cmn4553}. Because
 the evidence is descriptive, we frame both as questions. The first is organisational
@@ -768,8 +782,7 @@ than banks. A case resting on cost at the median and on return stability holds a
 every definition of a bank we tried; one resting on the return on assets holds after
 tax, and before tax the gap is smaller and unestablished. One resting on credit
 intensity holds against the national bank population and remains unshown within
-regional markets; the territorial claim is the one these data leave open, and the
-rural-credit modules of IF.data are the next step.
+regional markets; the territorial claim is the one these data leave open.
 
 \subsection*{Declaration}
 

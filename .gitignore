@@ -6,3 +6,4 @@ references/*.pdf
 references/*.xlsx
 
 paper/*.pdf
+!paper/supplement.pdf

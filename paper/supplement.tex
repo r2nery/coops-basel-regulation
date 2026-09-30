@@ -33,8 +33,30 @@ outcomes and the reporting-level split (Tables~\ref{tab:a4} and~\ref{tab:a5},
 Figures~\ref{fig:a2} and~\ref{fig:a3}), the comparison groups (Tables~\ref{tab:a6}
 and~\ref{tab:a7}), the network split (Table~\ref{tab:a8}), the sensitivity checks
 (Tables~\ref{tab:a9} to~\ref{tab:a12}) and the de-cumulation of the income fields
-(Figure~\ref{fig:a4}). The quantile regression coefficients are Table~5 of the main
+(Figure~\ref{fig:a4}). The quantile regression coefficients are Table~3 of the main
 text.
+
+\subsection*{Classification rule}
+
+Each outcome in Table~2 of the main text carries a tier. An outcome is \textit{null}
+unless it is significant at five percent, with one sign, in all four specifications. A
+significant outcome is \textit{stable} if it stays significant under every winsorisation
+rule (1/99, 2.5/97.5, 5/95 and none), varies by less than a factor of two across those
+rules, and has an average quantile coefficient between the twentieth and eightieth
+percentiles of at least half the conditional mean. Otherwise it is \textit{stable in
+sign}: the direction holds, but the tails or the shape of the distribution drive the
+magnitude.
+
+\subsection*{Small-cluster simulation}
+
+With six treated clusters drawn at random from the cooperatives and relabelled banks as
+the null, over 200 draws, the clustered test rejects a true null 16.5 percent of the time
+at a nominal 5 percent level and 10 percent at a nominal 1 percent level; the restricted
+wild cluster bootstrap rejects 10 percent and 0.5 percent. Bootstrap rejections at one
+percent are therefore conservative, while those at five percent still over-reject. The
+main comparison rests on about 130 treated clusters, where clustered and bootstrap
+inference agree; the system splits in Table~\ref{tab:a8} report their treated cluster
+counts.
 
 % ---------------------------------------------------------------- sample and main estimates
 \begin{table}[htbp]\centering\begin{threeparttable}

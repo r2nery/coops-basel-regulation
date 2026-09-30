@@ -1,0 +1,26 @@
+GATE I: network boundary and levels
+
+[CENTRALS_VS_SINGULARS] last quarter 2024-12-01, sums over institutions
+item	centrals	singulars	ratio_central_over_singular
+ativo_total	204207124	803809091	0.254
+pat_referencia	6511207	114413508	0.057
+patrimonio_liquido	15049155	116822857	0.129
+carteira_credito	3358389	454653865	0.007
+admin_plus_personnel_expenses	1849523	15664437	0.118
+n_institutions	27	753	
+
+[MEDIAN_ROA_BY_YEAR] annualised de-cumulated return on assets, median over institution-quarters
+year	all_singulars	full_method_singulars
+2014	0.0370	nan
+2015	0.0357	nan
+2016	0.0347	nan
+2017	0.0349	0.0366
+2018	0.0328	0.0355
+2019	0.0298	0.0339
+2020	0.0254	0.0260
+2021	0.0255	0.0271
+2022	0.0282	0.0264
+2023	0.0285	0.0254
+2024	0.0247	0.0215
+
+# Panorama do SNCC (BCB, 2025 edition): singulars' ROA 2.9% in 2023 and 2.4% in 2024; 2026 edition: 2.5% at end 2025.
