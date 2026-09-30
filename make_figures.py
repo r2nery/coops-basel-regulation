@@ -269,8 +269,8 @@ def fig_broad_group(panel):
                    alpha=0.75, lw=0.5, edgecolor="white",
                    label=f"{lab} ({int((med.grp == grp).sum())})")
     ax.scatter([0], [0], s=90, facecolor=OTHER, edgecolor="white", lw=1.2, zorder=3)
-    ax.text(0.05, -0.005, f"{n_zero} institutions", fontsize=7, color=INK, va="center",
-            ha="left", zorder=5)
+    ax.text(0.06, 0.03, f"{n_zero} institutions", fontsize=7, color=INK, va="center",
+            ha="left", bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="none"), zorder=5)
     ax.set_xlim(-0.04, cap + 0.02)
     ax.set_ylim(-0.04, cap + 0.02)
     ax.set_xlabel("Credit portfolio / total assets (institution median)")
@@ -344,16 +344,17 @@ def fig_capital(l2, txt):
     sc50, sb50 = share_above(txt, 50)
     sc100, sb100 = share_above(txt, 100)
     top = b.get_ylim()[1]
-    b.vlines([50, 100], 0, top * 0.26, color=INK2, lw=0.8)
-    b.text(53, top * 0.82, f"above 50%\nbanks {sb50:.0f}%\ncooperatives {sc50:.0f}%",
+    b.vlines(50, 0, top * 0.58, color=INK2, lw=0.8)
+    b.vlines(100, 0, top * 0.26, color=INK2, lw=0.8)
+    b.text(53, top * 0.58, f"above 50%\nbanks {sb50:.0f}%\ncooperatives {sc50:.0f}%",
            fontsize=6.5, color=INK, va="top")
     b.text(106, top * 0.30, f"above 100%\nbanks {sb100:.1f}%\ncooperatives {sc100:.1f}%",
            fontsize=6.5, color=INK, va="top")
     b.set_xlabel("Basel capital ratio (%), log scale")
     b.set_ylabel("Percent of quarters")
     b.set_title("(b) The two distributions")
-    b.text(33, top * 0.40, "Cooperatives", fontsize=7, color=COOP, fontweight="bold")
-    b.text(5.6, top * 0.45, "Banks", fontsize=7, color=BANK, fontweight="bold", ha="left")
+    b.text(33, top * 0.88, "Cooperatives", fontsize=7, color=COOP, fontweight="bold")
+    b.text(5.6, top * 0.66, "Banks", fontsize=7, color=BANK, fontweight="bold", ha="left")
     ygrid(b)
     fig.tight_layout(w_pad=1.5)
     save(fig, "fig12_capital_quantiles.png")
@@ -470,7 +471,7 @@ def fig_ladder():
             if name == "Banks":
                 a.axhspan(y - 0.42, y + 0.42, color=BAND, lw=0, zorder=0)
         a.set_title(SHORT[key], fontsize=7.5, loc="center")
-        a.tick_params(axis="x", labelsize=7)
+        a.tick_params(axis="x", labelsize=6.5)
         a.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(nbins=2, min_n_ticks=2))
         a.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: f"{v:g}"))
         xgrid(a)
@@ -494,8 +495,7 @@ def fig_profiles(txt):
     ax.axvspan(20, 80, color=BAND, lw=0)
     ax.axhline(1, color=INK2, lw=0.8)
     ax.axhline(0, color=AXIS, lw=0.8)
-    ax.text(36, 1.03, "equal to the\nconditional mean", fontsize=6.5, color=INK2,
-            va="bottom")
+    ax.text(91.5, 1.0, "equal to the conditional mean", fontsize=6.8, color=INK2, va="center")
     ends = []
     for name in order:
         r = rows[name]
