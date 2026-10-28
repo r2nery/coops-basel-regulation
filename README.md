@@ -1,5 +1,25 @@
-# Institutional Profiles Under a Common Prudential Framework
+# Cooperativas de crédito e bancos sob o mesmo arcabouço prudencial
 
+**Tier:** Diamante · **Campo:** economia bancária, regulação prudencial · **Responsável:** Arthur Gomes Nery, com Thiago de Oliveira Victorino e Rodrigo Lima Rangel
+
+**Pergunta.** A forma cooperativa deixa marca no balanço quando as regras prudenciais são as mesmas, isto é, entre as cooperativas de crédito e os bancos sujeitos à metodologia completa de Basileia no Brasil, de 2017T1 a 2024T4?
+**Temas.** cooperativas de crédito, bancos, regulação prudencial, Basileia, capital, rentabilidade, eficiência
+**Dados.** `bacen_ifdata` (extração de 25/03/2026); `bacen_cadastro_coop_credito` (extração de 25/03/2026); `bacen_agencias_postos_mensal`
+**Veredito.** seguir
+**Resultado.** Entre 130 cooperativas singulares e 144 bancos sob a metodologia completa (7.234 instituição-trimestres), as cooperativas destinam cerca de 19 pontos percentuais a mais do ativo ao crédito, retêm cerca de 2,1 pontos a mais de retorno sobre o ativo depois dos impostos (diferença que vem da isenção do ato cooperativo, pois antes dos impostos a diferença não é significativa), operam com razão custo-receita menor e são o grupo mais homogêneo em todos os indicadores. No capital, o coeficiente é positivo na base da distribuição e negativo no topo; provisionamento e margem de intermediação não diferem dos bancos. Correlações condicionais, sem leitura causal.
+**Estado.** Artigo completo submetido à ICA CCR 2026 (Valência), com apêndice, resumo para os anais, white paper em português para o Sistema OCB e apresentação de 10 minutos em Beamer (`slides/deck.tex`, compilado localmente com MiKTeX; `slides_overleaf.zip` para compartilhar). Leva à conferência junto com o estudo da cultura cooperativista.
+**Próximo passo.** Apresentar na ICA CCR 2026; depois, versão para periódico.
+**Aprovado por.** Arthur Gomes Nery, 2026
+**Entregue em.** 30/09/2026 (submissão à ICA CCR 2026)
+**Documento.** Coops vs Bancos (Basileia)
+**Origem.** Projeto `C:\coops-basel-regulation`, importado em 28/10/2026. Os dados brutos (IF.data e cadastro) ficam em `00 - Dados/BACEN` e aparecem em `data/raw/` por junção de pasta; os painéis de agências e postos (`data/raw/bcb`, `data/processed/bcb/panel_*.csv`) não foram copiados e estão em `30 - Ferramentas/raspagem-bacen-agencias-postos`. Para reproduzir, `uv` no lugar do `requirements.txt` ainda não foi configurado.
+
+## Histórico
+
+- 28/10/2026, Diamante: importado de C:\coops-basel-regulation (artigo da ICA CCR 2026)
+- 28/10/2026, Diamante: apresentação de 10 minutos para a Sessão 3 da ICA CCR 2026 (4/11/2026) em `slides/deck.tex`, com seção suplementar para perguntas; figuras de slide geradas por `slides/make_slide_figures.py` a partir de `tables/*.txt`
+
+---
 **Evidence from Brazilian Credit Cooperatives and Banks**
 
 **Authors:** Arthur Gomes Nery, Thiago de Oliveira Victorino and Rodrigo Lima Rangel
@@ -78,6 +98,9 @@ expanded_abstract.md      source text of the proceedings abstract (800 to 1,500 
 whitepaper_ocb.md         source text of the first draft of the Sistema OCB whitepaper (Portuguese); the current
                           whitepaper is the hand-edited paper/Coops vs Bancos (Basileia) - White Paper 2026 (1).docx
 cleanup_outputs.py        empties figures/, results/, tables/ before a fresh run
+slides/deck.tex           ten-minute Beamer deck for ICA CCR 2026 (pdflatex twice, MiKTeX or Overleaf; slides_overleaf.zip bundles it
+                          with slides/figures and slides/tables); slides/make_slide_figures.py draws the slide-only
+                          figures from tables/*.txt and copies the paper figures it reuses
 
 results/                  machine-written result files (see below)
 tables/                   LaTeX table fragments (tabular + tablenotes only)
