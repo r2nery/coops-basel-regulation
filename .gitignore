@@ -16,3 +16,6 @@ slides/*.synctex.gz
 slides/*.fls
 slides/*.fdb_latexmk
 slides/*.vrb
+
+# Office lock files
+~$*
