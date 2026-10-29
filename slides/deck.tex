@@ -13,55 +13,47 @@
 \documentclass[aspectratio=169,10pt]{beamer}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage[default]{sourcesanspro}
+\usepackage{lmodern}
 \usepackage{booktabs,graphicx,amsmath,amssymb,array,threeparttable}
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta,calc}
 \graphicspath{{figures/}}
 
-% ---------------------------------------------------------------- theme (palette of the paper's figures)
-\definecolor{coop}{HTML}{2A78D6}
-\definecolor{bank}{HTML}{EB6834}
-\definecolor{ink}{HTML}{0B0B0B}
-\definecolor{deep}{HTML}{1C4F94}
-\definecolor{muted}{HTML}{52514E}
-\definecolor{paper}{HTML}{F0EFEC}
-\setbeamercolor{normal text}{fg=ink,bg=white}
-\setbeamercolor{frametitle}{fg=deep}
-\setbeamercolor{structure}{fg=coop}
-\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+
+% ---------------------------------------------------------------- theme: default Beamer theme, Computer Modern, Sistema OCB logo
+\usetheme{default}
 \setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{itemize item}{\color{coop}\raisebox{0.15ex}{\small$\blacksquare$}}
-\setbeamertemplate{frametitle}{\vspace*{0.7em}\insertframetitle\par\vspace{0.1em}{\color{bank}\rule{2.4cm}{2pt}}\vspace{0.2em}}
-\setbeamertemplate{footline}{\leavevmode\hspace{0.5cm}{\color{muted}\tiny Cooperatives and banks under a common prudential framework\quad ICA CCR 2026\quad Sistema OCB}\hfill{\color{muted}\tiny\insertframenumber}\hspace{0.5cm}\par\vspace{0.25cm}}
 \setbeamertemplate{note page}{\small\insertnote}
+\definecolor{deep}{rgb}{0.2,0.2,0.7}% Beamer's structure blue
+\definecolor{muted}{gray}{0.35}
+\definecolor{paper}{gray}{0.92}
+\colorlet{ink}{black}
+\definecolor{coop}{HTML}{2A78D6}% palette of the paper's figures, used in the design diagram
+\definecolor{bank}{HTML}{EB6834}
+\setbeamertemplate{footline}{\leavevmode\hbox to \paperwidth{\hspace{0.35cm}\raisebox{0.1cm}{\includegraphics[height=0.42cm]{logo_sistema_ocb}}\hfill
+  {\tiny\color{muted}\insertshorttitle\quad ICA CCR 2026\quad\insertframenumber}\hspace{0.35cm}}\vspace{0.1cm}}
+\titlegraphic{\includegraphics[height=0.9cm]{logo_sistema_ocb}}
 
 \newcommand{\bignum}[2]{{\centering{\color{deep}\fontsize{22}{24}\selectfont\bfseries #1}\par\vspace{2pt}{\scriptsize\color{muted} #2}\par}}
-\newcommand{\card}[3]{\begin{tikzpicture}\node[fill=paper,rounded corners=3pt,text width=#1,inner sep=6pt,align=left]
-  {{\color{deep}\small\bfseries #2}\\[2pt]{\scriptsize #3}};\end{tikzpicture}}
-\newcommand{\divider}[4]{{\setbeamercolor{background canvas}{bg=deep}\setbeamertemplate{footline}{}
-  \begin{frame}[plain]\vfill{\color{bank}\large #1}\par\vspace{6pt}{\color{white}\fontsize{24}{28}\selectfont\bfseries #2}\par
-  \vspace{10pt}{\color{white}\large #3}\vfill\note{#4}\end{frame}}}
-\tikzset{box/.style={fill=paper,rounded corners=3pt,inner sep=5pt,align=center,font=\footnotesize,text width=#1},
+\newcommand{\card}[3]{\begin{block}{#2}\scriptsize #3\end{block}}% #1 (width) kept for compatibility; the block fills its column
+\newcommand{\divider}[4]{\begin{frame}[plain]\centering\vfill{\color{deep}\large #1}\par\vspace{6pt}{\color{deep}\fontsize{24}{28}\selectfont\bfseries #2}\par
+  \vspace{10pt}{\large #3}\vfill\note{#4}\end{frame}}
+\tikzset{box/.style={fill=paper,inner sep=5pt,align=center,font=\footnotesize,text width=#1},
   arr/.style={-{Stealth[length=5pt]},thick,color=muted}}
+
+\title[Cooperatives and banks under a common prudential framework]{Institutional profiles under a common prudential framework}
+\subtitle{Evidence from Brazilian credit cooperatives and banks}
+\author{Arthur Gomes Nery \and Thiago de Oliveira Victorino \and Rodrigo Lima Rangel}
+\institute{Organization of Brazilian Cooperatives (OCB System)}
+\date{ICA CCR Research Conference, Valencia, 4 November 2026\\[2pt]{\small Paper 294, Session 3: Public policy and institutional support for cooperatives}}
 
 \begin{document}
 
 % ================================================================ title
-{\setbeamertemplate{footline}{}
 \begin{frame}[plain]
-\vspace{1.0cm}
-{\color{bank}\large Paper 294, Session 3: Public policy and institutional support for cooperatives}\par\vspace{6pt}
-{\color{deep}\fontsize{22}{26}\selectfont\bfseries Institutional profiles under a common prudential framework}\par\vspace{4pt}
-{\color{deep}\large Evidence from Brazilian credit cooperatives and banks}\par
-\vspace{14pt}
-{\large Arthur Gomes Nery, Thiago de Oliveira Victorino and Rodrigo Lima Rangel}\par
-\vspace{4pt}
-{\color{muted} Organization of Brazilian Cooperatives (OCB System)}\par
-\vspace{10pt}
-{\color{muted} ICA CCR Research Conference, Valencia, 4 November 2026}
+\titlepage
 \note{Ten minutes. The question: once a credit cooperative computes capital and risk under the same Basel-style rules as a commercial bank, does the cooperative form still leave a mark on the balance sheet? Brazil gives us the setting to ask it on the full population of institutions under the full methodology.}
-\end{frame}}
+\end{frame}
 
 \begin{frame}{One rulebook for two forms}
 \centerline{\includegraphics[width=0.8\linewidth]{fig5_regulatory}}
@@ -78,7 +70,7 @@
 \begin{columns}[T]
 \column{0.5\textwidth}
 \vspace{0.1cm}
-\card{6.3cm}{Panel}{IF.data, the Central Bank of Brazil's public repository. Every cooperative and bank under the full methodology, 2017Q1 to 2024Q4: 130 singular credit cooperatives, 144 banks, 7,234 institution-quarters. Central cooperatives excluded.}\par\vspace{0.2cm}
+\card{6.3cm}{Panel}{IF.data, the Central Bank of Brazil's public repository. Every cooperative and bank under the full methodology, 2017Q1 to 2024Q4: 130 singular credit cooperatives, 144 banks, 7,234 institution-quarters. Central cooperatives excluded.}
 \card{6.3cm}{Inference}{Standard errors clustered by institution; every coefficient confirmed by a wild cluster bootstrap. Conditional medians and quantile regressions beside the means. Cooperative status is time-invariant, so the estimates are conditional correlations.}
 \column{0.48\textwidth}
 \begin{center}
@@ -102,7 +94,7 @@
 \includegraphics[width=\linewidth]{profile}
 \column{0.28\textwidth}
 \vspace{0.15cm}
-\card{3.5cm}{Reading}{Cooperatives minus banks of comparable size, in standard deviations of each outcome. Log assets and quarter effects; 95 percent intervals.}\par\vspace{0.2cm}
+\card{3.5cm}{Reading}{Cooperatives minus banks of comparable size, in standard deviations of each outcome. Log assets and quarter effects; 95 percent intervals.}
 \card{3.5cm}{Rule}{Null unless significant with one sign in all four specifications; stable if it also survives every winsorisation rule and holds across the middle of the distribution.}
 \end{columns}
 \note{One and a half minutes. This is the paper on one slide. At comparable size, cooperatives lend a larger share of their assets, keep more of their return after tax, show steadier returns, run leaner and hold less regulatory capital on average. Provisioning and the intermediation margin do not differ from banks. The hollow markers say the magnitude needs care: those gaps are driven by one tail of the bank distribution, and we read them at the median.}
@@ -127,8 +119,8 @@
 \includegraphics[width=\linewidth]{tax_wedge}
 \column{0.36\textwidth}
 \vspace{0.2cm}
-\card{4.7cm}{After tax: stable}{About two percentage points of assets more than comparable banks, in every specification: the return a cooperative retains as capital.}\par\vspace{0.15cm}
-\card{4.7cm}{Before tax: null at the mean}{Positive at the median (1.4 pp, interval excludes zero; tables/t7). A high-earning bank tail pulls the mean towards zero.}\par\vspace{0.15cm}
+\card{4.7cm}{After tax: stable}{About two percentage points of assets more than comparable banks, in every specification: the return a cooperative retains as capital.}
+\card{4.7cm}{Before tax: null at the mean}{Positive at the median (1.4 pp, interval excludes zero; tables/t7). A high-earning bank tail pulls the mean towards zero.}
 \card{4.7cm}{The wedge}{The pre-tax gap under controls is three fifths of the after-tax gap, so the tax exemption accounts for about two fifths.}
 \end{columns}
 \note{One minute. The typical cooperative earns more than a comparable bank before tax, but the mean gap is not established. After tax the gap is stable, and the distance between the two rows is the tax exemption of cooperative acts: median effective rate about a third for banks, close to zero for cooperatives. Cross-country evidence reports cooperatives as less profitable; here the disagreement is narrower than the after-tax figures suggest.}
@@ -158,8 +150,8 @@
 \includegraphics[width=\linewidth]{survival}
 \column{0.34\textwidth}
 \vspace{0.1cm}
-\card{4.3cm}{Holds on every rung}{After-tax return, cost-to-income, return volatility, capital and leverage.}\par\vspace{0.15cm}
-\card{4.3cm}{Holds nationally, open within region}{Credit intensity: nearly a fifth of assets more than banks of the same size; zero within macro-region (effective control sample of about eighteen banks).}\par\vspace{0.15cm}
+\card{4.3cm}{Holds on every rung}{After-tax return, cost-to-income, return volatility, capital and leverage.}
+\card{4.3cm}{Holds nationally, open within region}{Credit intensity: nearly a fifth of assets more than banks of the same size; zero within macro-region (effective control sample of about eighteen banks).}
 \card{4.3cm}{Only against the broad group}{Lower provisioning and thinner margins.}
 \end{columns}
 \note{One minute. The survival matrix. Cost, return stability and the retained return hold against every definition of a bank we tried. Credit intensity holds nationally and is unshown within regional markets: whether region is a mediator or a confounder is an assumption the data cannot test, so we report both. Provisioning and margins appear only against the broad group.}
@@ -186,7 +178,7 @@
 \includegraphics[width=\linewidth]{fig8_overlap}
 \column{0.42\textwidth}
 \vspace{0.1cm}
-\card{5.4cm}{Common support}{Ninety percent of cooperative observations fall inside the common support in log assets, against 48 percent of bank observations. Matching and trimming bring the standardised difference from $-0.72$ to about zero.}\par\vspace{0.15cm}
+\card{5.4cm}{Common support}{Ninety percent of cooperative observations fall inside the common support in log assets, against 48 percent of bank observations. Matching and trimming bring the standardised difference from $-0.72$ to about zero.}
 \card{5.4cm}{Classification}{On the Central Bank's consolidation type: b3S singular cooperative, b3C central (excluded). Each institution takes its modal type, so status is time-invariant; classification by name would place the sector's own banks on the cooperative side.}
 \end{columns}
 \note{The size distributions overlap in the middle; the largest banks have no cooperative counterpart and leave the matched sample.}
@@ -198,7 +190,7 @@
 \includegraphics[width=\linewidth]{fig14_broad_group}
 \column{0.42\textwidth}
 \vspace{0.1cm}
-\card{5.4cm}{339 institutions outside the bank rung}{Of these, 158 have a median of zero credit and zero funds raised, which makes the credit and funding differentials mechanical; the provisioning gap comes from non-banking lenders.}\par\vspace{0.15cm}
+\card{5.4cm}{339 institutions outside the bank rung}{Of these, 158 have a median of zero credit and zero funds raised, which makes the credit and funding differentials mechanical; the provisioning gap comes from non-banking lenders.}
 \card{5.4cm}{No rung defined on lending}{Selecting peers on an outcome would build the credit result in. The broad group is reported because its divergence from banks is itself a result.}
 \end{columns}
 \note{Institution medians over 2017 to 2024. The cluster of cooperatives sits where banks sit; the broad group spreads along both axes.}
@@ -209,7 +201,7 @@
 \column{0.48\textwidth}
 \card{6.0cm}{Income fields accumulate within the semester}{Brazilian institutions close balance sheets in June and December, and IF.data income fields reset at each date. Flows are de-cumulated and annualised, which scales the return coefficient by about 2.7 relative to reading the cumulative field as a quarterly rate; the de-cumulated medians match the Central Bank's published figures.}
 \column{0.48\textwidth}
-\card{6.0cm}{The intermediation result is net of provisions}{The expense subtotal contains the loan-loss provision line, so the reported result partly reproduces the provisioning outcome under another name. The margin is computed gross of provisions, and the cost-to-income denominator likewise.}\par\vspace{0.2cm}
+\card{6.0cm}{The intermediation result is net of provisions}{The expense subtotal contains the loan-loss provision line, so the reported result partly reproduces the provisioning outcome under another name. The margin is computed gross of provisions, and the cost-to-income denominator likewise.}
 \card{6.0cm}{Provisioning is an accounting variable}{Stock of provisions under Resolution 2.682/1999 over gross credit; minimum provisions follow the AA to H rating grid, independent of ownership. A weak proxy for realised delinquency.}
 \end{columns}
 \note{Both corrections changed at least one conclusion in the original notebook.}
@@ -239,7 +231,7 @@
 \includegraphics[width=\linewidth]{fig16_dispersion}
 \column{0.42\textwidth}
 \vspace{0.1cm}
-\card{5.4cm}{Residuals from log assets and quarter effects}{Cooperative over bank residual s.d.: capital 0.31, leverage 0.42, after-tax return 0.43, cost-to-income 0.10, credit 0.39, provisioning 0.35 (tables/t8); generalised variance ratio over seven outcomes 0.08.}\par\vspace{0.15cm}
+\card{5.4cm}{Residuals from log assets and quarter effects}{Cooperative over bank residual s.d.: capital 0.31, leverage 0.42, after-tax return 0.43, cost-to-income 0.10, credit 0.39, provisioning 0.35 (tables/t8); generalised variance ratio over seven outcomes 0.08.}
 \card{5.4cm}{Reading}{Cooperatives are the more homogeneous group on every outcome. Endowment capital predicts a narrow band: no reason to hold capital far above what lending requires, and no outside investor to supply it.}
 \end{columns}
 \note{The dispersion result underlies the reading of the capital gap.}
@@ -290,10 +282,10 @@ Cooperatives (all individual) & 130 & 3,050 & 22.8 & 20.5 & 32.9 & 1.0 \\
 \begin{frame}{Supplementary: credit intensity within and across regional markets}
 \begin{columns}[T]
 \column{0.48\textwidth}
-\card{6.0cm}{Nationally}{Matched on size alone, cooperatives allocate nearly a fifth of assets more to credit than comparable banks, significant at one percent in every specification; at the conditional median, about a quarter.}\par\vspace{0.2cm}
+\card{6.0cm}{Nationally}{Matched on size alone, cooperatives allocate nearly a fifth of assets more to credit than comparable banks, significant at one percent in every specification; at the conditional median, about a quarter.}
 \card{6.0cm}{Within macro-region}{Matched also on region, the differential is small and indistinguishable from zero under any coarsening scheme. Cooperatives concentrate in the South, banks in the Southeast; the effective control sample is about eighteen banks.}
 \column{0.48\textwidth}
-\card{6.0cm}{Which estimate is the parameter}{If cooperatives concentrate where they do for reasons internal to member-based finance, region is a mediator and the national estimate is the parameter. If regional market structure is unrelated to form, region is a confounder and credit intensity is a null. The assumption is untestable here, so both are reported.}\par\vspace{0.2cm}
+\card{6.0cm}{Which estimate is the parameter}{If cooperatives concentrate where they do for reasons internal to member-based finance, region is a mediator and the national estimate is the parameter. If regional market structure is unrelated to form, region is a confounder and credit intensity is a null. The assumption is untestable here, so both are reported.}
 \card{6.0cm}{Next step}{A market measure finer than macro-region, and IF.data's credit-modality modules, which carry rural credit.}
 \end{columns}
 \note{The territorial claim is the one these data leave open.}
@@ -302,10 +294,10 @@ Cooperatives (all individual) & 130 & 3,050 & 22.8 & 20.5 & 32.9 & 1.0 \\
 \begin{frame}{Supplementary: selection into the full methodology}
 \begin{columns}[T]
 \column{0.48\textwidth}
-\card{6.0cm}{Who adopts}{The cooperatives observed are the largest in the country, about a tenth of all cooperatives in the panel. Fifty-one are observed under the simplified methodology before adopting the full one.}\par\vspace{0.2cm}
+\card{6.0cm}{Who adopts}{The cooperatives observed are the largest in the country, about a tenth of all cooperatives in the panel. Fifty-one are observed under the simplified methodology before adopting the full one.}
 \card{6.0cm}{Adopters against never-adopters, pre-adoption quarters}{No difference in leverage; adopters were less credit-intensive ($-0.068$, $p = 0.002$), marginally less profitable and marginally leaner.}
 \column{0.48\textwidth}
-\card{6.0cm}{What it means}{The estimates describe the adopters. The wider cooperative population would, if anything, show larger credit and profitability differentials and a smaller efficiency one.}\par\vspace{0.2cm}
+\card{6.0cm}{What it means}{The estimates describe the adopters. The wider cooperative population would, if anything, show larger credit and profitability differentials and a smaller efficiency one.}
 \card{6.0cm}{No regime effect}{A within-institution design around adoption fails to identify one: adoption follows growth, and pre-adoption trends run through the adoption date without a break.}
 \end{columns}
 \note{Selection bears on generalisation, not on the estimates.}
@@ -316,7 +308,7 @@ Cooperatives (all individual) & 130 & 3,050 & 22.8 & 20.5 & 32.9 & 1.0 \\
 \column{0.48\textwidth}
 \card{6.0cm}{Expected from theory}{Less regulatory capital in a narrower band (endowment capital, Fonteyne 2007; property-rights problems, Cook 1995); a higher share of assets in credit; lower return volatility (Hesse and \v{C}ih\'ak 2007). No sign committed on profitability and efficiency; no difference expected in provisioning or margin, which follow a regulatory grid.}
 \column{0.48\textwidth}
-\card{6.0cm}{Against the cross-country evidence}{Agreement on lower capitalisation at comparable size and lower return volatility. Disagreement on profitability: in this population the typical cooperative earns more before tax at the median, retains more after tax, and is less volatile on both measures. Part is the tax exemption; part may reflect a population of the largest cooperatives.}\par\vspace{0.2cm}
+\card{6.0cm}{Against the cross-country evidence}{Agreement on lower capitalisation at comparable size and lower return volatility. Disagreement on profitability: in this population the typical cooperative earns more before tax at the median, retains more after tax, and is less volatile on both measures. Part is the tax exemption; part may reflect a population of the largest cooperatives.}
 \card{6.0cm}{Brazilian strand}{Bressan et al. 2011, Carvalho et al. 2015, Silva et al. 2023 (PEARLS on S4 credit unions, who proposed the comparison with banks of the same segment).}
 \end{columns}
 \note{Expectations were stated before the results; the study was not pre-registered.}
@@ -325,11 +317,11 @@ Cooperatives (all individual) & 130 & 3,050 & 22.8 & 20.5 & 32.9 & 1.0 \\
 \begin{frame}{Supplementary: limitations}
 \begin{columns}[T]
 \column{0.48\textwidth}
-\card{6.0cm}{Identification}{Cooperative status is time-invariant, so the estimates are conditional correlations, not causal effects of form.}\par\vspace{0.15cm}
-\card{6.0cm}{Population}{The full-methodology restriction selects the largest cooperatives; results generalise to that subpopulation.}\par\vspace{0.15cm}
+\card{6.0cm}{Identification}{Cooperative status is time-invariant, so the estimates are conditional correlations, not causal effects of form.}
+\card{6.0cm}{Population}{The full-methodology restriction selects the largest cooperatives; results generalise to that subpopulation.}
 \card{6.0cm}{Measures}{Provisioning is an accounting variable. Stability outcomes are institution-level statistics on a subsample with at least eight quarters.}
 \column{0.48\textwidth}
-\card{6.0cm}{Networks}{Most systems are too thin for separate inference. The backstop hypothesis needs consolidated network data that IF.data does not carry; centrals held about six percent of the singulars' regulatory capital at end-2024, so consolidation would move the differentials by far less than their size.}\par\vspace{0.15cm}
+\card{6.0cm}{Networks}{Most systems are too thin for separate inference. The backstop hypothesis needs consolidated network data that IF.data does not carry; centrals held about six percent of the singulars' regulatory capital at end-2024, so consolidation would move the differentials by far less than their size.}
 \card{6.0cm}{Markets}{The mediator question needs a market measure finer than macro-region.}
 \end{columns}
 \note{The main limitations, for questions.}

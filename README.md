@@ -7,7 +7,7 @@
 **Dados.** `bacen_ifdata` (extração de 25/03/2026); `bacen_cadastro_coop_credito` (extração de 25/03/2026); `bacen_agencias_postos_mensal`
 **Veredito.** seguir
 **Resultado.** Entre 130 cooperativas singulares e 144 bancos sob a metodologia completa (7.234 instituição-trimestres), as cooperativas destinam cerca de 19 pontos percentuais a mais do ativo ao crédito, retêm cerca de 2,1 pontos a mais de retorno sobre o ativo depois dos impostos (diferença que vem da isenção do ato cooperativo, pois antes dos impostos a diferença não é significativa), operam com razão custo-receita menor e são o grupo mais homogêneo em todos os indicadores. No capital, o coeficiente é positivo na base da distribuição e negativo no topo; provisionamento e margem de intermediação não diferem dos bancos. Correlações condicionais, sem leitura causal.
-**Estado.** Artigo completo submetido à ICA CCR 2026 (Valência), com apêndice, resumo para os anais, white paper em português para o Sistema OCB e apresentação de 10 minutos em Beamer (`slides/deck.tex`, compilado localmente com MiKTeX; `slides_overleaf.zip` para compartilhar). Leva à conferência junto com o estudo da cultura cooperativista.
+**Estado.** Artigo completo submetido à ICA CCR 2026 (Valência), com apêndice, resumo para os anais, white paper em português para o Sistema OCB e apresentação de 10 minutos em Beamer (`slides/deck.tex`, tema padrão do Beamer com a marca do Sistema OCB, compilado localmente com MiKTeX; `slides_overleaf.zip` para compartilhar). Leva à conferência junto com o estudo da cultura cooperativista.
 **Próximo passo.** Apresentar na ICA CCR 2026; depois, versão para periódico.
 **Aprovado por.** Arthur Gomes Nery, 2026
 **Entregue em.** 30/09/2026 (submissão à ICA CCR 2026)
@@ -18,6 +18,7 @@
 
 - 28/10/2026, Diamante: importado de C:\coops-basel-regulation (artigo da ICA CCR 2026)
 - 28/10/2026, Diamante: apresentação de 10 minutos para a Sessão 3 da ICA CCR 2026 (4/11/2026) em `slides/deck.tex`, com seção suplementar para perguntas; figuras de slide geradas por `slides/make_slide_figures.py` a partir de `tables/*.txt`
+- 29/10/2026, Diamante: deck migrado do tema próprio para o tema padrão do Beamer (Computer Modern, blocos clássicos), com a marca do Sistema OCB na capa e no rodapé (`slides/figures/logo_sistema_ocb.png`, de `.Materiais/Marca OCB`)
 
 ---
 **Evidence from Brazilian Credit Cooperatives and Banks**
