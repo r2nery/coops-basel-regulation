@@ -1,4 +1,4 @@
-% Institutional profiles under a common prudential framework. ICA CCR 2026, Valencia.
+% Institutional profiles under a common prudential framework. ICA CCR Europe 2026, Valencia.
 % Ten-minute paper presentation (Session 3, Public policy and institutional support for
 % cooperatives, 4 November 2026; programme title "Credit Cooperatives vs. Banks Under Identical
 % Basel-Style Regulation in Brazil", paper 294).
@@ -16,8 +16,9 @@
 \usepackage{lmodern}
 \usepackage{booktabs,graphicx,amsmath,amssymb,array,threeparttable}
 \usepackage{tikz}
-\usetikzlibrary{positioning,arrows.meta,calc}
-\graphicspath{{figures/}}
+\usepackage{adjustbox}
+\usetikzlibrary{positioning,arrows.meta,calc,decorations.pathreplacing}
+\graphicspath{{figures/}{figures/slides/}}
 
 
 % ---------------------------------------------------------------- theme: default Beamer theme, Computer Modern, Sistema OCB logo
@@ -30,11 +31,14 @@
 \colorlet{ink}{black}
 \definecolor{coop}{HTML}{2A78D6}% palette of the paper's figures, used in the design diagram
 \definecolor{bank}{HTML}{EB6834}
-\setbeamertemplate{footline}{\leavevmode\hbox to \paperwidth{\hspace{0.35cm}\raisebox{0.1cm}{\includegraphics[height=0.42cm]{logo_sistema_ocb}}\hfill
-  {\tiny\color{muted}\insertshorttitle\quad ICA CCR 2026\quad\insertframenumber}\hspace{0.35cm}}\vspace{0.1cm}}
-\titlegraphic{\includegraphics[height=0.9cm]{logo_sistema_ocb}}
+\setbeamertemplate{footline}{\leavevmode\hbox to \paperwidth{\hspace{0.35cm}\raisebox{0.1cm}{\includegraphics[height=0.42cm]{logo_sistema_ocb}}\hspace{0.4cm}\raisebox{0.1cm}{\includegraphics[height=0.42cm]{logo_ica_ccr}}\hfill
+  {\tiny\color{muted}\insertshorttitle\quad ICA CCR Europe 2026\quad\insertframenumber}\hspace{0.35cm}}\vspace{0.1cm}}
+\titlegraphic{\includegraphics[height=0.6cm]{logo_sistema_ocb}\hspace{0.6cm}\includegraphics[height=0.6cm]{logo_ica_ccr}}
 
-\newcommand{\bignum}[2]{{\centering{\color{deep}\fontsize{22}{24}\selectfont\bfseries #1}\par\vspace{2pt}{\scriptsize\color{muted} #2}\par}}
+\newcommand{\spec}[1]{\vfill{\raggedleft\scriptsize\color{muted}Specification: #1\par}}
+\definecolor{other}{HTML}{1BAF7A}% third slot of the figures' palette
+\newcommand{\groupnum}[3]{{\centering{\color{#1}\fontsize{16}{18}\selectfont\bfseries #2}\par\vspace{2pt}{\scriptsize\color{muted} #3\par}}}
+\newcommand{\bignum}[2]{{\centering{\color{deep}\fontsize{22}{24}\selectfont\bfseries #1}\par\vspace{2pt}{\scriptsize\color{muted} #2\par}}}
 \newcommand{\card}[3]{\begin{block}{#2}\scriptsize #3\end{block}}% #1 (width) kept for compatibility; the block fills its column
 \newcommand{\divider}[4]{\begin{frame}[plain]\centering\vfill{\color{deep}\large #1}\par\vspace{6pt}{\color{deep}\fontsize{24}{28}\selectfont\bfseries #2}\par
   \vspace{10pt}{\large #3}\vfill\note{#4}\end{frame}}
@@ -45,286 +49,244 @@
 \subtitle{Evidence from Brazilian credit cooperatives and banks}
 \author{Arthur Gomes Nery \and Thiago de Oliveira Victorino \and Rodrigo Lima Rangel}
 \institute{Organization of Brazilian Cooperatives (OCB System)}
-\date{ICA CCR Research Conference, Valencia, 4 November 2026\\[2pt]{\small Paper 294, Session 3: Public policy and institutional support for cooperatives}}
+\date{ICA CCR Europe Research Conference, Valencia, 4 November 2026}
 
 \begin{document}
 
 % ================================================================ title
 \begin{frame}[plain]
 \titlepage
-\note{Ten minutes. The question: once a credit cooperative computes capital and risk under the same Basel-style rules as a commercial bank, does the cooperative form still leave a mark on the balance sheet? Brazil gives us the setting to ask it on the full population of institutions under the full methodology.}
+\note{Ten minutes. In Brazil, a credit cooperative above a size threshold follows the same capital rules as a commercial bank. The paper asks whether its balance sheet still differs from a bank's. The answer uses the public filings of every institution under those rules.}
 \end{frame}
 
-\begin{frame}{One rulebook for two forms}
-\centerline{\includegraphics[width=0.8\linewidth]{fig5_regulatory}}
-\vspace{0.1cm}
-\begin{columns}[T]
-\column{0.32\textwidth}\card{3.9cm}{The threshold}{Five segments. S1 to S4 apply the full Basel methodology; small institutions may opt for a simplified method (S5). Banks are excluded from S5 at any size.}
-\column{0.32\textwidth}\card{3.9cm}{The same rules}{A cooperative above the threshold, or declining the simplified option, computes capital, risk weights and provisions as a commercial bank does.}
-\column{0.32\textwidth}\card{3.9cm}{One rule apart}{Cooperative acts, the operations with members, are untaxed; banks pay income tax and the social contribution. Profitability is measured before and after tax.}
-\end{columns}
-\note{One minute. About 140 cooperatives are under the full methodology, a rising share. The prudential rules are held fixed by construction. The fiscal rules are not, and that difference becomes one of the results.}
-\end{frame}
-
-\begin{frame}{Data and design}
-\begin{columns}[T]
-\column{0.5\textwidth}
-\vspace{0.1cm}
-\card{6.3cm}{Panel}{IF.data, the Central Bank of Brazil's public repository. Every cooperative and bank under the full methodology, 2017Q1 to 2024Q4: 130 singular credit cooperatives, 144 banks, 7,234 institution-quarters. Central cooperatives excluded.}
-\card{6.3cm}{Inference}{Standard errors clustered by institution; every coefficient confirmed by a wild cluster bootstrap. Conditional medians and quantile regressions beside the means. Cooperative status is time-invariant, so the estimates are conditional correlations.}
-\column{0.48\textwidth}
+\begin{frame}{Prudential framework}
 \begin{center}
-\begin{tikzpicture}[node distance=0.1cm and 0.5cm]
-\node[box=5.6cm,fill=coop!15] (s) {\textbf{Four specifications}\\(1) raw; (2) log assets and quarter effects; (3) coarsened exact matching on size; (4) common support};
-\node[box=5.6cm,below=0.25cm of s,fill=bank!15] (l) {\textbf{A ladder of comparison groups}, on the regulator's categories};
-\node[box=5.6cm,inner sep=3pt,below=of l] (r1) {All non-cooperatives (483)};
-\node[box=5.6cm,inner sep=3pt,below=of r1,fill=paper!60!bank!30] (r2) {\textbf{Banks} (144), the primary group};
-\node[box=5.6cm,inner sep=3pt,below=of r2] (r3) {Banks, matched within macro-region};
-\node[box=5.6cm,inner sep=3pt,below=of r3] (r4) {Commercial banks (105)};
-\node[box=5.6cm,inner sep=3pt,below=of r4] (r5) {Deposit-funded banks (94)};
+\begin{tikzpicture}[node distance=0.6cm and 1.2cm]
+\node[box=4.6cm,fill=coop!20,minimum height=1.6cm] (c) at (-3.95,0) {\textbf{Credit cooperative}\\owned by its members\\lends mostly to members};
+\node[box=4.6cm,fill=bank!20,minimum height=1.6cm] (b) at (3.95,0) {\textbf{Commercial bank}\\owned by shareholders};
+\node[box=4.6cm,fill=white,draw=coop,thick,below=0.4cm of c,font=\small] (ct) {\textbf{Tax:} business with members is not taxed};
+\node[box=4.6cm,fill=white,draw=bank,thick,below=0.4cm of b,font=\small] (bt) {\textbf{Tax:} pays income tax and the social contribution};
+\node[box=12.5cm,fill=paper,minimum height=1.5cm,font=\small,anchor=north] (rules) at ($(ct.south)!0.5!(bt.south)+(0,-0.7)$) {\textbf{Same prudential rules for both}\\[2pt]capital definition \,\textbullet\, minimum capital ratios \,\textbullet\, risk weights \,\textbullet\, loan-loss provisioning table};
+\draw[arr] (rules.north -| ct) -- (ct.south);
+\draw[arr] (rules.north -| bt) -- (bt.south);
 \end{tikzpicture}
 \end{center}
-\end{columns}
-\note{One minute. Eleven outcomes: capital ratio, leverage, return on assets after and before tax, intermediation margin, cost-to-income, credit share, provisioning, funding, and return volatility and z-score at the institution level. Two things to retain. First, four specifications and a matched sample, so that we compare cooperatives with banks of the same size. Second, the comparison group is a reported parameter: a ladder from every non-cooperative institution down to banks that take deposits in every quarter. Which rung you choose turns out to decide several results.}
+\vspace{0.1cm}
+{\centering\small The common prudential framework is the selection criterion for the comparison.\par}
+\note{One minute. Brazil sorts institutions by size. Above a threshold, a cooperative computes capital, risk and provisions exactly as a bank does. Tax is the one rule that differs. The rulebook is held fixed, and the comparison measures what remains of the cooperative form.}
 \end{frame}
 
-\begin{frame}{The profile in one picture}
+\begin{frame}{Sample and comparison group}
+\begin{columns}[T]
+\column{0.56\textwidth}
+\includegraphics[width=\linewidth]{s_broad_group}
+\column{0.42\textwidth}
+\vspace{0.2cm}
+{\centering
+\begin{minipage}[t]{0.26\linewidth}\groupnum{coop}{130}{credit cooperatives}\end{minipage}%
+\begin{minipage}[t]{0.26\linewidth}\groupnum{bank}{144}{banks}\end{minipage}%
+\begin{minipage}[t]{0.26\linewidth}\groupnum{other}{339}{other\\\mbox{non-coops}}\end{minipage}\par}
+\vspace{0.3cm}
+{\scriptsize Every institution under the full Basel methodology, 2017 to 2024, from IF.data, the Central Bank of Brazil's public repository of quarterly filings. Cooperatives and banks: 7,234 institution-quarters. Central cooperatives are excluded.\par}
+\vspace{0.2cm}
+\card{5.4cm}{Why compare to banks}{158 of the other non-cooperatives hold no loans and raise no funds; the other 181 are other lenders and non-bank institutions. Against them, the credit and funding differentials are mechanical. The broad group returns in Result 3.}
+\end{columns}
+\note{One and a half minutes. Every institution under the full rules, eight years of quarterly public filings. Each dot is one institution at its median over the period. Cooperatives cluster in one area, with high credit and high funds raised. Banks spread more widely. The other non-cooperatives cover the whole chart, and 158 of them sit at zero on both axes. Comparing cooperatives with all of them would mostly measure that difference, so the main comparison is with the 144 banks. Eleven outcomes are measured; the next slide shows how each comparison is made.}
+\end{frame}
+
+\begin{frame}{Four specifications}
+\vspace{0.2cm}
+\centerline{\includegraphics[width=\linewidth]{s_specs}}
+\vspace{0.1cm}
+{\scriptsize\color{muted}Scatter: institution-quarters. Lines: the fitted specification.\\The arrow is the cooperative differential in the after-tax return; $p<0.001$.\par}
+\note{Half a minute. No result rests on one comparison. The first is the raw difference. The second adjusts for size and for the quarter. The third matches each cooperative to banks in the same size bracket. The fourth keeps only the size range where both groups actually exist, which drops the largest banks. A result counts only if it holds in all four. The after-tax return is an example: about two points in every column.}
+\end{frame}
+
+\begin{frame}{Cooperatives lend more of their assets than banks of the same size}
+\begin{columns}[T]
+\column{0.54\textwidth}
+\includegraphics[width=\linewidth]{s_out_credit}
+\vspace{0.05cm}
+{\scriptsize\color{muted}Institution-quarters; dashed lines: medians; outliers not shown.\par}
+\column{0.44\textwidth}
+\vspace{0.3cm}
+{\scriptsize\setlength{\tabcolsep}{4pt}\begin{adjustbox}{max width=\linewidth}\input{tables/spec_credit.tex}\end{adjustbox}\par}
+\vspace{0.35cm}
+{\small Cooperatives hold 17 to 19 points more of their assets in loans than banks of the same size. Credit share rises with size and banks are larger, so the raw comparison slightly understates the gap.\par}
+\end{columns}
+\note{Half a minute. The typical cooperative has 59 percent of its assets in loans, the typical bank 40. At equal size the gap is 17 to 19 points. Many banks hold almost no loans at all, which is the mass at the bottom of the chart. Within the same region this gap is not established; that comes back at the end.}
+\end{frame}
+
+\begin{frame}{Cooperative returns are steadier}
+\begin{columns}[T]
+\column{0.54\textwidth}
+\includegraphics[width=\linewidth]{s_out_vol}
+\vspace{0.05cm}
+{\scriptsize\color{muted}Institutions with at least eight quarters; dashed lines: medians; outliers not shown.\par}
+\column{0.44\textwidth}
+\vspace{0.3cm}
+{\scriptsize\setlength{\tabcolsep}{4pt}\begin{adjustbox}{max width=\linewidth}\input{tables/spec_vol.tex}\end{adjustbox}\par}
+\vspace{0.35cm}
+{\small Cooperative returns vary less over time: 1.1 points a year less in the raw comparison and 1.7 to 1.9 points less at equal size. Volatility falls with size and banks are larger, so the raw comparison understates the gap.\par}
+\end{columns}
+\note{Half a minute. Volatility is the standard deviation of each institution's after-tax return over the period. The typical cooperative's return moves by about one point a year, the typical bank's by 1.6. At equal size the gap is close to two points.}
+\end{frame}
+
+\begin{frame}{Cooperatives sit further from insolvency}
+\begin{columns}[T]
+\column{0.54\textwidth}
+\includegraphics[width=\linewidth]{s_out_z}
+\vspace{0.05cm}
+{\scriptsize\color{muted}Institutions with at least eight quarters; dashed lines: medians; outliers not shown.\par}
+\column{0.44\textwidth}
+\vspace{0.3cm}
+{\scriptsize\setlength{\tabcolsep}{4pt}\begin{adjustbox}{max width=\linewidth}\input{tables/spec_z.tex}\end{adjustbox}\par}
+\vspace{0.35cm}
+{\centering\small $z = \dfrac{\overline{\mathrm{ROA}} + E/A}{\sigma_{\mathrm{ROA}}}$\par}
+\vspace{0.2cm}
+{\scriptsize Mean return on assets plus equity over assets, over the standard deviation of the return, per institution: the number of standard deviations of return that would exhaust equity (Hesse and \v{C}ih\'ak 2007).\par}
+\vspace{0.2cm}
+{\small Cooperatives sit further from insolvency than banks in every specification. Their equity ratio is lower at equal size, so the higher z-score comes mainly from steadier returns.\par}
+\end{columns}
+\note{Half a minute. The z-score counts how many standard deviations of return it would take to exhaust equity. The typical cooperative is at 17.7, the typical bank at 11.4. Cooperatives hold relatively less equity, so their advantage comes from the stability of their returns.}
+\end{frame}
+
+\begin{frame}{Cooperatives earn more after tax}
+\begin{columns}[T]
+\column{0.54\textwidth}
+\includegraphics[width=\linewidth]{s_out_roa}
+\vspace{0.05cm}
+{\scriptsize\color{muted}Institution-quarters; dashed lines: medians; outliers not shown.\par}
+\column{0.44\textwidth}
+\vspace{0.3cm}
+{\scriptsize\setlength{\tabcolsep}{4pt}\begin{adjustbox}{max width=\linewidth}\input{tables/spec_roa.tex}\end{adjustbox}\par}
+\vspace{0.35cm}
+{\small At equal size, cooperatives keep 1.6 to 2.1 points of assets more a year after tax than banks. The gap is about the same in all four specifications. The next slide shows the same comparison before tax.\par}
+\end{columns}
+\note{Half a minute. The typical cooperative earns 2.8 percent of assets a year after tax, the typical bank 1.2. The gap is between 1.6 and 2.1 points in every specification, so the difference in size between the groups does not explain it.}
+\end{frame}
+
+\begin{frame}{Before tax, the average gap is smaller and less robust}
+\begin{columns}[T]
+\column{0.54\textwidth}
+\includegraphics[width=\linewidth]{s_out_roa_pre}
+\vspace{0.05cm}
+{\scriptsize\color{muted}Institution-quarters; dashed lines: medians; outliers not shown.\par}
+\column{0.44\textwidth}
+\vspace{0.3cm}
+{\scriptsize\setlength{\tabcolsep}{4pt}\begin{adjustbox}{max width=\linewidth}\input{tables/spec_roa_pre.tex}\end{adjustbox}\par}
+\vspace{0.35cm}
+{\small Before tax, the gap is smaller and significant only in (1)~and~(2).\par}
+\end{columns}
+\note{Half a minute. The same comparison before tax. The gap is positive in every specification but significant only in the first two, so by our rule it is a null on the average. The median tells a clearer story: the typical cooperative earns about 1.4 points more before tax. The average is pulled by a small group of very profitable banks. What separates this slide from the previous one is the tax exemption.}
+\end{frame}
+
+\begin{frame}{On the taxation of cooperatives}
+\begin{columns}[T]
+\column{0.54\textwidth}
+\includegraphics[width=\linewidth]{s_tax_simple}
+\vspace{0.05cm}
+{\scriptsize\color{muted}Medians with size and quarter controls (2); the tables on earlier slides show averages. After tax: net of tax and profit sharing.\par}
+\column{0.44\textwidth}
+\vspace{0.3cm}
+{\footnotesize For the typical cooperative, most of the after-tax gap is already there before tax. Three things set its surplus apart from a bank's profit:\par}
+\vspace{0.15cm}
+{\footnotesize\setlength{\leftmargini}{1em}\begin{itemize}\setlength{\itemsep}{4pt}
+\item A credit cooperative lends to and takes deposits from its own owners. The surplus belongs to them, so the law does not treat it as profit earned from others. Operations with non-members are taxed.
+\item It is partly what members paid above cost. A larger surplus can mean higher prices to members, returned to them later.
+\item What is retained goes largely to mandatory reserves that cannot be distributed. It is the main way a cooperative builds capital.
+\end{itemize}\par}
+\vspace{0.1cm}
+{\tiny\color{muted}Laws 5.764/1971 and 10.865/2004. Median effective tax rate in profitable quarters: banks 35\%, cooperatives~1\%.\par}
+\end{columns}
+\note{One minute. The prudential rules are the same for both groups; tax is the one rule the framework does not equalise, so we look at profit before and after tax. By law, the results of a cooperative's operations with its own members are outside taxable income. The idea is that the cooperative is its members acting together, so the surplus on those operations is their own money, returned to them or kept in common reserves. What a cooperative does with non-members is taxed as usual. Before tax, the typical cooperative earns 3.2 percent of assets a year and a bank of the same size 1.8. After tax, 2.8 against 1.1. So the cooperative is ahead before any tax is paid; the exemption widens the gap a little. Two things to keep in mind when comparing that with a bank's profit. A cooperative's surplus is partly what members paid above cost, so a larger surplus can mean higher prices to members that come back to them later. And what it keeps goes largely into reserves that cannot be distributed: retained surplus is the main way a cooperative builds capital, since it cannot issue shares to outside investors. The paper estimates that at the banks' tax rate, cooperative capital would accumulate about three tenths more slowly. Whether the exemption is a subsidy or the recognition of mutual self-help is not something these data settle.}
+\end{frame}
+
+\begin{frame}{Result 1. Eleven outcomes at comparable size}
 \begin{columns}[T]
 \column{0.7\textwidth}
 \includegraphics[width=\linewidth]{profile}
-\column{0.28\textwidth}
-\vspace{0.15cm}
-\card{3.5cm}{Reading}{Cooperatives minus banks of comparable size, in standard deviations of each outcome. Log assets and quarter effects; 95 percent intervals.}
-\card{3.5cm}{Rule}{Null unless significant with one sign in all four specifications; stable if it also survives every winsorisation rule and holds across the middle of the distribution.}
-\end{columns}
-\note{One and a half minutes. This is the paper on one slide. At comparable size, cooperatives lend a larger share of their assets, keep more of their return after tax, show steadier returns, run leaner and hold less regulatory capital on average. Provisioning and the intermediation margin do not differ from banks. The hollow markers say the magnitude needs care: those gaps are driven by one tail of the bank distribution, and we read them at the median.}
-\end{frame}
-
-\begin{frame}{Over the whole window, cooperatives are the tighter group}
-\begin{columns}[T]
-\column{0.68\textwidth}
-\includegraphics[width=\linewidth]{fig11_stable}
-\column{0.3\textwidth}
-\vspace{0.3cm}
-\bignum{0.31}{residual s.d. of the capital ratio, cooperatives over banks, at equal size}\vspace{0.3cm}
-\bignum{0.10}{same ratio for cost-to-income}\vspace{0.3cm}
-{\footnotesize Lines are group medians, bands the interquartile range. The median cooperative is better capitalised than the median bank for most of the window. Dispersion ratios from tables/t8.}
-\end{columns}
-\note{One minute. The time series make the dispersion point visible. The blue bands are narrow on every outcome; the orange bands are wide. At equal size, the residual standard deviation among cooperatives is between a tenth and a half of the bank figure. Several differences that look large at the mean are differences in dispersion.}
-\end{frame}
-
-\begin{frame}{Profitability: the operating return and the tax wedge}
-\begin{columns}[T]
-\column{0.62\textwidth}
-\includegraphics[width=\linewidth]{tax_wedge}
-\column{0.36\textwidth}
-\vspace{0.2cm}
-\card{4.7cm}{After tax: stable}{About two percentage points of assets more than comparable banks, in every specification: the return a cooperative retains as capital.}
-\card{4.7cm}{Before tax: null at the mean}{Positive at the median (1.4 pp, interval excludes zero; tables/t7). A high-earning bank tail pulls the mean towards zero.}
-\card{4.7cm}{The wedge}{The pre-tax gap under controls is three fifths of the after-tax gap, so the tax exemption accounts for about two fifths.}
-\end{columns}
-\note{One minute. The typical cooperative earns more than a comparable bank before tax, but the mean gap is not established. After tax the gap is stable, and the distance between the two rows is the tax exemption of cooperative acts: median effective rate about a third for banks, close to zero for cooperatives. Cross-country evidence reports cooperatives as less profitable; here the disagreement is narrower than the after-tax figures suggest.}
-\end{frame}
-
-\begin{frame}{Capital: a modest gap in level, a large gap in dispersion}
-\centerline{\includegraphics[width=0.58\linewidth]{fig12_capital_quantiles}}
 \vspace{0.05cm}
-\begin{columns}[T]
-\column{0.32\textwidth}\bignum{$-$15.8 pp}{size-controlled mean gap; conditional median $-$2.2 pp}
-\column{0.32\textwidth}\bignum{14\% vs 1\%}{bank and cooperative quarters above a Basel ratio of 50 percent}
-\column{0.32\textwidth}\bignum{40th}{percentile where the coefficient crosses zero: positive below, negative above}
-\end{columns}
-\note{One and a half minutes. The capital result needs the most care. The mean gap is large and negative, but it is a statement about the bank upper tail: small standalone banks that barely intermediate and hold capital ratios above fifty, sometimes above one hundred percent. At the thin end of the distribution, where supervisors look, cooperatives hold more capital than banks at the same quantile, and they provision no less. Against deposit-funded banks the mean gap roughly halves. Leverage mirrors capital and is treated as one result with it.}
-\end{frame}
-
-\begin{frame}{Two often-cited differences vanish against banks}
-\includegraphics[width=\linewidth]{ladder_vanish}\par
-\vspace{0.15cm}
-{\centering\small Against all non-cooperatives, cooperatives appear to provision less and earn thinner margins. Against banks both coefficients sit at zero. The broad group holds 158 institutions with no credit and no funds raised, and non-banking lenders whose provisioning ratios are nearly three times those of banks and cooperatives.\par}
-\note{One minute. Two claims the same data appear to support under a loose comparison group. Lower provisioning: significant at one percent against all non-cooperatives, zero against banks, and at the conditional median cooperatives provision more. Thinner margins: same pattern, and positive against deposit-funded banks. Neither survives. The comparison group is a result in itself.}
-\end{frame}
-
-\begin{frame}{What survives against which comparison group}
-\begin{columns}[T]
-\column{0.64\textwidth}
-\includegraphics[width=\linewidth]{survival}
-\column{0.34\textwidth}
+{\scriptsize\color{muted}Cooperatives minus banks of comparable size, specification (2), in standard deviations of each outcome; 95 percent intervals.\par}
+\column{0.28\textwidth}
 \vspace{0.1cm}
-\card{4.3cm}{Holds on every rung}{After-tax return, cost-to-income, return volatility, capital and leverage.}
-\card{4.3cm}{Holds nationally, open within region}{Credit intensity: nearly a fifth of assets more than banks of the same size; zero within macro-region (effective control sample of about eighteen banks).}
-\card{4.3cm}{Only against the broad group}{Lower provisioning and thinner margins.}
+{\scriptsize\color{muted}We call a result stable when it holds in all four specifications and is not driven by extreme institutions.\par}
+\vspace{0.1cm}
+\card{3.5cm}{Stable}{Cooperatives lend more, earn more after tax and have steadier returns, sitting further from insolvency.}
+\card{3.5cm}{Stable in sign}{Capital, leverage and cost-to-income differ in the same direction everywhere, but a tail of banks drives the size of the gap.}
+\card{3.5cm}{Null}{Before-tax return, funding, provisioning and margin.}
 \end{columns}
-\note{One minute. The survival matrix. Cost, return stability and the retained return hold against every definition of a bank we tried. Credit intensity holds nationally and is unshown within regional markets: whether region is a mediator or a confounder is an assumption the data cannot test, so we report both. Provisioning and margins appear only against the broad group.}
+\note{One minute. We have seen these one by one; here they are together as a single result, all eleven outcomes at comparable size. Filled markers are stable, hollow blue ones keep their sign but the magnitude is driven by one tail of the bank distribution, and grey ones are null. Cooperatives lend more, earn more after tax and have steadier returns. Capital, leverage and cost-to-income differ in sign everywhere, but the size of the gap depends on the bank tail: the capital result returns to this. Pre-tax return, funding, provisioning and margin do not pass the rule.}
 \end{frame}
 
-\begin{frame}{What it means}
+\begin{frame}{Result 2. Capital: the average overstates the typical gap}
+\vspace{0.1cm}
+\centerline{\includegraphics[width=\linewidth]{s_capital_dist}}
+\vspace{0.05cm}
+{\scriptsize\color{muted}Institution-quarters, 2017 to 2024.\par}
+\vspace{0.2cm}
+{\centering\small A tail of banks that are small or barely lend, with ratios above 50 percent, pulls the bank mean up. Considering typical institutions, cooperatives hold about as much capital as banks.\par}
+\note{One and a half minutes. On average, banks hold much more regulatory capital: a mean of 31 percent of risk-weighted assets against 23 for cooperatives. At the median the two are close, 18 against 20. The difference between the averages comes from a tail of banks that are small or barely lend and sit on ratios above 50 percent, some above 100. Cooperatives stay in a narrow band. At the low end of the distribution, where supervisors look, cooperatives hold more capital than banks at the same point. If asked about size: comparing at equal size, cooperatives hold about 16 points less at the mean and about 2 less at the median, so the conclusion is the same, a large average gap and a small typical one.}
+\end{frame}
+
+\begin{frame}{Result 3. Provisioning and margin depend on the comparison group}
+\vspace{0.1cm}
+\centerline{\includegraphics[width=\linewidth]{s_group_ladder}}
+\vspace{0.05cm}
+{\scriptsize\color{muted}Cooperatives minus each comparison group, size and quarter controls (2), with 95 percent intervals. Filled: $p<0.05$.\par}
+\vspace{0.2cm}
+{\centering\small Against all non-cooperatives, cooperatives provision less and earn a thinner margin. That group includes non-bank lenders, such as consumer-finance companies, with high rates and heavy provisioning. Against any definition of a bank, neither holds.\par}
+\note{One minute. A common claim is that cooperatives provision less and earn thinner margins. That holds only against every non-cooperative institution, a group that includes 158 entities with no loans and no deposits and many non-bank lenders. Against banks, commercial banks or deposit-funded banks, the provisioning gap is zero, and the margin gap is zero or, against deposit-funded banks, positive: about two points wider for cooperatives. The comparison group is therefore part of the result.}
+\end{frame}
+
+\begin{frame}{An open question: region and the lending differential}
+\begin{columns}[T]
+\column{0.5\textwidth}
+\includegraphics[width=\linewidth]{s_region}
+\column{0.48\textwidth}
+\vspace{0.3cm}
+\card{5.6cm}{Nationally}{Cooperatives hold about 17 points more of their assets in loans than banks of the same size.}
+\card{5.6cm}{Within the same region}{The gap disappears. Cooperatives are concentrated in the South, banks in the Southeast, and only about eighteen banks serve as controls.}
+\card{5.6cm}{Two readings}{Either cooperatives lend more because of where they locate, with region as a mediator, or region explains the gap as a confounder. The data do not distinguish the two.}
+\end{columns}
+\spec{matched on size (3).}
+\note{One minute. One result remains open. Nationally the lending gap is large. Inside the same region it is gone. Either cooperatives lend more because they locate where lending is needed, which makes region a mediator, or region is a confounder. With eighteen control banks, the within-region test also has little power. Both estimates are reported.}
+\end{frame}
+
+\begin{frame}{Brazil matches the literature except on profitability}
+\vspace{0.1cm}
+{\footnotesize\renewcommand{\arraystretch}{1.35}\setlength{\tabcolsep}{4pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}p{3.3cm}}
+\toprule
+& \textbf{Theory expects} & \textbf{Brazil, this paper} & \textbf{Cross-country evidence}\\
+\midrule
+Capital & Less, in a narrower band & Less on average, narrower band; the typical cooperative holds about as much & Lower capitalisation: \textcolor{coop}{agrees}\\
+Return volatility & Lower & Lower & Lower: \textcolor{coop}{agrees}\\
+Profitability & No sign committed & Higher for the typical cooperative, before and after tax & Lower: \textcolor{bank}{differs}\\
+Provisioning, margin & No difference & None against banks & --\\
+\bottomrule
+\end{tabular}\par}
+\vspace{0.3cm}
+{\small The difference on profitability is narrower than it looks: part of the after-tax gap is the tax exemption, the average before-tax gap is not established, and the sample holds the largest cooperatives.\par}
+\vspace{0.15cm}
+{\scriptsize\color{muted}Theory: Cook (1995), Fonteyne (2007). Cross-country: Hesse and \v{C}ih\'ak (2007); Germany: Beck et al. (2009).\par}
+\note{One minute. The expectations were stated before the results. Theory says cooperatives should hold less capital, in a narrower band, and have steadier returns, with no prediction on profitability. All of that holds in Brazil. The cross-country study by Hesse and \v{C}ih\'ak finds the same on capital and stability, and Beck and coauthors find cooperatives farther from insolvency in Germany. Where Brazil differs is profitability: abroad, cooperative stability came with lower profitability; here the typical cooperative earns more. That difference is narrower than it looks, because part of it is the tax exemption, the average before-tax gap is not established, and our sample is the largest cooperatives.}
+\end{frame}
+
+\begin{frame}{Summary}
 \vspace{0.2cm}
 \begin{columns}[T]
-\column{0.32\textwidth}\card{3.9cm}{For proportionality}{A benchmark calibrated on the average institution describes the lending cooperative poorly, since cooperatives do not inhabit the upper region of that distribution. Two margins beyond size: integrated networks and their backstops, and the calibration itself. Lighter requirements do not follow automatically.}
-\column{0.32\textwidth}\card{3.9cm}{For the tax debate}{The exemption of cooperative acts appears in the retained return, the only capital a cooperative can build, and accounts for about two fifths of the after-tax differential. At the banks' effective rate, cooperative capital would grow about three tenths more slowly.}
-\column{0.32\textwidth}\card{3.9cm}{For the movement}{Cost at the median and return stability hold against every definition of a bank. Profitability holds for the retained return and, before tax, at the median. More conservative provisioning does not hold. The territorial claim remains open.}
+\column{0.32\textwidth}\card{3.9cm}{1. Profile}{At the same size, cooperatives lend more, run leaner, earn more and have steadier returns. For the typical cooperative, most of the after-tax profit gap is already there before tax.}
+\column{0.32\textwidth}\card{3.9cm}{2. Capital}{The typical cooperative holds about as much capital as the typical bank. The average gap comes from a bank tail that cooperatives do not have.}
+\column{0.32\textwidth}\card{3.9cm}{3. Comparison group}{Lower provisioning and thinner margins appear only against a group that includes non-bank lenders. Against banks, no difference.}
 \end{columns}
-\vspace{0.25cm}
-{\centering\scriptsize\color{muted} Three analyst choices decided whether headline results existed: the comparison group, reading cumulative income fields as quarterly flows, and the matched estimand. Code and pipeline are public.\par}
-\note{One minute. Three implications. For supervisors, the whole distribution matters as much as the mean, and the average institution is a poor benchmark for a focused retail lender. For the tax debate, we locate the exemption's effect without settling whether it is a subsidy or the recognition of mutual self-help. For the movement, which claims the data support and which they do not. Thank you; supplementary slides follow.}
+\vspace{0.3cm}
+\begin{columns}[T]
+\column{0.48\textwidth}\card{5.8cm}{For regulators}{A benchmark set on the average institution describes a lending cooperative poorly. The full distribution is the better guide for calibration. The results do not by themselves support lighter rules.}
+\column{0.48\textwidth}\card{5.8cm}{Limits}{The estimates are conditional correlations at equal size. The sample is the largest tenth of Brazilian cooperatives. Code and data pipeline are public.}
+\end{columns}
+\note{One minute. Three results and two caveats. For regulators, the average full-methodology institution is a poor benchmark for a lender, because that average is pulled by banks that do not lend. Calibration should consider the whole distribution; the results do not by themselves support lighter rules. The estimates are conditional correlations and describe the largest cooperatives. Thank you.}
 \end{frame}
 
 % ================================================================ backup
-\divider{Supplementary}{Methods and details}{For questions}{Backup slides for questions.}
-
-\begin{frame}{Supplementary: who is in the sample}
-\begin{columns}[T]
-\column{0.56\textwidth}
-\includegraphics[width=\linewidth]{fig8_overlap}
-\column{0.42\textwidth}
-\vspace{0.1cm}
-\card{5.4cm}{Common support}{Ninety percent of cooperative observations fall inside the common support in log assets, against 48 percent of bank observations. Matching and trimming bring the standardised difference from $-0.72$ to about zero.}
-\card{5.4cm}{Classification}{On the Central Bank's consolidation type: b3S singular cooperative, b3C central (excluded). Each institution takes its modal type, so status is time-invariant; classification by name would place the sector's own banks on the cooperative side.}
-\end{columns}
-\note{The size distributions overlap in the middle; the largest banks have no cooperative counterpart and leave the matched sample.}
-\end{frame}
-
-\begin{frame}{Supplementary: who is in the broad comparison group}
-\begin{columns}[T]
-\column{0.56\textwidth}
-\includegraphics[width=\linewidth]{fig14_broad_group}
-\column{0.42\textwidth}
-\vspace{0.1cm}
-\card{5.4cm}{339 institutions outside the bank rung}{Of these, 158 have a median of zero credit and zero funds raised, which makes the credit and funding differentials mechanical; the provisioning gap comes from non-banking lenders.}
-\card{5.4cm}{No rung defined on lending}{Selecting peers on an outcome would build the credit result in. The broad group is reported because its divergence from banks is itself a result.}
-\end{columns}
-\note{Institution medians over 2017 to 2024. The cluster of cooperatives sits where banks sit; the broad group spreads along both axes.}
-\end{frame}
-
-\begin{frame}{Supplementary: two measurement corrections}
-\begin{columns}[T]
-\column{0.48\textwidth}
-\card{6.0cm}{Income fields accumulate within the semester}{Brazilian institutions close balance sheets in June and December, and IF.data income fields reset at each date. Flows are de-cumulated and annualised, which scales the return coefficient by about 2.7 relative to reading the cumulative field as a quarterly rate; the de-cumulated medians match the Central Bank's published figures.}
-\column{0.48\textwidth}
-\card{6.0cm}{The intermediation result is net of provisions}{The expense subtotal contains the loan-loss provision line, so the reported result partly reproduces the provisioning outcome under another name. The margin is computed gross of provisions, and the cost-to-income denominator likewise.}
-\card{6.0cm}{Provisioning is an accounting variable}{Stock of provisions under Resolution 2.682/1999 over gross credit; minimum provisions follow the AA to H rating grid, independent of ownership. A weak proxy for realised delinquency.}
-\end{columns}
-\note{Both corrections changed at least one conclusion in the original notebook.}
-\end{frame}
-
-\begin{frame}{Supplementary: the cooperative differential against banks}
-\scriptsize
-\begin{center}
-\input{tables/t2_main.tex}
-\end{center}
-\note{The main table of the paper.}
-\end{frame}
-
-\begin{frame}{Supplementary: quantile regression coefficients}
-\begin{center}
-\scriptsize
-\begin{threeparttable}
-\input{tables/t7_quantiles.tex}
-\end{threeparttable}
-\end{center}
-\note{Quantile regressions on the cooperative dummy, log assets and quarter effects; the last column is OLS. Capital, leverage and cost-to-income change sign across the distribution; the pre-tax return is positive up to the median and negative in the top decile.}
-\end{frame}
-
-\begin{frame}{Supplementary: dispersion at equal size}
-\begin{columns}[T]
-\column{0.56\textwidth}
-\includegraphics[width=\linewidth]{fig16_dispersion}
-\column{0.42\textwidth}
-\vspace{0.1cm}
-\card{5.4cm}{Residuals from log assets and quarter effects}{Cooperative over bank residual s.d.: capital 0.31, leverage 0.42, after-tax return 0.43, cost-to-income 0.10, credit 0.39, provisioning 0.35 (tables/t8); generalised variance ratio over seven outcomes 0.08.}
-\card{5.4cm}{Reading}{Cooperatives are the more homogeneous group on every outcome. Endowment capital predicts a narrow band: no reason to hold capital far above what lending requires, and no outside investor to supply it.}
-\end{columns}
-\note{The dispersion result underlies the reading of the capital gap.}
-\end{frame}
-
-\begin{frame}{Supplementary: the bank upper tail sits among banks reporting individually}
-\small
-\begin{center}
-\begin{tabular}{lrrrrrr}
-\toprule
-Group & Institutions & Quarters & Mean & Median & $p_{90}$ & Share $>50\%$ \\
-\midrule
-Banks, conglomerate consolidations & 87 & 2,604 & 22.7 & 16.8 & 39.2 & 6.4 \\
-Banks, individual & 57 & 1,580 & 44.5 & 24.5 & 109.1 & 26.4 \\
-Cooperatives (all individual) & 130 & 3,050 & 22.8 & 20.5 & 32.9 & 1.0 \\
-\bottomrule
-\end{tabular}
-\end{center}
-{\footnotesize Basel ratio, winsorised analysis sample (tables/t11, panel A). Against individually reporting banks the controlled capital gap is $-21.4$ pp; against prudential conglomerates, $-5.4$ pp. Against deposit-funded banks the share of bank-quarters above 50 percent falls to 7.5 percent and the mean gap roughly halves while remaining significant.}
-\note{Two features locate the tail: it sits among banks that report individually, and it thins when banks must be deposit-funded in every quarter.}
-\end{frame}
-
-\begin{frame}{Supplementary: heterogeneity by cooperative system}
-\begin{center}
-\scriptsize
-\begin{threeparttable}
-\input{tables/t4_systems.tex}
-\end{threeparttable}
-\end{center}
-\note{Sicredi and Sicoob account for all but seven cooperatives. Both hold less regulatory capital than comparable banks; the six independents point the other way and are too few to measure. A network backstop is one candidate explanation, entangled with size, geography, business mix and governance. Provisioning is insignificant in every system.}
-\end{frame}
-
-\begin{frame}{Supplementary: before and after the 2022 capital rules}
-\begin{center}
-\footnotesize
-\begin{threeparttable}
-\input{tables/t9_subperiod.tex}
-\end{threeparttable}
-\end{center}
-\note{Every surviving result keeps its sign and significance in both subperiods; magnitudes are roughly a fifth smaller after 2022. Excluding the eleven S1 and S2 banks moves no significant coefficient by more than two percent.}
-\end{frame}
-
-\begin{frame}{Supplementary: the ladder, outcome by outcome}
-\includegraphics[width=0.92\linewidth]{ladder_survive}
-\note{Controlled specification; within region uses the matched specification. Filled markers are significant at five percent.}
-\end{frame}
-
-\begin{frame}{Supplementary: credit intensity within and across regional markets}
-\begin{columns}[T]
-\column{0.48\textwidth}
-\card{6.0cm}{Nationally}{Matched on size alone, cooperatives allocate nearly a fifth of assets more to credit than comparable banks, significant at one percent in every specification; at the conditional median, about a quarter.}
-\card{6.0cm}{Within macro-region}{Matched also on region, the differential is small and indistinguishable from zero under any coarsening scheme. Cooperatives concentrate in the South, banks in the Southeast; the effective control sample is about eighteen banks.}
-\column{0.48\textwidth}
-\card{6.0cm}{Which estimate is the parameter}{If cooperatives concentrate where they do for reasons internal to member-based finance, region is a mediator and the national estimate is the parameter. If regional market structure is unrelated to form, region is a confounder and credit intensity is a null. The assumption is untestable here, so both are reported.}
-\card{6.0cm}{Next step}{A market measure finer than macro-region, and IF.data's credit-modality modules, which carry rural credit.}
-\end{columns}
-\note{The territorial claim is the one these data leave open.}
-\end{frame}
-
-\begin{frame}{Supplementary: selection into the full methodology}
-\begin{columns}[T]
-\column{0.48\textwidth}
-\card{6.0cm}{Who adopts}{The cooperatives observed are the largest in the country, about a tenth of all cooperatives in the panel. Fifty-one are observed under the simplified methodology before adopting the full one.}
-\card{6.0cm}{Adopters against never-adopters, pre-adoption quarters}{No difference in leverage; adopters were less credit-intensive ($-0.068$, $p = 0.002$), marginally less profitable and marginally leaner.}
-\column{0.48\textwidth}
-\card{6.0cm}{What it means}{The estimates describe the adopters. The wider cooperative population would, if anything, show larger credit and profitability differentials and a smaller efficiency one.}
-\card{6.0cm}{No regime effect}{A within-institution design around adoption fails to identify one: adoption follows growth, and pre-adoption trends run through the adoption date without a break.}
-\end{columns}
-\note{Selection bears on generalisation, not on the estimates.}
-\end{frame}
-
-\begin{frame}{Supplementary: literature and expectations}
-\begin{columns}[T]
-\column{0.48\textwidth}
-\card{6.0cm}{Expected from theory}{Less regulatory capital in a narrower band (endowment capital, Fonteyne 2007; property-rights problems, Cook 1995); a higher share of assets in credit; lower return volatility (Hesse and \v{C}ih\'ak 2007). No sign committed on profitability and efficiency; no difference expected in provisioning or margin, which follow a regulatory grid.}
-\column{0.48\textwidth}
-\card{6.0cm}{Against the cross-country evidence}{Agreement on lower capitalisation at comparable size and lower return volatility. Disagreement on profitability: in this population the typical cooperative earns more before tax at the median, retains more after tax, and is less volatile on both measures. Part is the tax exemption; part may reflect a population of the largest cooperatives.}
-\card{6.0cm}{Brazilian strand}{Bressan et al. 2011, Carvalho et al. 2015, Silva et al. 2023 (PEARLS on S4 credit unions, who proposed the comparison with banks of the same segment).}
-\end{columns}
-\note{Expectations were stated before the results; the study was not pre-registered.}
-\end{frame}
-
-\begin{frame}{Supplementary: limitations}
-\begin{columns}[T]
-\column{0.48\textwidth}
-\card{6.0cm}{Identification}{Cooperative status is time-invariant, so the estimates are conditional correlations, not causal effects of form.}
-\card{6.0cm}{Population}{The full-methodology restriction selects the largest cooperatives; results generalise to that subpopulation.}
-\card{6.0cm}{Measures}{Provisioning is an accounting variable. Stability outcomes are institution-level statistics on a subsample with at least eight quarters.}
-\column{0.48\textwidth}
-\card{6.0cm}{Networks}{Most systems are too thin for separate inference. The backstop hypothesis needs consolidated network data that IF.data does not carry; centrals held about six percent of the singulars' regulatory capital at end-2024, so consolidation would move the differentials by far less than their size.}
-\card{6.0cm}{Markets}{The mediator question needs a market measure finer than macro-region.}
-\end{columns}
-\note{The main limitations, for questions.}
-\end{frame}
-
 \end{document}
